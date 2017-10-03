@@ -1,0 +1,161 @@
+////
+/// Radio Buttons & Checkboxes
+/// @group components
+/// @author MS
+////
+
+///
+$msuxf-rc-width: toem(20px) !default;
+///
+$msuxf-rc-height: toem(20px) !default;
+///
+$msuxf-rc-font-size: toem(16px) !default;
+///
+$msuxf-rc-label-color: #000 !default;
+///
+$msuxf-rc-marker-color: #fff !default;
+///
+$msuxf-rc-background-color: #CD5C5C !default;
+///
+$msuxf-rc-radio-marker: '\25CF' !default; // Unicode for '●'
+///
+$msuxf-rc-checkbox-marker: '\2714' !default; // Unicode for '✔'
+///
+$msuxf-rc-checkbox-border-radius: toem(3px) !default;
+
+/// Mixin that styles radio buttons and checkboxes with CSS only.
+/// @param {string} $type - Indicates input type. Accepted values: `radio` or `checkbox`.
+/// @param {string} $style [inline-block] - Element's box model behavior. **Note:** This parameter will be overriden if this mixin is being called from within the `form()` mixin. Accepted values: `inline-block` or `block`.
+/// @param {color} $label-color [#000] - Element's label color.
+/// @param {color} $label-color [#fff] - Element's marker color.
+/// @param {color} $label-color [#CD5C5C] - Element's background color.
+/// @see {mixin} c-form
+/// @example scss - Using the mixin
+///   @include c-form-radio-checkbox(checkbox, block, black, red, blue);
+/// @example markup - HTML structure: Element must be followed by a label tag to properly work and inherit styles
+///   <input type="checkbox" id="element">
+///   <label for="element">Elements's label</label>
+/// @example markup - Using **checkbox** and **radio** fields. **Note:** for multiple fields, use the same input holder.
+///   <div class="input-holder">
+///     <input type="checkbox" id="field">
+///     <label for="field">Elements's label</label>
+///
+///     <input type="checkbox" id="field1">
+///     <label for="field1">Elements's label</label
+///   </div>
+
+@mixin c-form-radio-checkbox($type, $style: inline-block, $label-color: $msuxf-rc-label-color, $marker-color: $msuxf-rc-marker-color, $background-color: $msuxf-rc-background-color) {
+  @if not index(radio checkbox, $type) {
+    @error "Element type must be either `radio` or `checkbox`.";
+  }
+  @if not index(block inline-block, $style) {
+    @error "Element style must be either `block` or `inline-block`.";
+  }
+  @if type-of($label-color) != color or type-of($marker-color) != color or type-of($background-color) != color {
+    @error "Param must be a valid color value. E.g: `#000`.";
+  }
+
+  // Default styles
+  [type="checkbox"],
+  [type="radio"]{
+    &:checked,
+    &:not(:checked) {
+      position: absolute;
+      left: -9999px;
+
+      + label {
+        position: relative;
+        display: $style;
+        padding-left: $msuxf-rc-width * 1.25;
+        line-height: $msuxf-rc-height;
+        color: $label-color;
+        cursor: pointer;
+
+        @if $style == block {
+          margin-bottom: #{($msuxf-input-height/2)};
+        }
+
+        @if $style == inline-block {
+          margin-right: $msuxf-rc-width * 1.25;
+        }
+
+        // Not :checked state
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          width: $msuxf-rc-width;
+          height: $msuxf-rc-height;
+          background-color: $background-color;
+          border: 1px dotted transparent;
+          transition: all $msuxf-transition-duration $msuxf-transition-timing;
+
+          @if $type == checkbox {
+            border-radius: $msuxf-rc-checkbox-border-radius
+          }
+
+          @if $type == radio {
+            border-radius: toem(9999px);
+          }
+        }
+
+        // :checked state
+        &:after {
+          @if $type == radio {
+            content: $msuxf-rc-radio-marker;
+          }
+          @else if $type == checkbox {
+            content: $msuxf-rc-checkbox-marker;
+          }
+
+          position: absolute;
+          left: 0;
+          width: $msuxf-rc-width;
+          font-size: $msuxf-rc-font-size;
+          text-align: center;
+          color: $marker-color;
+          transition: transform #{$msuxf-transition-duration / 2} $msuxf-transition-timing;
+        }
+      }
+    }
+
+    // Marker transition on :checked
+    &:not(:checked) {
+      + label {
+        &:after {
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+    }
+
+    &:checked {
+      + label {
+        &:after {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+
+    // :disabled state
+    &:disabled {
+      &:checked,
+      &:not(:checked) {
+        + label {
+          opacity: 0.25;
+        }
+      }
+    }
+
+    // :focus state
+    &:focus,
+    &:hover {
+      + label {
+        &:before {
+          background-color: shade($background-color, 25%);
+        }
+      }
+    }
+  }
+}

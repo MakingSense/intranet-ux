@@ -1,0 +1,71 @@
+////
+/// Accordions
+/// @group components
+/// @author MS
+////
+
+///
+$accordion-item-background : rgba(#ccc, 0.75) !default;
+///
+$accordion-header-background : #ccc !default;
+///
+$accordion-header-height : 50px !default;
+///
+$accordion-item-padding: 10px !default;
+
+/// This is a CSS-only accordion component that uses CSS `:target` event to show or hide blocks of content in an accordion fashion.
+/// @example markup
+///   <div class="c-accordion">
+///     <div class="c-accordion__item" id="item-1">
+///       <a class="c-accordion__header" href="#item-1">Item 1</a>
+///       <p class="c-accordion__content">Lorem ipsum dolor sit amet.</p>
+///     </div>
+///     <div class="c-accordion__item" id="item-2">
+///       <a class="c-accordion__header" href="#item-2">Item 2</a>
+///       <p class="c-accordion__content">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+///     </div>
+///   </div>
+
+@mixin c-accordion() {
+  .c-accordion {
+    @at-root {
+      &__item {
+        max-height: $accordion-header-height;
+        overflow: hidden;
+        border-bottom: 1px solid tint($accordion-header-background, 20%);
+        background-color: $accordion-item-background;
+        transition: max-height $msuxf-transition-duration $msuxf-transition-timing 0s;
+
+        // Show accordion item
+        &:target {
+          max-height: 1000px;
+
+          .c-accordion__header {
+            &:before {
+              content: '-';
+            }
+          }
+        }
+      }
+
+      &__header {
+        position: relative;
+        display: block;
+        padding-left: 30px;
+        line-height: $accordion-header-height;
+        background-color: $accordion-header-background;
+
+        &:before {
+          @include align(vertical);
+
+          content: '+';
+          margin-left: -20px;
+        }
+      }
+
+      &__content {
+        padding: $accordion-item-padding $accordion-item-padding * 3;
+      }
+    }
+  }
+}

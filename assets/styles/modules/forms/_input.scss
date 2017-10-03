@@ -1,0 +1,100 @@
+////
+/// Inputs
+/// @group components
+/// @author MS
+////
+
+///
+$msuxf-input-height: toem($msuxf-font-size) * 3 !default;
+///
+$msuxf-input-text-color: $msuxf-font-color !default;
+///
+$msuxf-input-placeholder-color: blue !default;
+///
+$msuxf-input-padding: toem(7px) !default;
+///
+$msuxf-input-border-radius: toem(5px) !default;
+///
+$msuxf-input-border: 1px solid #666 !default;
+///
+$msuxf-input-background-color: #eee !default;
+///
+$msuxf-input-focus: red !default;
+///
+$msuxf-select-caret: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNzY4IiBoZWlnaHQ9Ijc2OCIgdmlld0JveD0iMCAwIDc2OCA3NjgiPiAgICA8cGF0aCBmaWxsPSIjYjhiOGI4IiBkPSJNMjIzLjUgMzE5LjVoMzIxbC0xNjAuNSAxNjAuNXoiPjwvcGF0aD48L3N2Zz4=") !default;
+
+/// This file contains structure and look&feel for form elements different from radio buttons and checkboxes.
+/// @see {mixin} c-form
+/// @example scss - Using the mixin
+///   input[type="text"] {
+///     @include c-form-input();
+///   }
+/// @example markup - Using **input** and **textarea** fields.
+///   <div class="input-holder">
+///     <label for="field1">Elements's label</label>
+///     <input type="text" id="field1">
+///   </div>
+///   <div class="input-holder">
+///     <label for="field2">Elements's label</label>
+///     <textarea id="field2" rows="10"></textarea>
+///   </div>
+/// @example markup - Using **select** fields.
+///   <div class="input-holder">
+///     <label for="field">Elements's label</label>
+///     <select id="field">
+///       <option value="">Option 1</option>
+///       <option value="">Option 2</option>
+///       <option value="">Option 3</option>
+///     </select>
+///     <span class="select-caret"></span>
+///   </div>
+
+@mixin c-form-input() {
+  input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
+  textarea,
+  select {
+    display: inline-block;
+    padding: 0 $msuxf-input-padding;
+    font: $msuxf-font;
+    height: $msuxf-input-height;
+    line-height: #{toem($msuxf-font-size)};
+    color: $msuxf-input-text-color;
+    background-color: $msuxf-input-background-color;
+    border: $msuxf-input-border;
+    border-radius: $msuxf-input-border-radius;
+    appearance: none;
+    outline: none;
+
+    &:focus {
+      color: $msuxf-input-focus;
+    }
+
+    &::placeholder {
+      color: $msuxf-input-placeholder-color;
+    }
+  }
+
+  // Specific styles for <select> elements
+  select {
+    position: relative;
+    padding-right: #{toem($msuxf-form-gutter)};
+
+    + .select-caret {
+      position: absolute;
+      top: 0;
+      right: $msuxf-form-gutter/2;
+      display: block;
+      width: $msuxf-input-height;
+      height: $msuxf-input-height;
+      background: $msuxf-select-caret center / 50% no-repeat;
+      content: "";
+      transition: transform $msuxf-transition-duration $msuxf-transition-timing;
+    }
+
+    &:focus {
+      + .select-caret {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

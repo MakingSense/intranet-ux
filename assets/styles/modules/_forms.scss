@@ -1,0 +1,214 @@
+////
+/// Forms
+/// -> Inputs and Textareas
+/// -> Radio and checkboxes
+/// @group components
+/// @author MS
+////
+
+@import "forms/input";
+@import "forms/radio-checkbox";
+
+///
+$msuxf-form-gutter: 40px !global;
+///
+$msuxf-form-fixed-label-width: 30% !default;
+
+/// This file contains structure and look&feel for the form element.
+/// @param {number} $msuxf-form-column-layout [1] - Indicates the amount of columns the form must be split in.
+/// @param {string} $msuxf-form-style [block] - Specifies how form labels should behave. Accepted values: `inline-block`, `block` or `fixed`.
+/// @param {bool} $msuxf-form-include-elements [true] - Indicates whether to include styles for all form components or not.
+/// @example scss - Using the mixin
+///   form {
+///     @include c-form(1, block, true);
+///   }
+/// @example markup - For the layout to properly work, each field (or set of fields) should be hold inside an element with an `.input-holder` class.
+///   <form>
+///     <fieldset>
+///       <div class="input-holder">
+///         <label for="field1">Elements's label</label>
+///         <input type="text" id="field1">
+///       </div>
+///       <div class="input-holder">
+///         <label for="field2">Elements's label</label>
+///         <textarea id="field2" rows="10"></textarea>
+///       </div>
+///       <div class="input-holder">
+///         <input type="checkbox" id="field">
+///         <label for="field">Elements's label</label>
+///
+///         <input type="checkbox" id="field1">
+///         <label for="field1">Elements's label</label
+///       </div>
+///       <div class="input-holder">
+///         <button class="button button--small" type="submit"></button>
+///       </div>
+///     </fieldset>
+///   </form>
+/// @todo Refactor once :has() pseudo-class is implemented in browsers.
+
+@mixin c-form($msuxf-form-column-layout: 1, $msuxf-form-style: block, $msuxf-form-include-elements: true) {
+  @if type-of($msuxf-form-column-layout) != number {
+    @error "Form column layout must be a quantity value. E.g: `1`.";
+  }
+  @if not index(inline-block block fixed, $msuxf-form-style) {
+    @error "Form style must be either `block`, `inline-block` or `fixed`.";
+  }
+   @if type-of($msuxf-form-include-elements) != bool {
+    @error "Include form elements must be either `true` or `false`.";
+  }
+
+  // If true, include logic and look&feel for other form components
+  @if $msuxf-form-include-elements {
+    @include c-form-radio-checkbox(checkbox, inline-block, red, green, blue);
+    @include c-form-input();
+  }
+
+  // Layout for each container
+  .input-holder {
+    @include span(1/$msuxf-form-column-layout, $cycle: $msuxf-form-column-layout);
+
+    position: relative;
+    margin-bottom: #{($msuxf-input-height / 2)};
+
+    // Control the padding between columns
+    @if $msuxf-form-column-layout > 1 {
+      padding-left: $msuxf-form-gutter / 2;
+      padding-right: $msuxf-form-gutter / 2;
+
+      &:nth-of-type(#{$msuxf-form-column-layout}n + 1) {
+        padding-left: 0;
+        padding-right: $msuxf-form-gutter / 2;
+      }
+
+      &:nth-of-type(#{$msuxf-form-column-layout}n + #{$msuxf-form-column-layout}) {
+        padding-left: $msuxf-form-gutter / 2;
+        padding-right: 0;
+      }
+    }
+
+    // Give higher specificity to prevent the use of !important flag
+    @if $msuxf-form-style == fixed {
+      // Check if look&feel must be applied to form elements
+      @if $msuxf-form-include-elements {
+        @if $msuxf-form-column-layout > 1 {
+          > input + label {
+            margin: 0 0 0 $msuxf-form-fixed-label-width;
+            padding-bottom: $msuxf-input-padding;
+          }
+        }
+        @else {
+          > input:first-child + label {
+            margin-left: $msuxf-form-fixed-label-width;
+          }
+        }
+      }
+      @else {
+        @if $msuxf-form-column-layout > 1 {
+          input[type="checkbox"],
+          input[type="radio"] {
+            margin: 0 0 0 $msuxf-form-fixed-label-width;
+            padding-bottom: $msuxf-input-padding;
+          }
+
+          input,
+          label {
+            float: left;
+          }
+
+          > input + label {
+            display: block;
+            width: calc(70% - 20px);
+          }
+        }
+      }
+    }
+
+    // Styles for labels
+    label {
+      font-weight: $msuxf-font-weight-bold;
+
+      @if $msuxf-form-style == fixed or $msuxf-form-style == inline-block {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      @if $msuxf-form-style == fixed {
+        &:first-child {
+          float: left;
+          width: $msuxf-form-fixed-label-width;
+          text-align: right;
+        }
+      }
+
+      // If true, give labels a different structure
+      @if $msuxf-form-include-elements {
+        @if $msuxf-form-style == inline-block {
+          padding-right: #{($msuxf-input-height / 4)};
+          line-height: $msuxf-input-height;
+        }
+
+        @if $msuxf-form-style == block {
+          display: block;
+          max-width: 100%;
+          padding-bottom: $msuxf-input-padding;
+        }
+
+        @if $msuxf-form-style == fixed or $msuxf-form-style == inline-block {
+          display: inline-block;
+          padding-right: #{($msuxf-input-height / 4)};
+          vertical-align: top;
+          line-height: $msuxf-input-height;
+        }
+        @else {
+          display: block;
+        }
+      }
+    }
+
+    // Styles for radio/checkbox component
+    input[type="checkbox"],
+    input[type="radio"] {
+      &:first-child {
+        @if $msuxf-form-column-layout > 1 {
+          margin: 0 0 0 $msuxf-form-fixed-label-width;
+          padding-bottom: $msuxf-input-padding;
+        }
+        @else {
+          + label {
+            @if $msuxf-form-style == fixed {
+              margin-left: $msuxf-form-fixed-label-width;
+            }
+            @else {
+              margin-left: 0;
+            }
+          }
+        }
+      }
+    }
+
+    // Styles for general form elements
+    input:not([type="radio"]):not([type="checkbox"]):not([type="submit"]):not([type="reset"]),
+    textarea,
+    select {
+      @if $msuxf-form-style == block or $msuxf-form-style == inline-block {
+        display: $msuxf-form-style;
+      }
+      @else {
+        display: inline-block;
+        width: 70%;
+      }
+
+      @if $msuxf-form-style == block {
+        width: 100%;
+      }
+    }
+
+    // Styles for submit input/button
+    [type="submit"] {
+      @if $msuxf-form-style == fixed {
+        margin-left: $msuxf-form-fixed-label-width;
+      }
+    }
+  }
+}

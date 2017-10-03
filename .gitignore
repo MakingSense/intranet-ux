@@ -1,0 +1,32 @@
+### Node ###
+node_modules/
+# Optional npm cache directory
+.npm
+# Logs
+logs
+*.log
+npm-debug.log*
+# Yarn Integrity file
+yarn-debug.log*
+yarn-error.log*
+.yarn-integrity
+
+### Git ###
+*.orig
+
+# dotenv environment variables file
+.env
+
+### Sass ###
+.sass-cache/
+*.css.map
+
+### MSUXF Specific ###
+.ftppass
+documentation/
+dev/
+dist/
+
+### Others ###
+.editorconfig
+.ftppass

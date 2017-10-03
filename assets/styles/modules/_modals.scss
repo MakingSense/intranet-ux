@@ -1,0 +1,66 @@
+////
+/// Modal Dialogs
+/// @group components
+/// @author MS
+////
+
+///
+$modal-backdrop-background: rgba(#000, 0.5) !default;
+///
+$modal-content-background: #fff !default;
+///
+$modal-transition-delay: $msuxf-transition-duration !default;
+
+/// This is a CSS-only modal that takes advantage of :target event to show a modal-like component using HTML anchors.
+/// @example markup
+///   <a href="#modal">Show modal dialog</a>
+///   <div class="c-modal" id="modal">
+///     <a href="#!" class="c-modal__close">Close</a>
+///     <div class="c-modal__content">Modal dialog content goes here.</div>
+///   </div>
+
+@mixin c-modal() {
+  .c-modal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+    visibility: hidden;
+    opacity: 0;
+    background-color: $modal-backdrop-background;
+    transition: visibility $msuxf-transition-duration 0s, opacity $msuxf-transition-duration $msuxf-transition-timing;
+
+    @at-root {
+      &__content {
+        @include align(both);
+
+        margin-top: -20px;
+        opacity: 0;
+        background-color: $modal-content-background;
+        transition: opacity $msuxf-transition-duration $msuxf-transition-timing $modal-transition-delay, margin $msuxf-transition-duration $msuxf-transition-timing $modal-transition-delay;
+      }
+
+      &__close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+      }
+    }
+
+    // Show modal dialog and it's content
+    &:target,
+    &--is-visible {
+      visibility: visible;
+      opacity: 1;
+
+      // Would be great to use '&' for consistency, but for some reason, it compiles to .modal:target__content
+      .c-modal__content {
+        margin-top: 0;
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+////
+///	Tables
+/// @group components
+/// @author MS
+////
+
+///
+$table-cell-padding: 10px !default;
+///
+$table-thead-background: #999 !default;
+///
+$table-tbody-background: #fff !default;
+
+/// This is a simple easy-to-use table component.
+/// @param {string} $table-do-hover [true] - Indicates whether table rows are going to be highlighted on hover.
+/// @param {string} $table-is-zebra [true] - Indicates whether the background color should change for odd and even rows.
+/// @example markup
+///   <table class="c-table">
+///     <caption>Table caption</caption>
+///     <thead>
+///       <tr>
+///         <th>
+///           Column 1
+///         </th>
+///         <th>
+///           Column 2
+///         </th>
+///       </tr>
+///     </thead>
+///     <tfoot>
+///       <tr>
+///         <td colspan="2">
+///           Single column for <tfoot>
+///         </td>
+///       </tr>
+///     </tfoot>
+///     <tbody>
+///       <tr>
+///         <td>
+///           Content 1
+///         </td>
+///         <td>
+///           Content 2
+///         </td>
+///       </tr>
+///     </tbody>
+///   </table>
+
+@mixin c-table($table-do-hover: true, $table-is-zebra: true) {
+  @if not index(true false, $table-do-hover) {
+    @error "$table-do-hover must be either 'true' or 'false'.";
+  }
+  @if not index(true false, $table-is-zebra) {
+    @error "$table-is-zebra must be either 'true' or 'false'.";
+  }
+
+  .c-table {
+    width: 100%;
+
+    th {
+      background-color: $table-thead-background;
+    }
+
+    tbody {
+      tr {
+        @if $table-do-hover == true {
+          &:hover {
+            td {
+              background-color: shade($table-tbody-background, 10%) !important;
+            }
+          }
+        }
+
+        @if $table-is-zebra == true {
+          &:nth-of-type(odd) {
+            td {
+              background-color: shade($table-tbody-background, 5%);
+            }
+          }
+        }
+      }
+
+      td {
+        background-color: $table-tbody-background;
+      }
+    }
+
+    caption,
+    th,
+    td {
+      padding: $table-cell-padding
+    }
+  }
+}

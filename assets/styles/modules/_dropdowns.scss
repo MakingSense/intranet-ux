@@ -1,0 +1,141 @@
+////
+/// Dropdown menu
+/// @group components
+/// @author MS
+////
+
+///
+$msuxf-dropdown-animation: fade !default;
+///
+$msuxf-dropdown-event: hover !default;
+///
+$msuxf-dropdown-position: left !default;
+///
+$msuxf-dropdown-style: true !default;
+///
+$msuxf-dropdown-width: toem(200px) !default;
+///
+$msuxf-dropdown-background-color: #000 !default;
+///
+$msuxf-dropdown-border-radius: $c-button-border-radius !default;
+///
+$msuxf-dropdown-padding: $c-button-padding !default;
+///
+$msuxf-dropdown-link-color: #fff !default;
+
+/// This is a CSS dropdown component that handles different triggering events and animation styles.
+/// @param {string} $animation [fade] - Animation style in which the list is going to be shown. Accepted values: `fade`, `slide-down`, or `none`.
+/// @param {string} $event [hover] - Trigger event to show the list. Accepted values: `hover`, `focus`, or `none`.
+/// @param {string} $position [left] - List position once is visible. Accepted values: `left`, or `right`.
+/// @param {bool} $style [true] - Whether to include styles for the button and list or not.
+/// @example scss - Using the mixin
+///   @include c-dropdown(focus, fade, left, true);
+/// @example markup - HTML structure
+///   <div class="c-dropdown">
+///     <button class="button c-dropdown__button">Dropdown</button>
+///     <ul class="c-dropdown__items">
+///       <li><a href="#">First item</a></li>
+///       <li><a href="#">Second item</a></li>
+///       <li><a href="#">Third item</a></li>
+///     </nav>
+///   </div>
+
+@mixin c-dropdown($event: $msuxf-dropdown-event, $animation: $msuxf-dropdown-animation, $position: $msuxf-dropdown-position, $style: $msuxf-dropdown-style) {
+  @if not index(focus hover, $event) {
+    @error "Event must be either `focus` or `hover`.";
+  }
+  @if not index(fade slide-down none, $animation) {
+    @error "Animation must be either `fade`, `slide-down` or `none`.";
+  }
+  @if not index(left right, $position) {
+    @error "Position must be either `left` or `right`.";
+  }
+  @if type-of($style) != bool {
+    @error "Style must be either `true` or `false`.";
+  }
+
+  // Placeholder to provide the active styling without repeating code
+  %c-dropdown--active {
+    max-height: 1000px; // Random value to max-height can be animated as height property
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .c-dropdown {
+    position: relative;
+    display: inline-block;
+
+    &__items {
+      position: absolute;
+      #{$position}: 0;
+      z-index: 100;
+      display: block;
+      overflow: hidden;
+      width: $msuxf-dropdown-width;
+      max-height: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      opacity: 0;
+      visibility: hidden;
+
+      // Different transitions depending on the animation type
+      @if $animation == fade {
+        transition: opacity $msuxf-transition-duration $msuxf-transition-timing;
+      }
+      @else if $animation == slide-down {
+        transition: max-height 0.75s ease-in-out; // Global variables not used here to improve interaction for max-height transition
+      }
+
+      // If true, add styles to the list
+      @if $style == true {
+        padding: $msuxf-dropdown-padding;
+        border-radius: $msuxf-dropdown-border-radius;
+        background-color: $msuxf-dropdown-background-color;
+
+        a {
+          display: block;
+          color: $msuxf-dropdown-link-color;
+          opacity: 0.75;
+          transition: all $msuxf-transition-duration $msuxf-transition-timing;
+
+          &:hover {
+            padding-left: 5px;
+            opacity: 1;
+          }
+        }
+
+        li {
+          padding: 5px 0;
+        }
+      }
+    }
+
+    // If true, include styles for the button
+    @if $style == true {
+      @include c-button();
+
+      &__button {
+        margin-bottom: 3px;
+      }
+    }
+
+    // Trigger different events depending on the event parameter
+    @if $event == focus {
+      &__button {
+        &:#{$event} {
+          + .c-dropdown__items {
+            @extend %c-dropdown--active;
+          }
+        }
+      }
+    }
+    @else if $event == hover {
+      &:#{$event} {
+        > .c-dropdown__items {
+          @extend %c-dropdown--active;
+        }
+      }
+    }
+  }
+}

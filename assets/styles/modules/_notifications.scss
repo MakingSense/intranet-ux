@@ -1,0 +1,165 @@
+////
+/// Notifications
+/// @group components
+/// @author MS
+////
+
+///
+$notification-status-color: (
+  'notice': #ADD8E6,
+  'warning': #F0E68C,
+  'error': #CD5C5C,
+  'success': #66CDAA
+);
+///
+$notification-toast-margin: toem(20px) !default;
+///
+$notification-toast-max-width: toem(330px) !default;
+///
+$notification-toast-animation-type: slide !default; // Values: 'fade' or 'slide'
+///
+$notification-animation-duration: 1s !default;
+///
+$notification-animation-persistence: 5s !default;
+///
+$notification-border-radius: none !default;
+///
+$notification-z-index-position: 1000 !default;
+///
+$notification-toast-positions: (
+  'top-left': (
+    top: 0,
+    left: 0
+  ),
+  'top-right': (
+    top: 0,
+    right: 0
+  ),
+  'bottom-right': (
+    bottom: 0,
+    right: 0
+  ),
+  'bottom-left': (
+    bottom: 0,
+    left: 0
+  )
+);
+
+/// Component that shows two different types of notification boxes: toast and top bar.<br>
+/// **{position}** can be 4 different values: `top-left`, `top-right`, `bottom-right` and `bottom-left`.<br>
+/// **{status}** can be 4 different values as well: `notice`, `warning`, `error` and `success`.
+/// @example markup - Toast
+///   <div class="c-notification c-notification--toast c-notification--toast-{position} c-notification--{status}">Lorem ipsum dolor.</div>
+/// @example markup - Top bar
+///   <div class="c-notification c-notification--top-bar c-notification--{status}">Lorem ipsum dolor.</div>
+
+@mixin c-notification() {
+  @keyframes slide-in-right {
+    from {
+      transform: translateX(#{$notification-toast-max-width + $notification-toast-margin});
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-out-right {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(#{$notification-toast-max-width + $notification-toast-margin});
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      transform: translateX(-#{$notification-toast-max-width + $notification-toast-margin});
+    }
+
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slide-out-left {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-#{$notification-toast-max-width + $notification-toast-margin});
+    }
+  }
+
+  .c-notification {
+    position: fixed;
+    z-index: $notification-z-index-position;
+    padding: toem(20px);
+
+    // Toast type
+    &--toast {
+      max-width: $notification-toast-max-width;
+      margin: $notification-toast-margin;
+
+      @if variable-exists(notification-border-radius) and $notification-border-radius != none {
+        border-radius: $notification-border-radius;
+      }
+
+      @if $notification-toast-animation-type == 'fade' {
+        visibility: hidden;
+        opacity: 0;
+        animation: fade-in $notification-animation-duration forwards, fade-out $notification-animation-duration forwards $notification-animation-persistence;
+      }
+
+      // Iterate through $notification-toast-positions map and create the proper classes
+      @each $position, $coords in $notification-toast-positions {
+        @at-root {
+          .c-notification--toast-#{$position} {
+            top: map-get($coords, top);
+            right: map-get($coords, right);
+            bottom: map-get($coords, bottom);
+            left: map-get($coords, left);
+
+            // Slide in and out from left
+            @if $notification-toast-animation-type == 'slide' and map-get($coords, left) == 0 {
+              transform: translateX(-#{$notification-toast-max-width + $notification-toast-margin});
+              animation: slide-in-left $notification-animation-duration forwards, slide-out-left $notification-animation-duration forwards $notification-animation-persistence;
+            }
+            // Slide in and out from right
+            @else if $notification-toast-animation-type == 'slide' and map-get($coords, right) == 0 {
+              transform: translateX(#{$notification-toast-max-width + $notification-toast-margin});
+              animation: slide-in-right $notification-animation-duration forwards, slide-out-right $notification-animation-duration forwards $notification-animation-persistence;
+            }
+          }
+        }
+      }
+    }
+
+    @at-root {
+      // Iterate through $notification-status-color map and create the proper classes
+      @each $status, $color in $notification-status-color {
+        .c-notification--#{$status} {
+          color: shade($color, 30%);
+          background-color: $color;
+          border: 1px solid shade($color, 10%);
+        }
+      }
+    }
+
+    // Hello bar type
+    &--top-bar {
+      top: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      border-top: 0;
+      border-right: 0;
+      border-left: 0;
+      transform: translateY(-100%);
+      animation: slide-down $notification-animation-duration forwards, slide-up $notification-animation-duration forwards $notification-animation-persistence;
+    }
+  }
+}

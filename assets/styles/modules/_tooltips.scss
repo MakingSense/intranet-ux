@@ -1,0 +1,103 @@
+////
+/// Tooltips
+/// @group components
+/// @author MS
+////
+
+///
+$tooltip-border-radius: 0 !default;
+///
+$tooltip-padding: 10px !default;
+///
+$tooltip-background-color: black !default;
+///
+$tooltip-text-color: white !default;
+///
+$tooltip-tip-size: 7px !default;
+///
+$tooltip-display-event: hover !default;
+
+/// This is a CSS-only tooptip component that uses a data-attribute to hold the tooltip's text. It can also be triggered by different events.
+/// @param {string} $position [top] - Indicates tooltip positioning. Accepted values: `top`, `right`, `bottom` or `left`.
+/// @param {number} $width [100%] - Tooltip content min-width.
+/// @param {string} $event [hover] - Specific event in which the tooltip is going to be shown. Accepted values: `hover`, `focus` or `active`.
+/// @param {string} $content [attr(data-tooltip)] - Text to be shown inside the tooltip. If this argument is empty, the mixin is going to use the `data-tooltip` attribute of the HTML element.
+/// @example scss - Using the mixin
+///  a {
+///    @include c-tooltip(top, 100%, hover);
+///  }
+/// @example markup - HTML structure
+///   <a href="#" data-tooltip="This is a tooltip" tabindex="0">Link</a>
+
+@mixin c-tooltip($position: top, $min-width: 100%, $event: $tooltip-display-event, $content: attr(data-tooltip)){
+  @if not index(top right bottom left, $position) {
+    @error "Position must be either `top`, `right`, `bottom` or `left`.";
+  }
+  @if not index(hover focus active, $event) {
+    @error "Event must be either `hover`, `focus` or `active`.";
+  }
+  @if type-of($min-width) != number {
+    @error "Min-width must be a length value. E.g: `1em`.";
+  }
+  @if type-of($content) != string {
+    @error "Tooltip content must be a string.";
+  }
+
+  position: relative;
+  outline: none;
+
+  // Tooltip content block
+  &:before {
+    @if $position == top or $position == bottom {
+      margin-#{opposite-direction($position)}: $tooltip-tip-size;
+    }
+    @else if $position == left or $position == right {
+      margin-#{opposite-direction($position)}: $tooltip-tip-size * 2;
+    }
+
+    content: $content;
+    min-width: $min-width;
+    padding: $tooltip-padding;
+    text-align: center;
+    color: $tooltip-text-color;
+    background-color: $tooltip-background-color;
+
+    @if variable-exists(tooltip-border-radius) and $tooltip-border-radius != 0 {
+      border-radius: $tooltip-border-radius;
+    }
+  }
+
+  // Tooptip tip
+  &:after {
+    @include triangle($position, $tooltip-background-color, $tooltip-tip-size);
+
+    @if $position == left or $position == right {
+      margin-#{opposite-direction($position)}: $tooltip-tip-size;
+    }
+
+    display:block;
+  }
+  &:before,
+  &:after {
+    @if $position == top or $position == bottom {
+      @include align(horizontal);
+    }
+    @else if $position == left or $position == right {
+      @include align(vertical);
+    }
+
+    #{opposite-direction($position)}: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:$msuxf-transition-duration all $msuxf-transition-timing;
+  }
+
+  // Trigger different events depending on variable config
+  &:#{$event} {
+    &:before,
+    &:after {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
