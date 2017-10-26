@@ -27,9 +27,11 @@
 /// - Yeah, we should be ashamed of this. MUST fix these in the near future.
 /// @author MS
 ////
+
+@import "core/base";
+
 @import "libs/**/*";
 @import "helpers/*";
-@import "core/*";
 @import "modules/**/*";
 @import "templates/**/*";
 @import "shame";
