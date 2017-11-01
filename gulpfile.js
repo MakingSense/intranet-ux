@@ -55,6 +55,7 @@ var config = {
     base: 'assets',
     styles: 'assets/styles',
     images: 'assets/img',
+    public: 'assets/public',
     js: 'assets/js'
   },
   folderDist: {
@@ -157,6 +158,18 @@ gulp.task('copy:css', ['sass:build'], function() {
   return gulp.src(config.folderDev.css + '/*.*')
     .pipe(gulp.dest(config.folderDist.css));
 });
+
+// copy public folder as-is
+gulp.task('public', function() {
+  return gulp.src([config.folderAssets.public + '/**/*', config.folderAssets.public + '/**/.*'])
+    .pipe(gulp.dest(config.folderDev.base));
+});
+
+gulp.task('public:dist', function() {
+  return gulp.src(config.folderAssets.public + '/**/*')
+    .pipe(gulp.dest(config.folderDist.base));
+});
+
 
 // Browser Sync task definition
 gulp.task('serve', ['build'], function() {
@@ -336,6 +349,7 @@ gulp.task('run', ['clean', 'serve'], function() {
   gulp.watch(config.folderAssets.images + '/**/*.*', ['copy:images']);
   gulp.watch(config.folderAssets.js + '/*', ['copy:js']);
   gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
+  gulp.watch([config.folderAssets.public + '/**/*', config.folderAssets.public + '/**/.*'], ['public']);
   gulp.watch(config.folderDev.js + '/*.js').on('change', browserSync.reload);
 });
 
@@ -372,7 +386,7 @@ gulp.task('dist:zip', ['dist'], function() {
 });
 
 // Define Dist generation task
-gulp.task('dist', ['copy:css', 'copy:fonts', 'js:dist', 'processHtml:dist', 'images:dist']);
+gulp.task('dist', ['copy:css', 'copy:fonts', 'js:dist', 'processHtml:dist', 'images:dist', 'public:dist']);
 
 // Define build task
-gulp.task('build', ['sass:build', 'copy:js', 'processHtml', 'copy:images', 'doc']);
+gulp.task('build', ['sass:build', 'copy:js', 'processHtml', 'copy:images', 'doc', 'public']);
