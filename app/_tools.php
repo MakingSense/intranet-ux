@@ -29,8 +29,8 @@ function logout() {
   $client = getGClient();
   $token = @json_decode($_SESSION['access_token'])->access_token;
   $client->revokeToken($token);
-  //unset($_SESSION['access_token']);
-  //unset($_SESSION['userinfo']);
+  unset($_SESSION['access_token']);
+  unset($_SESSION['userinfo']);
 }
 
 function saveToken($token) {
@@ -53,8 +53,7 @@ function sessionCheck() {
     return false;
   }
 
-  preg_match('/\@(.*)/', $userinfo->email, $matches);
-  $domain = @$matches[1];
+  $domain = $userinfo->hd;
   return $domain === ALLOWED_DOMAIN;
 }
 

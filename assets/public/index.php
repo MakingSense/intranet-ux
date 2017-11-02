@@ -9,6 +9,10 @@ if (!$module) {
 }
 
 if (sessionCheck()) {
+
+  $info = getUserInfo();
+  var_dump($info->givenName, $info); exit;
+
   $module = @$_GET['m'];
   if (preg_match('/[a-z0-9_\-]+/i', $module) && file_exists("static/{$module}.html")) {
     require("static/{$module}.html");
