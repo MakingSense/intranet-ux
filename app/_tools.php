@@ -13,6 +13,11 @@ function getGClient() {
     $client->setRedirectUri(GOOGLE_REDIRECT_URI);
     $client->setAccessType("offline");
     $client->addScope("email");
+    try {
+      if ($token = getGToken()) @$client->setAccessToken($token);
+    } catch (Exception $e) {
+      // Access token is wrong, discarded.
+    }
   }
   return $client;
 }
@@ -31,21 +36,20 @@ function logout() {
   $token = @json_decode($_SESSION['access_token'])->access_token;
   $client->revokeToken($token);
   unset($_SESSION['access_token']);
+  setcookie('access_token', '', time() - 3600);
   unset($_SESSION['userinfo']);
 }
 
 function saveToken($token) {
   $client = getGClient();
   $client->authenticate($token);
-  $_SESSION['access_token'] = $client->getAccessToken();
+  _setGToken($client->getAccessToken());
   return $_SESSION['access_token'];
 }
 
 function sessionCheck() {
-  if (!@$_SESSION['access_token']) return false;
   $client = getGClient();
-  @$client->setAccessToken($_SESSION['access_token']);
-  if ($client->isAccessTokenExpired()) {
+  if (!$client || $client->isAccessTokenExpired()) {
     logout();
     return false;
   }
@@ -56,7 +60,6 @@ function sessionCheck() {
   } catch (Exception $e) {
     return false;
   }
-
   $domain = $userinfo->hd;
   return $domain === ALLOWED_DOMAIN;
 }
@@ -69,4 +72,13 @@ function getAuthUrl() {
   $client = getGClient();
   $url = $client->createAuthUrl();
   return $url;
+}
+
+function _setGToken($token) {
+  $_SESSION['access_token'] = $token;
+  setcookie('access_token', $token, time() + COOKIE_LIFE, "/");
+}
+
+function getGToken() {
+  return @$_SESSION['access_token'] ?: @$_COOKIE['access_token'];
 }

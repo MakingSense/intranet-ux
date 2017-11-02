@@ -8,7 +8,18 @@
 @import "./settings";
 @import "./typography";
 
+* { box-sizing: Border-box }
+
+html, body {
+  font-family: $msuxf-font-family;
+  color: $msuxf-font-color;
+}
+
 a {
   text-decoration: none;
   transition: all $msuxf-transition-duration $msuxf-transition-timing;
+}
+
+img:not(.not-fluid) {
+  max-width: 100%;
 }

@@ -350,7 +350,7 @@ gulp.task('watch', ['clean', 'build'], function() {
   gulp.watch(config.folderAssets.base + '/icons/*.svg', ['webfont']);
   gulp.watch(config.folderAssets.images + '/**/*.*', ['copy:images']);
   gulp.watch(config.folderAssets.js + '/*', ['copy:js']);
-  gulp.watch(config.folderAssets.base + '/templates/*.html', ['processHtml']);
+  gulp.watch(config.folderAssets.base + '/templates/**/*.html', ['processHtml']);
   gulp.watch([config.folderAssets.public + '/**/*', config.folderAssets.public + '/**/.*'], ['public']);
   gulp.watch(config.folderDev.js + '/*.js').on('change', browserSync.reload);
 });

@@ -3,3 +3,22 @@
 /// @group Header
 /// @author MS
 ////
+
+header {
+  padding: 10px 100px;
+  background: #fff;
+  box-shadow: 0 5px 10px 0 rgba(0,0,0,0.10);
+  position: relative;
+  z-index: 1;
+  font-weight: $msuxf-font-weight-bold;
+
+  .main-logo {
+    height: 60px;
+
+    img {
+      vertical-align: middle;
+      display: inline-block;
+      margin-right: 18px;
+    }
+  }
+}
