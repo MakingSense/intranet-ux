@@ -49,21 +49,23 @@ var config = {
     css: 'dev/css',
     fonts: 'dev/fonts',
     images: 'dev/img',
-    js: 'dev/js'
+    js: 'dev/js',
+    html: 'dev/static'
   }, // If this path gets changed, remember to update .gitignore with the proper path to ignore images and css
   folderAssets: {
     base: 'assets',
     styles: 'assets/styles',
     images: 'assets/img',
     public: 'assets/public',
-    js: 'assets/js'
+    js: 'assets/js',
   },
   folderDist: {
     base: 'dist',
     css: 'dist/css',
     fonts: 'dist/fonts',
     images: 'dist/img',
-    js: 'dist/js'
+    js: 'dist/js',
+    html: 'dist/static'
   },
   folderDoc: {
     base: 'documentation'
@@ -203,7 +205,7 @@ gulp.task('processHtml', function() {
       recursive: true,
       environment: 'dev'
     }))
-    .pipe(gulp.dest(config.folderDev.base))
+    .pipe(gulp.dest(config.folderDev.html))
     .pipe(browserSync.reload({
       stream: true
     }));
@@ -211,7 +213,7 @@ gulp.task('processHtml', function() {
 
 // Process HTML task definition for distribution purposes
 gulp.task('processHtml:dist', function() {
-  return gulp.src(config.folderAssets.base + '/templates/*.html')
+  return gulp.src(config.folderAssets.html + '/templates/*.html')
     .pipe(processHtml({
       recursive: true,
       environment: 'dist'
@@ -343,7 +345,7 @@ gulp.task('clean:dev', function() {
 });
 
 // Watch for changes
-gulp.task('run', ['clean', 'serve'], function() {
+gulp.task('watch', ['clean', 'build'], function() {
   gulp.watch(config.folderAssets.base + '/**/*.scss', ['sass']);
   gulp.watch(config.folderAssets.base + '/icons/*.svg', ['webfont']);
   gulp.watch(config.folderAssets.images + '/**/*.*', ['copy:images']);
@@ -354,9 +356,7 @@ gulp.task('run', ['clean', 'serve'], function() {
 });
 
 // Watch for changes
-gulp.task('watch', ['build'], function() {
-  gulp.watch(config.folderAssets.base + '/**/*.scss', ['sass']);
-});
+gulp.task('run', ['clean', 'watch', 'serve']);
 
 // Define task to deploy to SFTP server
 gulp.task('deploy', ['build'], function() {

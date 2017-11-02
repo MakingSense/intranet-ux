@@ -4,6 +4,10 @@ AddType text/cache-manifest .appcache
 
 Options +FollowSymLinks
 RewriteEngine On
+
 RewriteRule ^login$ login.php [L]
-RewriteRule ^dash$ dash.php [L]
 RewriteRule ^logout$ logout.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?m=$1 [L,QSA]
