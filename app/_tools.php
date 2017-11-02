@@ -11,6 +11,7 @@ function getGClient() {
     $client->setClientId(GOOGLE_CLIENT_ID);
     $client->setClientSecret(GOOGLE_SECRET);
     $client->setRedirectUri(GOOGLE_REDIRECT_URI);
+    $client->setAccessType("offline");
     $client->addScope("email");
   }
   return $client;
@@ -44,7 +45,10 @@ function sessionCheck() {
   if (!@$_SESSION['access_token']) return false;
   $client = getGClient();
   @$client->setAccessToken($_SESSION['access_token']);
-  if ($client->isAccessTokenExpired()) return false;
+  if ($client->isAccessTokenExpired()) {
+    logout();
+    return false;
+  }
   try {
     $info = getPeopleService();
     $userinfo = $info->userinfo->get();
