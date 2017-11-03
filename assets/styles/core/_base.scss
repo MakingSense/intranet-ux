@@ -13,6 +13,9 @@
 html, body {
   font-family: $msuxf-font-family;
   color: $msuxf-font-color;
+  font-size: $msuxf-font-size;
+  height: 100%;
+  overflow: auto;
 }
 
 a {

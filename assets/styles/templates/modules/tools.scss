@@ -1,0 +1,43 @@
+.wtools {
+
+  h2 {
+    color: #FFFFFF;
+  }
+
+  &__list {
+    li {
+      width: calc(100% / 3);
+      padding-bottom: calc(100% / 3);
+      float: left;
+      position: relative;
+    }
+
+    a {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      top: 1px;
+      right: 1px;
+      bottom: 1px;
+      left: 1px;
+      color: #fff;
+      background: #8D66AB;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: torem(18px);
+      overflow: hidden;
+
+      &:hover {
+        background: #744A93;
+      }
+
+      .icon-label {
+        font-size: torem(10px);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-top: torem(15px);
+      }
+    }
+  }
+}

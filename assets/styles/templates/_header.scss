@@ -5,20 +5,71 @@
 ////
 
 header {
-  padding: 10px 100px;
+  padding: 10px torem(100px);
+  height: torem(80px);
   background: #fff;
   box-shadow: 0 5px 10px 0 rgba(0,0,0,0.10);
   position: relative;
   z-index: 1;
   font-weight: $msuxf-font-weight-bold;
+  font-size: 16px;
+  overflow: hidden;
+
+  @include respond-to('ismobile') {
+    padding: torem(10px) torem(40px);
+  }
 
   .main-logo {
-    height: 60px;
+    height: torem(60px);
+    float: left;
 
     img {
       vertical-align: middle;
       display: inline-block;
-      margin-right: 18px;
+      width: torem(60px);
+    }
+
+    .logo-description {
+      margin-left: 18px;
+    }
+
+    @include respond-to('ismobile') {
+      .logo-description {
+        display: none;
+      }
+    }
+  }
+
+  .weather-widget {
+    float: right;
+    padding: torem(10px);
+
+    img {
+      width: torem(90px);
+    }
+  }
+
+  .greeting {
+    display: table;
+    height: torem(60px);
+    margin: 0 torem(200px);
+    width: calc(100% - #{torem(400px)});
+
+    p {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+
+      font-family: $msuxf-font-family;
+      color: $msuxf-font-color;
+      font-weight: $msuxf-font-weight-bold;
+      font-size: 16px;
+
+      @include respond-to('ismobile') {
+        .motto {
+          display: none;
+        }
+      }
     }
   }
 }
