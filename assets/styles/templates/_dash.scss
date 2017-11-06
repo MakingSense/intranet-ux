@@ -5,7 +5,7 @@
 ////
 
 .main-layout {
-  min-height: calc(100% - #{torem(80px)};
+  min-height: calc(100% - #{torem(80px)});
   display: flex;
   background: #f2f2f2;
   text-align: justify;
@@ -13,35 +13,45 @@
 }
 
 aside {
-  flex: 0 1 torem(400px);
-  padding: torem(20px);
+  flex: 0 1 torem(500px);
+  padding: 0 torem(20px);
+
+  .widget {
+    margin-bottom: torem(72px);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
 .left__panel {
-  padding: torem(75px) torem(80px) 0 torem(40px);
+  padding: torem(75px) torem(100px) 0 torem(100px);
   background-image: linear-gradient(30deg, #a88cc5 0%, #744a93 76%);
+
+  h2 {
+    color: #fff;
+  }
 }
 
 .right__panel {
-  float: right;
-  padding-left: torem(50px);
-  background: #fff;
+  flex: 0 1 torem(610px);
+  padding-left: torem(30px);
+  padding-right: 0;
 }
 
 .news__panel {
-  flex: 1 1 35%;
+  flex: 1 1 20%;
   position: relative;
 }
 
 .news__inner {
   padding: torem(30px);
   position: absolute;
-  top: 40px;
-  left: torem(-50px);
-  right: torem(-50px);
+  top: 30px;
+  left: torem(-30px);
+  right: torem(-30px);
   bottom: 0;
   background: #fff;
   box-shadow: 0 15px 40px 0 rgba(0,0,0,0.31);
-
-  /* BG: */
 }

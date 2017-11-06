@@ -24,26 +24,42 @@
 }
 
 
-  .icon-tools-cloud:before {
+  .icon-social-facebook:before {
     content: "\E001";
   }
 
-  .icon-tools-generic:before {
+  .icon-social-linkedin:before {
     content: "\E002";
   }
 
-  .icon-tools-github:before {
+  .icon-social-twitter:before {
     content: "\E003";
   }
 
-  .icon-tools-harvest:before {
+  .icon-social-youtube:before {
     content: "\E004";
   }
 
-  .icon-tools-jira:before {
+  .icon-tools-cloud:before {
     content: "\E005";
   }
 
-  .icon-tools-slack:before {
+  .icon-tools-generic:before {
     content: "\E006";
+  }
+
+  .icon-tools-github:before {
+    content: "\E007";
+  }
+
+  .icon-tools-harvest:before {
+    content: "\E008";
+  }
+
+  .icon-tools-jira:before {
+    content: "\E009";
+  }
+
+  .icon-tools-slack:before {
+    content: "\E00A";
   }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>menu-youtube</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.8">
+        <g id="intranet.st.5" transform="translate(-253.000000, -954.000000)" fill-rule="nonzero" fill="#FFFFFF">
+            <g id="Aside-Left" transform="translate(0.000000, 80.000000)">
+                <g id="Group-16" transform="translate(100.000000, 823.000000)">
+                    <g id="Group" transform="translate(0.000000, 51.000000)">
+                        <g id="menu-youtube" transform="translate(153.000000, 0.000000)">
+                            <polygon id="Shape" points="16.2153 20.6883 21.3615 17.5527 16.2153 14.4153"></polygon>
+                            <path d="M18,0 C8.0586,0 0,8.0595 0,18 C0,27.9405 8.0586,36 18,36 C27.9405,36 36,27.9405 36,18 C36,8.0595 27.9405,0 18,0 Z M26.685,22.2732 C26.4645,23.2344 25.6824,23.9427 24.7392,24.0489 C22.5081,24.3 17.9982,24.3 17.9982,24.3 C17.9982,24.3 13.4892,24.3 11.2581,24.0489 C10.3158,23.9427 9.5328,23.2344 9.3132,22.2732 C9,20.9034 9,19.4094 9,18 C9,16.5897 9.0027,15.0966 9.3177,13.7268 C9.5382,12.7656 10.3194,12.0564 11.2626,11.9511 C13.4937,11.7 18.0036,11.7 18.0036,11.7 C18.0036,11.7 22.5117,11.7 24.7437,11.9511 C25.686,12.0564 26.4681,12.7656 26.6886,13.7268 C27.0018,15.0966 27,16.5906 27,18 C27,19.4094 26.9982,20.9034 26.685,22.2732 Z" id="Shape"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
