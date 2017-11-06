@@ -15,7 +15,7 @@ header {
   font-size: 16px;
   overflow: hidden;
 
-  @include respond-to('ismobile') {
+  @include respond-to('medium') {
     padding: torem(10px) torem(40px);
   }
 
@@ -33,7 +33,7 @@ header {
       margin-left: 18px;
     }
 
-    @include respond-to('ismobile') {
+    @include respond-to('medium') {
       .logo-description {
         display: none;
       }
@@ -65,7 +65,7 @@ header {
       font-weight: $msuxf-font-weight-bold;
       font-size: 16px;
 
-      @include respond-to('ismobile') {
+      @include respond-to('medium') {
         .motto {
           display: none;
         }

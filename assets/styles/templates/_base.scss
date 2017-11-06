@@ -1,9 +1,10 @@
-@include respond-to('ismobile') {
+/*
+@include respond-to('large') {
   html, body {
     font-size: $msuxf-font-size * .6;
   }
 }
-
+*/
 
 h1, h2, h3, h4, h5 {
   font-family: 'Merriweather', serif;

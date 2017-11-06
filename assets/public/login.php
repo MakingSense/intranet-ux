@@ -1,5 +1,5 @@
 <?php
-require_once '../app/_tools.php';
+require_once 'app/_tools.php';
 
 $code = @$_GET['code'];
 if (($code && saveToken($code))) {

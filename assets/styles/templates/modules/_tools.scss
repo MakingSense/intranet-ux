@@ -8,6 +8,11 @@
       padding-bottom: calc(100% / 3);
       float: left;
       position: relative;
+
+      @include respond-to('medium') {
+        width: calc(100% / 2);
+        padding-bottom: calc(100% / 2);
+      }
     }
 
     a {
@@ -23,7 +28,7 @@
       background: #8D66AB;
       text-align: center;
       text-transform: uppercase;
-      font-size: torem(18px);
+      font-size: 18px;
       overflow: hidden;
 
       &:hover {
@@ -31,7 +36,7 @@
       }
 
       .icon-label {
-        font-size: torem(10px);
+        font-size: 10px;
         white-space: nowrap;
         text-overflow: ellipsis;
         margin-top: torem(15px);

@@ -43,12 +43,20 @@ $msuxf-wrapper-min-width: torem(1200px) !default;
 /// Breakpoints ///
 ///
 $msuxf-breakpoints: (
-  'desktop-fhd': (max-width: 1920px),
-  'desktop': (max-width: 1366px),
+  'xlarge' (min-width: 1680px),
+  'large': (min-width: 1280px),
+  'medium': (min-width: 1024px),
+  'small': (min-width: 640px),
+  'xsmall': (min-width: 0),
+
+  'large-only': (min-width: 1280px, max-width: 1659px),
+  'medium-only': (min-width: 1024px, max-width: 1279px),
+  'small-only': (min-width: 640px, max-width: 1023px),
+  'xsmall-only': (max-width: 639px),
+
+  'desktop-fhd': (min-width: 1919px),
   'ipad': (min-width: 1023px, max-width: 1024px),
-  'isdesktop': (min-width: 1024px),
-  'ismobile': (max-width: 1024px),
-  'iphone': (max-width: 980px)
+  'iphone': (max-width: 979px)
 ) !default;
 
 /// Transition/Animation ///

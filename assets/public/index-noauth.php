@@ -1,0 +1,1 @@
+<?php require("static/dash.html"); exit;
