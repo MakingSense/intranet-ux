@@ -9,13 +9,10 @@
   display: flex;
   text-align: justify;
   font-size: torem(16px);
-  position: relative;
 }
 
 aside {
   padding: 0 torem(20px);
-  position: relative;
-  bottom: -30px;
 
   .widget {
     margin-bottom: torem(72px);
@@ -50,12 +47,12 @@ aside {
 .news__panel {
   flex: 0 0 calc(100% - 32.8% - 26%);
   position: relative;
+  padding-top: 30px;
 }
 
 .news__inner {
   padding: torem(30px);
   position: relative;
-  top: 30px;
   left: torem(-40px);
   right: torem(-40px);
   bottom: 0;
