@@ -1,9 +1,12 @@
 .wsocial {
   &__list {
+    text-align: left;
+
     a {
-      line-height: 36px;
+      display: inline-block;
       color: #fff;
       margin-right: 15px;
+      margin-bottom: 15px;
       font-size: 36px;
 
       &:last-child {

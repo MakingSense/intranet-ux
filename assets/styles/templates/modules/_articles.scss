@@ -17,14 +17,15 @@
   }
 
   .link {
+    display: block;
+    max-width: 160px;
+    margin: auto;
     line-height: torem(38px);
-    display: inline-block;
-    padding: 0 torem(30px);
     border-radius: torem(38px) / 2;
     background: #5da552;
     color: #fff;
     font-weight: $msuxf-font-weight-semibold;
-    font-size: 12px;
+    font-size: torem(12px);
     letter-spacing: 0;
     text-transform: uppercase;
   }
@@ -45,10 +46,11 @@
   }
 
   &__details {
-    font-size: 14px;
+    font-size: torem(14px);
     color: #534D48;
     letter-spacing: 0;
     line-height: 18px;
+    min-height: calc(18px * 3);
     margin-bottom: torem(20px);
     text-align: center;
   }
@@ -62,6 +64,11 @@
     padding: torem(40px) torem(15px) torem(200px) torem(15px);
     text-align: center;
   }
+
+  @include respond-to('large') {
+    display: block;
+  }
+
 }
 
 .aabout {
@@ -74,7 +81,7 @@
   &__list {
     li {
       line-height: 38px;
-      font-size: 12px;
+      font-size: torem(12px);
 
       &:before {
         margin-right: 10px;
@@ -141,14 +148,14 @@
     color: #534d48;
     margin-left: 80px;
     padding: 12px 0;
-    font-size: 16px;
+    font-size: torem(16px);
     line-height: 18px;
     font-weight: $msuxf-font-weight-semibold;
 
     time {
       font-weight: $msuxf-font-weight-regular;
       display: block;
-      font-size: 14px;
+      font-size: torem(14px);
     }
   }
 }

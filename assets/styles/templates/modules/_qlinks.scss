@@ -3,11 +3,13 @@
   &__list {
     a {
       font-weight: $msuxf-font-weight-semibold;
-      font-size: 12px;
+      font-size: torem(12px);
       color: #FFFFFF;
       letter-spacing: 0;
-      line-height: 30px;
+      margin-bottom: 14px;
       text-transform: uppercase;
+      text-align: left;
+      display: inline-block;
     }
   }
 }
