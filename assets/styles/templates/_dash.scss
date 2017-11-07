@@ -12,8 +12,6 @@
 }
 
 aside {
-  padding: 0 torem(20px);
-
   .widget {
     margin-bottom: torem(72px);
 
@@ -25,17 +23,20 @@ aside {
 
 .left__panel {
   flex: 0 0 26%;
-  padding: torem(75px) calc(#{torem(40px)} + 3.125%) 0 5.21%;
+  padding-right: torem(40px);
   background-image: linear-gradient(30deg, #a88cc5 0%, #744a93 76%);
-
-  @include respond-to('large') {
-    padding-left: 3.125%;
-  }
 
   h2 {
     color: #fff;
   }
 
+  .panel__inner {
+    padding: torem(75px) 14.89% 0 21.28%;
+
+    @include respond-to('large') {
+      padding-left: 14.89%;
+    }
+  }
 }
 
 .right__panel {
