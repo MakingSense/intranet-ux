@@ -4,10 +4,12 @@
 
   <div class="main-layout">
     <aside class="panel left__panel">
-        <div class="panel__inner">
-          <!-- build:include modules/_tools.html --><!-- /build -->
-          <!-- build:include modules/_qlinks.html --><!-- /build -->
-          <!-- build:include modules/_social.html --><!-- /build -->
+        <div class="panel__inner linkscroll" data-linkscroll-scroll-ratio="0.05">
+          <div class="toolbar-modules">
+            <!-- build:include modules/_tools.html --><!-- /build -->
+            <!-- build:include modules/_qlinks.html --><!-- /build -->
+            <!-- build:include modules/_social.html --><!-- /build -->
+          </div>
         </div>
     </aside>
     <div class="panel news news__panel">
@@ -16,7 +18,7 @@
       </main>
     </div>
     <aside class="panel right__panel">
-      <div class="panel__inner">
+      <div class="panel__inner linkscroll" data-linkscroll-scroll-ratio="0.2">
         <!-- build:include modules/_articles.html --><!-- /build -->
       </div>
     </aside>

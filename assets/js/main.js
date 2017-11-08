@@ -45,6 +45,8 @@
 
   if (lsdata) drawNews(lsdata); // Initial draw with the local storage data // shitty implementation, I know..
 
+  $('.linkscroll').linkScroll();
+
   //$.bnotifyEnable();
   //setTimeout(function () { $.bnotify('My Title', { body: 'Aquarium Malenostrum' }); }, 3000);
 })(); // Main scope
@@ -57,6 +59,7 @@ $(() => {
     relativeDates();
   }, 5000);
   relativeDates();
+
 }); // onready
 
 function relativeDates() {

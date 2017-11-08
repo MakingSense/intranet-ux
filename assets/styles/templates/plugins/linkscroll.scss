@@ -1,0 +1,12 @@
+.linkscroll {
+  &-wrapper {
+  }
+
+  &-linked {
+    position: fixed;
+    width: inherit;
+
+    transition: all .05s ease-out;
+    top: 0;
+  }
+}
