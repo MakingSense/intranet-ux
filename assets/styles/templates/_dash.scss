@@ -31,10 +31,8 @@ aside {
     color: #fff;
   }
 
-  &.linkscroll-linked {
-    .panel__inner {
-      width: calc(26% - #{torem(40px)});
-    }
+  .panel__inner.linkscroll-linked {
+    width: calc(26% - #{torem(40px)});
   }
 
   .toolbar-modules {
@@ -52,13 +50,9 @@ aside {
   padding-left: torem(40px);
   padding-right: 0;
 
-  &.linkscroll-linked {
-    .panel__inner {
-      width: calc(32.8% - #{torem(40px)});
-    }
+  .panel__inner.linkscroll-linked {
+    width: calc(32.8% - #{torem(40px)});
   }
-
-
 }
 
 .news__panel {
