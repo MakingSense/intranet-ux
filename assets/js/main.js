@@ -4,7 +4,7 @@
   'use strict';
 
   let $wrapper = $('.news-list');
-
+/*
   let lsdata = $.contentfulSync({
     // Connection info
     accessToken: CONTENTFUL_ACCESS_TOKEN,
@@ -44,6 +44,7 @@
   });
 
   if (lsdata) drawNews(lsdata); // Initial draw with the local storage data // shitty implementation, I know..
+  */
 
   $('.linkscroll').linkScroll();
 
@@ -59,7 +60,6 @@ $(() => {
     relativeDates();
   }, 5000);
   relativeDates();
-
 }); // onready
 
 function relativeDates() {
