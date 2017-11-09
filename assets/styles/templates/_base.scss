@@ -23,3 +23,11 @@ h2 {
   font-size: torem(24px);
   margin-bottom: torem(20px);
 }
+
+%clear {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}

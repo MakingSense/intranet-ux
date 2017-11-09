@@ -20,7 +20,7 @@ $(() => {
 
   let refreshWeather = setInterval(() => {
     loadWeather(location);
-  }, 1000 * 60 * 10); // 10 minutes
+  }, 1000 * 60 * 1); // 1 minute
 
   loadWeather(location); // Initial load
 });
