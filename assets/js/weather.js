@@ -1,5 +1,6 @@
 $(() => {
   'use strict';
+  let location = 466863; // Default woeid: mar del plata
 
   if ("geolocation" in navigator) {
     $('.js-geolocation').show();
@@ -7,18 +8,21 @@ $(() => {
     $('.js-geolocation').hide();
   }
 
-  $(document).ready(function() {
-    loadWeather(466863); //@params location, woeid
-  });
-
   $("#header").on('click', '#weather', function () {
     navigator.geolocation.getCurrentPosition(function(p) {
-      loadWeather(p.coords.latitude + ',' + p.coords.longitude);
+      location = p.coords.latitude + ',' + p.coords.longitude;
+      loadWeather(location);
       $('.js-geolocation').fadeOut();
     }, function (p) {
       // Oh, bugga...
     });
   });
+
+  let refreshWeather = setInterval(() => {
+    loadWeather(location);
+  }, 1000 * 60 * 10); // 10 minutes
+
+  loadWeather(location); // Initial load
 });
 
 
