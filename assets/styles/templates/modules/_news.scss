@@ -20,19 +20,6 @@
     margin-bottom: torem(50px);
   }
 
-  /*
-  // Discarded inner scroll
-  &__inner {
-    padding-right: calc(#{torem(30px)} + 15px);
-    overflow-y: hidden;
-
-    &:hover {
-      overflow-y: scroll;
-      padding-right: torem(30px);
-    }
-  }
-  */
-
   &__news {
     position: relative;
     padding-left: 55px;
@@ -89,6 +76,7 @@
     color: #ccc;
     position: relative;
     text-align: center;
+    margin-top: torem(40px);
 
     &:before {
       content: '';
