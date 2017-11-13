@@ -26,7 +26,9 @@
       console.log(entries);
   });
 
-  return false;*/
+  return false;
+
+  /*
   // Sync staff
   $.contentfulSync({
     // Connection info
@@ -107,14 +109,18 @@
       console.log('ExternalUpdate: ', data);
       IN.widgets.news.draw($wrapper, data);
     }
+
   });
 
   if (IN.widgets.news.data) IN.widgets.news.draw($wrapper, IN.widgets.news.data); // Initial draw with the local storage data // shitty implementation, I know..
 
+  */
 
 
   //$.bnotifyEnable();
   //setTimeout(function () { $.bnotify('My Title', { body: 'Aquarium Malenostrum' }); }, 3000);
+
+  $('.linkscroll').linkScroll();
 })(); // Main scope
 
 // After loading DOM
