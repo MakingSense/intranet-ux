@@ -11,8 +11,12 @@
 
   $.extend({
     contentfulSync: (initOptions) => {
-      var localdata = {}; // Used for storage data in this variable when localStorage is unaviable
       const options = $.extend({}, $.contentfulSync.defaults, initOptions);
+      const localdata = dataGet(); // Used for storage data in this variable when localStorage is unaviable
+
+      if (options.datavar) {
+        eval(options.datavar + ' = localdata');
+      }
 
       if (!options.accessToken || !options.space) {
         console.error('No connection data for contenful API.');
@@ -36,7 +40,7 @@
       }
 
       initSync();
-      return dataGet(); // WTF?? Somebdy help me!
+      return this;
 
       // Internal Functions
       function initSync() {
@@ -153,6 +157,7 @@
         if (options.lsid) {
           try {
             window.localStorage.setItem(namespace + '-' + options.lsid, JSON.stringify(data));
+            localdata = data;
           } catch(e) {
             return false;
           }
@@ -174,6 +179,7 @@
 
   // Default settings
   $.contentfulSync.defaults = {
+    datavar: null, // Variable to get data, mostly useful when no localStorage is available
     interval: 10 * 1000 // Default interval: 10 seconds.
   }
 }( jQuery ));

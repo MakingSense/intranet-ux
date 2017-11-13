@@ -1,8 +1,8 @@
 (function () {
   'use strict';
-  let $wrapper = $('.news-list');
 
   IN.widgets.news = {};
+  IN.widgets.staff = {};
 
   IN.widgets.news.draw = ($elem, data) => {
     for (let i in data) {
@@ -32,47 +32,8 @@
     }
   }
 
-  let ls_news_data = $.contentfulSync({
-    // Connection info
-    accessToken: CONTENTFUL_ACCESS_TOKEN,
-    space: CONTENTFUL_SPACE_ID,
-    interval: CONTENTFUL_REFRESH_INTERVAL,
-
-    lsid: 'news', // id for localstorage
-    query: {
-      content_type: 'news', // get all news
-      'include': 2
-    },
-
-    // Events
-    onFirstRequest: (data) => {
-      console.log(data);
-      IN.widgets.news.draw($wrapper, data);
-      relativeDates();
-    },
-    onNewEntries: (data, rows) => {
-      console.log(rows);
-      IN.widgets.news.addArticles($wrapper, rows);
-      IN.widgets.news.notificate(rows);
-    },
-    onUpdateEntries: (data, rows) => {
-      IN.widgets.news.addArticles($wrapper, rows);
-      IN.widgets.news.notificate(rows);
-    },
-    onDeleteEntries: (data, rows) => {
-      console.log('Deleted: ', rows);
-    },
-    onUpdate: (data, added, updated, deleted) => {
-      relativeDates();
-    },
-    onExternalUpdate: (data) => {
-      console.log('ExternalUpdate: ', data);
-      IN.widgets.news.draw($wrapper, data);
-    }
-  });
-
-  if (ls_news_data) IN.widgets.news.draw($wrapper, ls_news_data); // Initial draw with the local storage data // shitty implementation, I know..
-
+  IN.widgets.staff.data = null; // reference for widget data
+  IN.widgets.news.data = null; // reference for widget data
 
   $('.linkscroll').linkScroll();
 
@@ -87,18 +48,23 @@
       if (typeof(val) !== 'string') continue;
       html = tplReplace(html, field, val);
     }
+    html = tplReplace(html, 'date_utc', row.sys.updatedAt);
+    html = tplReplace(html, 'date_relative', relativeDate(row.sys.updatedAt));
 
-    html = tplReplace(html, 'publisher-id', row.fields.publisher[CONTENTFUL_LANG].sys.id);
+    /*
+    let publisherid = row.fields.publisher[CONTENTFUL_LANG].sys.id;
 
-
-
-    if (row.fields.urlLabel && row.fields.url) {
-      link = ' - <a href="' + row.fields.url[CONTENTFUL_LANG] + '" target="_blank">' + row.fields.urlLabel[CONTENTFUL_LANG] + '</a>';
+    if (publisherid) {
+      html = tplReplace(html, 'publisher-id', publisherid);
+      let publisher = getRowById(IN.widgets.staff.data, publisherid);
+      if (publihser) {
+        //html = tplReplace(html, 'avatar_pic', row.sys.updatedAt);
+      } else {
+        html = tplReplace(html, 'avatar_pic', '/img/publisher-no-avatar.jpg');
+      }
     }
+    */
 
-    html +=   '<h1>' + row.fields.title[CONTENTFUL_LANG] + link + '</h1>';
-    html +=   '<time utc="' + row.sys.updatedAt + '">';
-    html += '</article>';
     return html;
   }
 
@@ -116,5 +82,13 @@
       body: row.fields.title[CONTENTFUL_LANG]
     }
     $.bnotify('MSi News', options);
+  }
+
+  function getRowById(rows, id) {
+    for (i in rows) {
+      let row = rows[i];
+      if (row.sys.id === id) return row;
+    }
+    return false;
   }
 }());

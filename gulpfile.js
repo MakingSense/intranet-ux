@@ -297,13 +297,12 @@ gulp.task('copy:vendors', function() {
 //Copy JS
 gulp.task('copy:js', ['copy:vendors'], function() {
   return gulp.src([
-      config.folderAssets.js + '/!(config|main)*.js',
-      config.folderAssets.js + '/config.js',
-      config.folderAssets.js + '/main.js' // config.js and main.js at the end
-    ]).pipe(concat('main.js', {
-      newLine: "\r\n;"
-    }))
-    .pipe(gulp.dest(config.folderDev.js));
+    config.folderAssets.js + '/!(config|main)*.js',
+    config.folderAssets.js + '/config.js',
+    config.folderAssets.js + '/main.js' // config.js and main.js at the end
+  ]).pipe(concat('main.js', {
+    newLine: "\r\n;"
+  })).pipe(gulp.dest(config.folderDev.js));
 });
 
 // Optimize Images
