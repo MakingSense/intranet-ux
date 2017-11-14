@@ -40,7 +40,7 @@
     }, // bnotify
     bnotifyEnable: () => { // Request the user for enabling notifications.
       if (!window.Notification) return false;
-      Notification.requestPermission(() => {
+      Notification.requestPermission((e) => {
         _updateStatus();
       });
     } // bnotifyEnable

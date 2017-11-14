@@ -4,7 +4,7 @@
   </div>
 </div>
 <h1>Get the latest news!</h1>
-<div class="news__list">
+<div class="news__list" id="news-list">
   <!-- build:include ../fakedata/_newsdata.html --><!-- /build -->
   <!-- build:include ../fakedata/_newsdata.html --><!-- /build -->
   <!-- build:include ../fakedata/_newsdata.html --><!-- /build -->
@@ -20,9 +20,9 @@
     <div class="news__last news-loading"><span>Loading...</span></div>
 </div>
 <div id="news-template" style="display: none;">
-  <div class="news__news {{group}}" news-id="{{id}}" publisher-id="{{publisher_id}}">
-    <picture><img src="{{avatar_pic}}" alt="{{publisher_name}}"></picture>
-    <div class="content">{{content}}</div>
-    <time datetime="{{date_utc}}">{{date_relative}}</time>
+  <div class="news__news {{cat}} {{new}}" news-id="{{row_id}}" publisher-id="{{publisher_id}}">
+    <picture><img src="{{avatar_pic}}" alt="{{publisher.firstNames}} {{publisher.lastName}}"></picture>
+    <div class="content">{{html_content}}</div>
+    <time utc="{{date_utc}}">{{date_relative}}</time>
   </div>
 </div>

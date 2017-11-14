@@ -8,7 +8,7 @@ const CONTENTFUL_LANG = 'en-US';
 const CONTENTFUL_REFRESH_INTERVAL = 5 * 1000; // 5 seconds
 
 // Browser notification defaults
-$.bnotify.blurOnly = true; // Use notifications only when the page is not active.
+$.bnotify.blurOnly = false; // Use notifications only when the page is not active.
 $.bnotify.defaults = {
   badge: '/img/notification-icon.png', // MSi badge as default for all notifications.
   icon: '/img/notification-icon.png' // MSi icon as default for all notifications.

@@ -23,17 +23,20 @@
   &__news {
     position: relative;
     padding-left: 55px;
-    padding-bottom: 26px;
-    margin-bottom: 35px;
+    padding-bottom: calc(26px + 35px);
     overflow: hidden;
     color: #534D48;
     font-size: torem(16px);
+
+    &.new {
+      display: none;
+    }
 
     &:after {
       content: '';
       position: absolute;
       left: 55px;
-      bottom: 0;
+      bottom: 35px;
       width: 120px;
       border-bottom: 1px solid #9b9b9b;
     }
