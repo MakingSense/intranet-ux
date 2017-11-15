@@ -25,6 +25,10 @@
       //IN.widgets.news.notificate(rows);
     }
   }
+  if (CONTENTFUL_DEV) {
+    options.accessToken = CONTENTFUL_PREVIEW_TOKEN;
+    options.host = 'preview.contentful.com';
+  }
   let news = $.msnews(options);
   $.bnotifyEnable();
   //setTimeout(function () { $.bnotify('My Title', { body: 'Aquarium Malenostrum' }); }, 3000);

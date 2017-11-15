@@ -55,10 +55,12 @@
           console.error('ms-news: Missing Contentful connection config.');
           return false;
         }
-        $this.client = contentful.createClient({
+        let o = {
           accessToken: $this.options.accessToken,
           space: $this.options.space
-        });
+        };
+        if ($this.options.host) o.host = $this.options.host;
+        $this.client = contentful.createClient(o);
         if (!$this.client) {
           console.log('ms-news: Unable to load client.');
           return false;
@@ -156,7 +158,7 @@
 
       function query(query) {
         let q = $.extend(true, $this.options.query, query);
-        return $this.client.getEntries(q);
+        return $this.client.getEntries(q); // Returning Promise
       }
 
       return {
