@@ -9,6 +9,7 @@
   'use strict';
 
   var NAMESPACE = 'msnews';
+  var VERSION = '0.0.1';
 
   $.extend($, {
     [NAMESPACE]: function(options) {
@@ -17,8 +18,10 @@
         accessToken: null,  // Contentful Access Token
         space: null,        //Contentful Space
         lsid: NAMESPACE,    // Local Storage ID
-        sync: false,         // Keep data synced
+        clearls: false,     // Clear Local Storage on init
+        sync: false,        // Keep data synced
         syncDelay: 10000,   // Sync delay
+
         // Default query
         query: {            // Query default options
           include: 10       // Resolve links depth
@@ -35,6 +38,8 @@
       $this.client = false;
       $this.sync = false;
       $this.syncIntervalHandle = false;
+
+      $this.lsid = ($this.options.lsid) ? NAMESPACE + '-' + $this.options.lsid : false;
       _init();
 
       // Plugin content
@@ -45,11 +50,11 @@
           $this.options.lsid = false; // No local storage $this time my friend...
           console.log('ms-news: LocalStorage is not supported by the current browser.')
         }
-        if ($this.options.lsid) {
-          $this.localdata = JSON.parse(window.localStorage.getItem(NAMESPACE + '-' + $this.options.lsid));
+        if ($this.options.clearls) {
+          clearData();
         }
         if (typeof($this.options.onInit) === 'function') {
-          $this.options.onInit.call($this, $this.localdata);
+          $this.options.onInit.call($this, getData());
         }
         if (!$this.options.accessToken || !$this.options.space) {
           console.error('ms-news: Missing Contentful connection config.');
@@ -65,26 +70,14 @@
           console.log('ms-news: Unable to load client.');
           return false;
         }
-        try {
-          $this.client.getEntries($this.options.query).then(function (entries) {
-            if ($this.options.sync) {
-              startSync();
-            }
-            if (entries) setData(entries.items);
-            if (typeof($this.options.onFirstRequest) === 'function') {
-              $this.options.onFirstRequest.call($this, $this.localdata);
-            }
-          }, function (e) {
-            console.log('Contentful connection error:', e.message);
-          });
-        } catch(e) {}
+        if ($this.options.sync) startSync();
       }
 
       function _processSync(entries) {
         if (!entries.length) return;
         addData(entries);
         if (typeof($this.options.onSyncNewData) === 'function') {
-          $this.options.onSyncNewData.call($this, entries, $this.localdata);
+          $this.options.onSyncNewData.call($this, entries, getData());
         }
       }
 
@@ -94,11 +87,11 @@
         $this.sync = true;
         var sync = () => {
           const opts = $.extend({}, $this.options.query || {});
-          if ($this.localdata.length) {
-            let lastmtime = $this.localdata[0].sys.updatedAt;
+          let data = getData();
+          if (data.length) {
+            let lastmtime = data[0].sys.updatedAt;
             opts['sys.updatedAt[gt]'] = lastmtime;
           }
-          console.log('Sync:', opts);
           $this.client.getEntries(opts).then(function (response) {
             _processSync(response.items);
             if ($this.sync) {
@@ -112,7 +105,7 @@
             }
           });
         }
-        $this.syncIntervalHandle = setTimeout(sync, $this.options.syncDelay); // Sync start
+        sync.call(this); // Sync start
         return $this;
       }
 
@@ -123,14 +116,39 @@
         return $this;
       }
 
+      function clearData() {
+        if (!$this.lsid) return $this;
+        localStorage.removeItem($this.lsid + '-v');
+        localStorage.removeItem($this.lsid);
+        $this.localdata = [];
+        return $this;
+      }
+
       function getData() {
+        if ($this.localdata === false) {
+          if ($this.lsid) {
+            let version = window.localStorage.getItem($this.lsid + '-v');
+            if (version && version === VERSION) {
+              try {
+                $this.localdata = JSON.parse(window.localStorage.getItem($this.lsid));
+                return $this.localdata;
+              } catch (e) {
+                clearData();
+              }
+            } else {
+              clearData();
+            }
+          }
+          return $this.localdata = [];
+        }
         return $this.localdata;
       }
 
       function setData(entries) {
         if ($this.options.lsid) {
           try {
-            window.localStorage.setItem(NAMESPACE + '-' + $this.options.lsid, JSON.stringify(entries));
+            window.localStorage.setItem($this.lsid + '-v', VERSION);
+            window.localStorage.setItem($this.lsid, JSON.stringify(entries));
           } catch(e) {}
         }
         $this.localdata = entries;
@@ -141,7 +159,7 @@
         if (!entries.length) return false;
 
         // Search and eliminate duplicates from local data
-        let localdata = $this.localdata;
+        let localdata = getData();
         for(let i in entries) {
           let row = entries[i];
           let id = row.sys.id;
@@ -151,7 +169,7 @@
             }
           }
         }
-        let data = entries.concat($this.localdata);
+        let data = entries.concat(localdata);
         setData(data);
         return $this;
       }
@@ -163,7 +181,9 @@
 
       return {
         getData: getData,
-        query: query
+        query: query,
+        startSync: startSync,
+        stopSync: stopSync
       };
     }
 });
