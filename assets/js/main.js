@@ -2,17 +2,8 @@
 (() => {
   'use strict';
   let $wrapper = $('#news-list');
+  let $scroll = {};
   let filter = '';
-
-  let scrollOptions = {
-    onScrollDraw: function ($elem, rows) {
-      IN.widgets.news.addArticles($elem, rows, false);
-    },
-    onDataEnd: function() {
-      $news.nextPage();
-    }
-  }
-  const $scroll = $.infiniteScroll($wrapper, scrollOptions);
 
   let newsOptions = {
     accessToken: CONTENTFUL_ACCESS_TOKEN,
@@ -25,11 +16,20 @@
       limit: 100
     },
     onInit: (data) => {
-      if (!filter) {
-        $scroll.setData(data);
-        relativeDates();
+      let options = {
+        data: data,
+        onScrollDraw: function ($elem, rows) {
+          IN.widgets.news.addArticles($elem, rows, false);
+        },
+        onDataEnd: function() {
+          $news.nextPage(filter, function (entries, data) {
+            $scroll.appendData(data);
+          });
+        }
       }
+      $scroll = $.infiniteScroll($wrapper, options);
     },
+    /*
     onFirstRequest: (data) => {
       if (!filter) {
         $scroll.setData(data);
@@ -46,6 +46,7 @@
       }
       // Notificate somehow to the user
     }
+    */
   }
   if (CONTENTFUL_DEV) {
     options.accessToken = CONTENTFUL_PREVIEW_TOKEN;
@@ -58,19 +59,27 @@
   });
 
   function setFilter(filter) {
-    let options = {};
-    if (!filter) {
-      options = {
-        onDataEnd: function () {
-          $news
+    if (!filter) filter = 'default';
+    if (typeof(this.filters) === 'undefined') this.filters = {};
+    $('html,body').scrollTop(0);
+
+    if (typeof(this.filters[filter]) === 'undefined') {
+      if (filter === 'default') {
+        $news.setQuery(filter, {});
+      } else {
+        temp = filter.split('-');
+        let yy = temp[0];
+        let mm = temp[1] + 1;
+        if (mm > 12) {
+          yy++;
+          mm = 1;
         }
+        let f = yy + '-' + mm + '-01';
+        $news.setQuery(filter, { 'sys.updatedAt[lt]': f });
       }
-    } else {
-      options = {
-        onDataEnd: function () {
-          $news
-        }
-      }
+
+      let data = $news.getData(filters);
+      $scroll.setData(data).reInit();
     }
   }
 
