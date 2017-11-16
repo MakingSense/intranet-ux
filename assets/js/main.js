@@ -18,7 +18,7 @@
     onInit: (data) => {
       let options = {
         data: data,
-        onScrollDraw: function ($elem, rows) {
+        onRenderElements: function ($elem, rows) {
           IN.widgets.news.addArticles($elem, rows, false);
         },
         onDataEnd: function() {
@@ -29,24 +29,6 @@
       }
       $scroll = $.infiniteScroll($wrapper, options);
     },
-    /*
-    onFirstRequest: (data) => {
-      if (!filter) {
-        $scroll.setData(data);
-        relativeDates();
-      }
-    },
-    onNewPage: function (entries, data) {
-      $scroll.appendData(data);
-    },
-    onSyncNewData: (rows, data) => {
-      if (!filter) {
-        IN.widgets.news.addArticles($wrapper, rows);
-        IN.widgets.news.notificate(rows);
-      }
-      // Notificate somehow to the user
-    }
-    */
   }
   if (CONTENTFUL_DEV) {
     options.accessToken = CONTENTFUL_PREVIEW_TOKEN;

@@ -10,14 +10,14 @@
 
   var pluginName = 'infiniteScroll',
     defaults = {
-      data: [],             // Array containing the data
-      startingElements: 16,    // How many elements draw on init/reset
-      dataStep: 4,          // How many elements are drawn every scroll end proc
-      dataEndMargin: 8,     // How many elements left must be in order to ask for more data
+      data: [],               // Array containing the data
+      startingElements: 16,   // How many elements draw on init/reset
+      dataStep: 4,            // How many elements are drawn every scroll end proc
+      dataEndMargin: 8,       // How many elements left must be in order to ask for more data
 
-      onScrollDraw: null,   // Callback for drawing elements. Params: (jquery container, array_to_draw, total)
-      onDataEnd: null,      // Callback on data end, for requesting more data. Params: (current index, total elements)
-      onReset: null         // Callback on init/reset
+      onRenderElements: null, // Callback for drawing elements. Params: (jquery container, array_to_draw, total)
+      onDataEnd: null,        // Callback on data end, for requesting more data. Params: (current index, total elements)
+      onReset: null           // Callback on init/reset
     };
 
   // The actual plugin constructor
@@ -69,11 +69,11 @@
       if (!qty) qty = this.settings.dataStep;
       let remaining = this._data.length - this._current;
       qty = (qty > remaining) ? remaining : qty;
-      if (qty && (typeof(this.settings.onScrollDraw) === 'function')) {
+      if (qty && (typeof(this.settings.onRenderElements) === 'function')) {
         let from = this._current;
         let to = from + qty;
         let elems = this._data.slice(from, to);
-        this.settings.onScrollDraw.call(this, this.$element, elems, from, to, this._data);
+        this.settings.onRenderElements.call(this, this.$element, elems, from, to, this._data);
       }
       this._current += qty;
       remaining -= qty;
