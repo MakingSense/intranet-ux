@@ -2,15 +2,23 @@
   float: right;
   padding-top: 5px;
 
-  .filter {
+  .select-filter {
+    display: inline-block;
     background: #5da552;
-    line-height: 25px;
     border-radius: 12.5px;
-    color: #fff;
-    font-weight: $msuxf-font-weight-semibold;
-    font-size: torem(12px);
-    min-width: 100px;
-    padding: 0 10px;
+
+    select {
+      background: transparent;
+      line-height: 25px;
+      color: #fff;
+      font-weight: $msuxf-font-weight-semibold;
+      font-size: torem(12px);
+      min-width: 100px;
+      appearance: none;
+      padding: 0 10px;
+      outline: none;
+      border: 0;
+    }
   }
 }
 

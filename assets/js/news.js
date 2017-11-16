@@ -12,14 +12,16 @@
     return $elem;
   }
 
-  IN.widgets.news.addArticles = ($elem, data) => {
+  IN.widgets.news.addArticles = ($elem, data, newdata) => {
     for (let i in data) {
       $elem.find("[news-id='" + data[i].sys.id + "']").slideUp(function () { $(this).remove(); });
-      let html = renderArticle(data[i], true);
+      let html = renderArticle(data[i], newdata);
       $elem.prepend(html);
-      $elem.find('.new').slideDown(function () {
-        $(this).removeClass('new');
-      });
+      if (newdata) {
+        $elem.find('.new').slideDown(function () {
+          $(this).removeClass('new');
+        });
+      }
     }
     return $elem;
   }

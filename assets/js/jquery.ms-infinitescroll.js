@@ -8,7 +8,7 @@
 ;(function ($, window, document, undefined) {
   'use strict';
 
-  var pluginName = 'ms-infinitescroll',
+  var pluginName = 'infiniteScroll',
     defaults = {
       data: [],             // Array containing the data
       startingElements: 16,    // How many elements draw on init/reset
@@ -36,12 +36,14 @@
   $.extend(Plugin.prototype, {
     // Private functions
     _init: function () {
-
       // Detect when scrolled to bottom.
-      this.element.addEventListener('scroll.' + pluginName, function() {
-        // Detect when half screen is remaining
-        if (this.element.scrollTop + this.element.clientHeight * 1.5 >= this.element.scrollHeight) {
-          loadMore();
+      this.$element.on('scroll.' + pluginName, function() {
+        if (typeof(this.oldScroll) === 'undefined') this.oldScroll = 0;
+        let scrollDown = (window.scrollY - this.oldScroll > 0);
+        this.oldScroll = window.scrollY;
+        // Detect when half screen is remaining and scrolling down
+        if (scrollDown && (this.element.scrollTop + this.element.clientHeight * 1.5 >= this.element.scrollHeight)) {
+          this.loadMore();
         }
       });
       this.reset();
@@ -56,22 +58,26 @@
       this.loadmore(this.settings.startingElements);
       return this;
     },
+    reInit: function(options) {
+      this.settings = $.extend({}, this.settings, options);
+      this._data = this.settings.data;
+      this._current = 0;
+      this.reset();
+    },
     // Public functions
     loadmore: function (qty) {
       if (!qty) qty = this.settings.dataStep;
       let remaining = this._data.length - this._current;
       qty = (qty > remaining) ? remaining : qty;
-      if (typeof(this.settings.onScrollDraw) !== 'function') {
-        console.error(pluginName + ': Missing "onScrollDraw" callback.');
-        return this;
+      if (qty && (typeof(this.settings.onScrollDraw) === 'function')) {
+        let from = this._current;
+        let to = from + qty;
+        let elems = this._data.slice(from, to);
+        this.settings.onScrollDraw.call(this, this.$element, elems, from, to, this._data);
       }
-      let from = this._current;
-      let to = from + qty;
-      let elems = this._data.slice(from, to);
-      this.settings.onScrollDraw.call(this, this.$element, elems, from, to, this._data);
       this._current += qty;
       remaining -= qty;
-      if ((typeof(this.settings.onDataEnd) !== 'function') && (remaining <= this.settings.dataEndMargin)) {
+      if ((typeof(this.settings.onDataEnd) === 'function') && (remaining <= this.settings.dataEndMargin)) {
         this.settings.onDataEnd.call(this, this._current, this._data.length);
       }
       return this;
@@ -85,7 +91,6 @@
         return this;
       }
       this._data = data;
-      this.reset();
       return this;
     },
     appendData: function (data) {
@@ -95,6 +100,9 @@
       }
       this._data.concat(data);
       return this;
+    },
+    destroy: function () {
+      this.$element.off('.' + pluginName);
     }
   });
 
