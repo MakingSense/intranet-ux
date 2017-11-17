@@ -43,8 +43,6 @@
   IN.widgets.staff.data = null; // reference for widget data
   IN.widgets.news.data = null; // reference for widget data
 
-  $('.linkscroll').linkScroll();
-
   return;
 
   // Functions

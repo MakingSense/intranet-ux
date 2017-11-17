@@ -1,67 +1,97 @@
 // Main scope
 (() => {
   'use strict';
-  let $wrapper = $('#news-list');
+  const wrapperSelector = '#news-list';
+  const $wrapper = $(wrapperSelector);
   let $scroll = {};
-  let filter = '';
+  let $news = {};
+  let filter = false;
 
   let newsOptions = {
-    accessToken: CONTENTFUL_ACCESS_TOKEN,
-    space: CONTENTFUL_SPACE_ID,
+    contentfulToken: CONTENTFUL_ACCESS_TOKEN,
+    contentfulSpace: CONTENTFUL_SPACE_ID,
     sync: true,
     syncDelay: 10000,
     query: {
-      content_type: 'news',
-      order: '-sys.updatedAt',
-      limit: 100
+      orderby: 'sys.updatedAt', // Field to order by
+      order: 'DESC',            // ASC or DESC
+      include: 10               // Resolve links depth (max: 10)
     },
-    onInit: (data) => {
+    onInit: function(data) {
       let options = {
+        selector: wrapperSelector,
         data: data,
+        requestOnInit: false,
         onRenderElements: function ($elem, rows) {
           IN.widgets.news.addArticles($elem, rows, false);
         },
         onDataEnd: function() {
-          $news.nextPage(filter, function (entries, data) {
-            $scroll.appendData(data);
-          });
+          if (filter) {
+            $news.nextPage(filter, function (entries, data) {
+              if (entries.length) {
+                $scroll.appendData(data);
+                $('.news--loading').show();
+                $('.news--nodata').hidden();
+              } else {
+                // Reached the end
+                $('.news--loading').hide();
+                $('.news--nodata').show();
+              }
+            });
+          }
         }
       }
-      $scroll = $.infiniteScroll($wrapper, options);
+      $scroll = $.msInfiniteScroll(options);
     },
   }
   if (CONTENTFUL_DEV) {
-    options.accessToken = CONTENTFUL_PREVIEW_TOKEN;
-    options.host = 'preview.contentful.com';
+    newsOptions.contentfulToken = CONTENTFUL_PREVIEW_TOKEN;
+    newsOptions.host = 'preview.contentful.com';
   }
-  const $news = $.msnews(newsOptions);
+  $news = $.msNews(newsOptions);
 
   $('#news-filter').change(function () {
     setFilter($(this).val());
-  });
+  }).change();
 
-  function setFilter(filter) {
-    if (!filter) filter = 'default';
-    if (typeof(this.filters) === 'undefined') this.filters = {};
+  function setFilter(val) {
+    if (!val) val = 'default';
+    if (typeof(setFilter.filters) === 'undefined') setFilter.filters = {};
     $('html,body').scrollTop(0);
 
-    if (typeof(this.filters[filter]) === 'undefined') {
-      if (filter === 'default') {
+    if (typeof(setFilter.filters[filter]) === 'undefined') {
+      if (val === 'default') {
         $news.setQuery(filter, {});
+        $news.sync(filter, function (entries, data, first) {
+          if (first) {
+            $scroll.setData(data);
+            $scroll.reset();
+          } else {
+            console.log('New data!', entries);
+          }
+        });
       } else {
-        temp = filter.split('-');
-        let yy = temp[0];
-        let mm = temp[1] + 1;
+        let temp = val.split('-');
+        let yy = parseInt(temp[0]);
+        let mm = parseInt(temp[1]) + 1;
+        mm = 2;
         if (mm > 12) {
           yy++;
-          mm = 1;
+          mm = '01';
+        } else if (mm < 10) {
+          mm = '0' + mm;
         }
-        let f = yy + '-' + mm + '-01';
-        $news.setQuery(filter, { 'sys.updatedAt[lt]': f });
+        let f = yy + '-' + mm + '-01T00:00:00.000Z';
+        $news.query(val, { 'sys.updatedAt[lt]': f }, function (data) {
+          $scroll.setData(data);
+          $scroll.reset();
+        });
+        return;
       }
-
-      let data = $news.getData(filters);
-      $scroll.setData(data).reInit();
+      filter = val;
+      let data = $news.getData(val);
+      $scroll.setData(data);
+      $scroll.reset();
     }
   }
 
@@ -71,7 +101,7 @@
   $.bnotifyEnable();
   //setTimeout(function () { $.bnotify('My Title', { body: 'Aquarium Malenostrum' }); }, 3000);
 
-  $('.linkscroll').linkScroll();
+  //$('.linkscroll').linkScroll();
 })(); // Main scope
 
 // After loading DOM

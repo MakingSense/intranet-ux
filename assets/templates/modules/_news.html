@@ -9,8 +9,11 @@
 </div>
 <h1>Get the latest news!</h1>
 <div class="news__list" id="news-list"></div>
-<div class="news__end">
+<div class="news__end news--loading">
     <div class="news__last news-loading"><span>Loading...</span></div>
+</div>
+<div class="news__end news--nodata" style="display: none;">
+    <div class="news__last news-loading"><span>End of data</span></div>
 </div>
 <div id="news-template" style="display: none;">
   <div class="news__news {{cat}} {{new}}" news-id="{{row_id}}" publisher-id="{{publisher_id}}">

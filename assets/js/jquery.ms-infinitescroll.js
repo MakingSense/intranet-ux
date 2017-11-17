@@ -1,120 +1,138 @@
+/**
+ * @library MS News
+ * @description News for MS Infinite Scroll
+ * @author Marcos Rigoli <rigoli82@gmail.com>
+ * @license MIT
+ */
 
-// Making Sense - Widget for infinite scrolling
-// Version: 0.1 Pre-alpha
-// By: Marcos Rigoli (mrigoli@makingsense.com)
-//
-// Documentation yet to be done..
-
-;(function ($, window, document, undefined) {
+;(function(window, document, $, undefined) {
   'use strict';
 
-  var pluginName = 'infiniteScroll',
-    defaults = {
-      data: [],               // Array containing the data
-      startingElements: 16,   // How many elements draw on init/reset
-      dataStep: 4,            // How many elements are drawn every scroll end proc
-      dataEndMargin: 8,       // How many elements left must be in order to ask for more data
+  const NAMESPACE = 'msInfiniteScroll';
+  const VERSION = '0.0.1';
 
-      onRenderElements: null, // Callback for drawing elements. Params: (jquery container, array_to_draw, total)
-      onDataEnd: null,        // Callback on data end, for requesting more data. Params: (current index, total elements)
-      onReset: null           // Callback on init/reset
-    };
+  $.extend($, {
+    msInfiniteScroll: function(options) {
+      const self = {};
+      const defaults = {
+        selector: null,
+        data: [],               // Array containing the data
+        startingElements: 32,   // How many elements draw on init/reset
+        dataStep: 8,            // How many elements are drawn every scroll end proc
+        dataEndMargin: 16,       // How many elements left must be in order to ask for more data
+        requestOnInit: true,
 
-  // The actual plugin constructor
-  function Plugin(element, options) {
-    this.element = element;
-    this.$element = $(this.element);
-    this.settings = $.extend({}, defaults, options);
-    this._defaults = defaults;
-    this._name = pluginName;
-    this._data = this.settings.data;
-    this._current = 0;
-    this._init();
-  }
+        onRenderElements: null, // Callback for drawing elements. Params: (jquery container, array_to_draw, total)
+        onDataEnd: null,        // Callback on data end, for requesting more data. Params: (current index, total elements)
+        onReset: null           // Callback on init/reset
+      }
+      self.options = $.extend(true, {}, defaults, options);
 
-  // Avoid Plugin.prototype conflicts
-  $.extend(Plugin.prototype, {
-    // Private functions
-    _init: function () {
-      // Detect when scrolled to bottom.
-      this.$element.on('scroll.' + pluginName, function() {
-        if (typeof(this.oldScroll) === 'undefined') this.oldScroll = 0;
-        let scrollDown = (window.scrollY - this.oldScroll > 0);
-        this.oldScroll = window.scrollY;
-        // Detect when half screen is remaining and scrolling down
-        if (scrollDown && (this.element.scrollTop + this.element.clientHeight * 1.5 >= this.element.scrollHeight)) {
-          this.loadMore();
+
+      // Private vars
+      if (self.options.selector) {
+        self.$element = $(self.options.selector);
+        self.element = self.$element.get(0);
+      }
+      self._defaults = defaults;
+      self._name = NAMESPACE;
+      self._data =  self.options.data;
+      self._current = 0;
+      _init();
+
+      // Plugin content
+
+      // private functions
+      function _init() {
+        // Detect when scrolled to bottom.
+        $(window).on('scroll.' + NAMESPACE, function() {
+          let body = document.body;
+          let html = document.documentElement;
+          let documentHeight = Math.max(body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+          if (typeof(self.oldScroll) === 'undefined') self.oldScroll = 0;
+          let scrollDown = (window.scrollY - self.oldScroll > 0);
+          self.oldScroll = window.scrollY;
+
+          // Detect when half screen is remaining and scrolling down
+          if (scrollDown && ($(window).scrollTop() + window.innerHeight * 2 >= documentHeight)) {
+            loadMore();
+          }
+        });
+        if ( self.options.requestOnInit) {
+          reset();
         }
-      });
-      this.reset();
-    },
-    reset: function () {
-      this._current = 0;
-      if (typeof(this.settings.onReset) === 'function') {
-        this.settings.onReset.call(this, this.$element);
-      } else {
-        this.$element.html('');
       }
-      this.loadmore(this.settings.startingElements);
-      return this;
-    },
-    reInit: function(options) {
-      this.settings = $.extend({}, this.settings, options);
-      this._data = this.settings.data;
-      this._current = 0;
-      this.reset();
-    },
-    // Public functions
-    loadmore: function (qty) {
-      if (!qty) qty = this.settings.dataStep;
-      let remaining = this._data.length - this._current;
-      qty = (qty > remaining) ? remaining : qty;
-      if (qty && (typeof(this.settings.onRenderElements) === 'function')) {
-        let from = this._current;
-        let to = from + qty;
-        let elems = this._data.slice(from, to);
-        this.settings.onRenderElements.call(this, this.$element, elems, from, to, this._data);
+
+      function reset() {
+        self._current = 0;
+        if (typeof(self.options.onReset) === 'function') {
+           self.options.onReset.call(self, self.$element);
+        } else {
+          self.$element.html('');
+        }
+        loadMore(self.options.startingElements);
+        return self;
       }
-      this._current += qty;
-      remaining -= qty;
-      if ((typeof(this.settings.onDataEnd) === 'function') && (remaining <= this.settings.dataEndMargin)) {
-        this.settings.onDataEnd.call(this, this._current, this._data.length);
+
+      // Public functions
+      function reInit(options) {
+        self.options = $.extend({},  self.options, options);
+        self._data =  self.options.data;
+        self._current = 0;
+        reset();
       }
-      return this;
-    },
-    getData: function () {
-      return this._data;
-    },
-    setData: function (data) {
-      if (typeof(data) !== 'array') {
-        console.error(pluginName + ': Error setting data. Data must be an array.');
-        return this;
+
+      function loadMore(qty) {
+        if (!qty) qty =  self.options.dataStep;
+        let remaining = self._data.length - self._current;
+        qty = (qty > remaining) ? remaining : qty;
+        if (qty && (typeof(self.options.onRenderElements) === 'function')) {
+          let from = self._current;
+          let to = from + qty;
+          let elems = self._data.slice(from, to);
+          self.options.onRenderElements.call(self, self.$element, elems, from, to, self._data);
+        }
+        self._current += qty;
+        remaining -= qty;
+        if ((typeof(self.options.onDataEnd) === 'function') && (remaining <=  self.options.dataEndMargin)) {
+          self.options.onDataEnd.call(self, self._current, self._data.length);
+        }
+        return self;
       }
-      this._data = data;
-      return this;
-    },
-    appendData: function (data) {
-      if (typeof(data) !== 'array') {
-        console.error(pluginName + ': Error adding data. Data must be an array.');
-        return this;
+
+      function getData() {
+        return self._data;
       }
-      this._data.concat(data);
-      return this;
-    },
-    destroy: function () {
-      this.$element.off('.' + pluginName);
+
+      function setData(data) {
+        self._data = data;
+        return self;
+      }
+
+      function appendData(data) {
+        if (typeof(data) !== 'array') {
+          console.error(NAMESPACE + ': Error adding data. Data must be an array.');
+          return self;
+        }
+        self._data.concat(data);
+        return self;
+      }
+
+      function destroy() {
+        self.$element.off('.' + NAMESPACE);
+      }
+
+      return {
+        reset: reset,
+        reInit: reInit,
+        loadMore: loadMore,
+        getData: getData,
+        setData: setData,
+        appendData: appendData,
+        destroy: destroy
+      };
     }
-  });
-
-  // A really lightweight plugin wrapper around the constructor,
-  // preventing against multiple instantiations
-  $.fn[pluginName] = function (options) {
-    return this.each(function () {
-      if (!$.data(this, 'plugin_' + pluginName)) {
-        $.data(this, 'plugin_' +
-          pluginName, new Plugin(this, options));
-      }
-    });
-  };
-
-})(jQuery, window, document);
+});
+}(this, this.document, this.jQuery));
