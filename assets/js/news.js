@@ -17,7 +17,6 @@
     if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       IN.widgets.news.unread.push(data[i].sys.id);
-      console.log('push!', data[i].sys.id);
       if (draw) {
         let html = renderArticle(data[i]);
         $elem.prepend(html);
