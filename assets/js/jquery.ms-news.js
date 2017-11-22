@@ -18,17 +18,21 @@
         contentfulToken: null,      // Contentful Access Token
         contentfulSpace: null,      // Contentful Space
         space: 'default',           // Default data space (for caching)
+        modField: 'sys.updatedAt',
         lsid: NAMESPACE,            // Local Storage ID
         sync: false,                // Keep data synced
         syncDelay: 10000,           // Sync delay
 
         // Default query
         query: {                    // Query default options
+          limit: 100,
           include: 10               // Resolve links depth (max: 10)
         },
 
         // Callbacks
         onInit: null,               // Callback on init (entries from localstorage)
+        onQuery: null,              // Called at the beginning of a query
+        afterQuery: null            // Called at the end of a query
       }
       self.options = $.extend(true, {}, defaults, options);
 
@@ -97,13 +101,12 @@
         let q = $.extend({}, s.query);
         q.order = 'DESC' ? '-' + s.query.orderby : s.query.orderby;
         delete q.orderby;
-        self.client.getEntries(q).then(function (response) {
+        get(q).then(function (response) {
           let entries = response.items;
-          if (entries) {
-            setData(s.name, entries);
-            if (typeof(callback) === 'function') {
-              callback.call(self, getData(s.name));
-            }
+          if (entries.length < s.query.limit) s.lastPage = true;
+          setData(s.name, entries);
+          if (typeof(callback) === 'function') {
+            callback.call(self, getData(s.name));
           }
         }, (e) => { // On sync error
           console.log(NAMESPACE + ': Query error.', e, q);
@@ -125,26 +128,20 @@
         var sync = (s, first) => {
           let data = getData(s.name);
           let q = $.extend(true, {}, s.query); // Copy object
-          if (!q.order || !q.orderby) {
-            console.error(NAMESPACE + ': Sync query must have an order and orderby clause.');
-            return self;
-          }
-          // This needs some work...
           q.order = 'DESC' ? '-' + s.query.orderby : s.query.orderby;
-          if (data.length) {
-            let temp = s.query.orderby.split('.');
-            let value = data[0][temp[0]][temp[1]];
-            let operator = s.query.order === 'DESC' ? 'gt' : 'lt';
-            let filter = s.query.orderby + '[' + operator + ']';
+          let latest = getLatestEntry(s.name);
+          if (latest !== false) {
+            let value = omap(latest, self.options.modField);
+            let filter = self.options.modField + '[gt]';
             q[filter] = value;
           }
           delete q.orderby;
           self.client.getEntries(q).then(function (response) {
             let entries = response.items;
             if (first || entries.length) {
-              prependData(entries, s.name);
+              let result = updateData(entries, s.name);
               if (typeof(callback) === 'function') {
-                callback.call(self, entries, getData(s.name), first);
+                callback.call(self, result, getData(s.name), first);
               }
             }
             s.syncIntervalHandle = setTimeout(() => { sync(s) }, self.options.syncDelay);
@@ -154,6 +151,43 @@
         }
         sync(s, true); // Sync start
         return self;
+      }
+
+      function getLatestEntry(space) {
+        let s = _getSpace(space);
+        let opath = self.options.modField;
+        let data = getData(s.name);
+        let latest = false;
+        for (let i in data) {
+          if (latest === false || omap(data[i], opath) > omap(latest, opath)) {
+            latest = data[i];
+          }
+        }
+        return latest;
+      }
+
+      function get(q) {
+        if (typeof(self.options.onQuery) === 'function') {
+          self.options.onQuery.call(self, true);
+        }
+        return self.client.getEntries(q).then(function (result) {
+          if (typeof(self.options.afterQuery) === 'function') {
+            self.options.afterQuery.call(self, result, q);
+          }
+          return result;
+        }, function (e) {
+          if (typeof(self.options.afterQuery) === 'function') {
+            self.options.afterQuery.call(self, false, q, e);
+          }
+          return e;
+        });
+      }
+
+      function omap(obj, map) {
+        let walker = obj;
+        var arr = map.split(".");
+        while(arr.length && walker) { walker = walker[arr.shift()]; }
+        return walker;
       }
 
       function stopSync(space) {
@@ -211,6 +245,31 @@
         return self;
       }
 
+      function updateData(entries, space) {
+        // update data mantaining order
+        let s = _getSpace(space);
+        if (!entries.length) return false;
+
+        // Search and eliminate duplicates from local data
+        let localdata = getData(space);
+        for(let i in entries) {
+          let row = entries[i];
+          let id = row.sys.id;
+          for (let j in localdata) {
+            if (localdata[j].sys.id == id) {
+              localdata.splice(j, 1);
+            }
+          }
+        }
+        let data = entries.concat(localdata);
+        setData(data, s.name);
+        let output = {
+          updated: false,
+          new: false
+        }
+        return self;
+      }
+
       function prependData(entries, space) {
         let s = _getSpace(space);
         if (!entries.length) return false;
@@ -256,7 +315,16 @@
           console.error(NAMESPACE + ": Can't get next page from space without previous query or sync.");
           return false;
         }
-        if (s.pQuery || s.lastPage) return false; // Already querying...
+
+        if (s.pQuery) return false; // Already querying...
+
+        if (s.lastPage) {
+          if (typeof(callback) === 'function') {
+            callback(self, [], getData(s.name));
+          }
+          return false;
+        }
+
         s.pQuery = true;
         let data = getData(s.name);
         let q = $.extend({}, s.query); // Copy object
@@ -275,14 +343,14 @@
           q[filter] = value;
         }
         delete q.orderby;
-        self.client.getEntries(q).then(function (response) {
+        get(q).then(function (response) {
           s.pQuery = false;
           let entries = response.items;
           if (!entries.length) {
             s.lastPage = true;
-            return;
+          } else {
+            appendData(entries, s.name);
           }
-          appendData(entries, s.name);
           if (typeof(callback) === 'function') {
             callback(self, entries, getData(s.name));
           }

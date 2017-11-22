@@ -23,7 +23,7 @@
         data: data,
         requestOnInit: false,
         onRenderElements: function ($elem, rows) {
-          IN.widgets.news.addArticles($elem, rows, false);
+          IN.widgets.news.appendArticles($elem, rows);
         },
         onDataEnd: function() {
           if (filter) {
@@ -31,7 +31,7 @@
               if (entries.length) {
                 $scroll.appendData(data);
                 $('.news--loading').show();
-                $('.news--nodata').hidden();
+                $('.news--nodata').hide();
               } else {
                 // Reached the end
                 $('.news--loading').hide();
@@ -43,6 +43,10 @@
       }
       $scroll = $.msInfiniteScroll(options);
     },
+    onQuery: function() {
+      $('.news--loading').show();
+      $('.news--nodata').hide();
+    }
   }
   if (CONTENTFUL_DEV) {
     newsOptions.contentfulToken = CONTENTFUL_PREVIEW_TOKEN;
@@ -56,6 +60,7 @@
 
   function setFilter(val) {
     if (!val) val = 'default';
+    filter = val;
     if (typeof(setFilter.filters) === 'undefined') setFilter.filters = {};
     $('html,body').scrollTop(0);
 
@@ -74,7 +79,6 @@
         let temp = val.split('-');
         let yy = parseInt(temp[0]);
         let mm = parseInt(temp[1]) + 1;
-        mm = 2;
         if (mm > 12) {
           yy++;
           mm = '01';
@@ -82,21 +86,20 @@
           mm = '0' + mm;
         }
         let f = yy + '-' + mm + '-01T00:00:00.000Z';
-        $news.query(val, { 'sys.updatedAt[lt]': f }, function (data) {
+        f = '2017-01-01T00:00:00.000Z';
+        $news.query(val, { 'sys.createdAt[lt]': f }, function (data) {
           $scroll.setData(data);
           $scroll.reset();
         });
-        return;
       }
-      filter = val;
-      let data = $news.getData(val);
-      $scroll.setData(data);
-      $scroll.reset();
+      setFilter.filters[filter] = true;
+      return;
     }
+
+    let data = $news.getData(val);
+    $scroll.setData(data);
+    $scroll.reset();
   }
-
-
-  //renderNews($wrapper); // Start by showing the news.
 
   $.bnotifyEnable();
   //setTimeout(function () { $.bnotify('My Title', { body: 'Aquarium Malenostrum' }); }, 3000);

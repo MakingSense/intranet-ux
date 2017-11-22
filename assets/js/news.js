@@ -2,7 +2,7 @@
   'use strict';
 
   IN.widgets.news = {};
-  IN.widgets.staff = {};
+  IN.widgets.news.template = $('#news-template').html();
 
   IN.widgets.news.draw = ($elem, data) => {
     $elem.html('');
@@ -12,15 +12,30 @@
     return $elem;
   }
 
-  IN.widgets.news.addArticles = ($elem, data, newdata) => {
+  IN.widgets.news.addNewArticles = ($elem, data) => {
     for (let i in data) {
-      $elem.find("[news-id='" + data[i].sys.id + "']").slideUp(function () { $(this).remove(); });
-      let html = renderArticle(data[i], newdata);
-      $elem.prepend(html);
-      if (newdata) {
+      let html = renderArticle(data[i], isnew);
+      let $old = $elem.find("[news-id='" + data[i].sys.id + "']");
+      if ($old) {
+        $old.replaceWith(html);
+      } else {
+        $elem.prepend(html);
         $elem.find('.new').slideDown(function () {
           $(this).removeClass('new');
         });
+      }
+    }
+    return $elem;
+  }
+
+  IN.widgets.news.appendArticles = ($elem, data) => {
+    for (let i in data) {
+      let html = renderArticle(data[i], false);
+      let $old = $elem.find("[news-id='" + data[i].sys.id + "']");
+      if ($old.length) {
+        $old.replaceWith(html);
+      } else {
+        $elem.append(html);
       }
     }
     return $elem;
@@ -40,37 +55,27 @@
     }
   }
 
-  IN.widgets.staff.data = null; // reference for widget data
-  IN.widgets.news.data = null; // reference for widget data
-
   return;
 
   // Functions
 
   function renderArticle(row, isnew) {
-    let html = $('#news-template').html();
+    let html = IN.widgets.news.template;
     traverse(row, false, (path, val) => {
       html = tplReplace(html, path, val);
     });
 
     let pic = (typeof row.fields.publisher.fields.profilePic.fields.file.url  !== 'undefined') ? row.fields.publisher.fields.profilePic.fields.file.url + '?w=40' : '/img/publisher-no-avatar.jpg';
     html = tplReplace(html, 'avatar_pic', pic);
-
     let newclass = isnew ? 'new unseen' : '';
     html = tplReplace(html, 'new', newclass);
-
     html = tplReplace(html, 'html_content', marked(row.fields.content));
-
-
     let cat = (row.fields.category) ? 'cat-' + row.fields.category : 'cat-none';
     html = tplReplace(html, 'cat', cat);
-
     html = tplReplace(html, 'row_id', row.sys.id);
     html = tplReplace(html, 'publisher_id', row.fields.publisher.sys.id);
-
     html = tplReplace(html, 'date_utc', row.sys.updatedAt);
     html = tplReplace(html, 'date_relative', relativeDate(row.sys.updatedAt));
-
     return html;
 
     function traverse(obj, path, callback) {

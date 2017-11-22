@@ -60,7 +60,7 @@
             loadMore();
           }
         });
-        if ( self.options.requestOnInit) {
+        if (self.options.requestOnInit) {
           reset();
         }
       }
