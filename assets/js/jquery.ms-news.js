@@ -101,12 +101,14 @@
         let q = $.extend({}, s.query);
         q.order = 'DESC' ? '-' + s.query.orderby : s.query.orderby;
         delete q.orderby;
+        console.log('Query:', q);
         get(q).then(function (response) {
           let entries = response.items;
+          console.log('Query Result:', entries);
           if (entries.length < s.query.limit) s.lastPage = true;
           setData(s.name, entries);
           if (typeof(callback) === 'function') {
-            callback.call(self, getData(s.name));
+            callback.call(self, entries);
           }
         }, (e) => { // On sync error
           console.log(NAMESPACE + ': Query error.', e, q);
@@ -123,10 +125,8 @@
       function sync(space, callback) {
         let s = _getSpace(space);
         if (s.sync) return self;
-        let data = getData(s.name);
         s.sync = true;
         var sync = (s, first) => {
-          let data = getData(s.name);
           let q = $.extend(true, {}, s.query); // Copy object
           q.order = 'DESC' ? '-' + s.query.orderby : s.query.orderby;
           let latest = getLatestEntry(s.name);
@@ -139,14 +139,15 @@
           self.client.getEntries(q).then(function (response) {
             let entries = response.items;
             if (first || entries.length) {
+              console.log('Sync:', s.name, entries.length, first);
               let result = updateData(entries, s.name);
               if (typeof(callback) === 'function') {
                 callback.call(self, result, getData(s.name), first);
               }
             }
-            s.syncIntervalHandle = setTimeout(() => { sync(s) }, self.options.syncDelay);
+            s.syncIntervalHandle = setTimeout(() => { sync(s, false) }, self.options.syncDelay);
           }, (e) => { // On sync error
-            s.syncIntervalHandle = setTimeout(() => { sync(s) }, self.options.syncDelay);
+            s.syncIntervalHandle = setTimeout(() => { sync(s, false) }, self.options.syncDelay);
           });
         }
         sync(s, true); // Sync start
@@ -209,15 +210,17 @@
       }
 
       function getData(space) {
+        console.log('GetData:', space);
         let s = _getSpace(space);
         if (s.localdata === false) {
           if (self.lsid) {
             let ls = self.lsid + '-' + s.name;
             let version = window.localStorage.getItem(ls + '-v');
+            console.log(ls, version);
             if (version === VERSION) {
               try {
                 s.localdata = JSON.parse(window.localStorage.getItem(ls));
-                s.hasData = true;
+                console.log('ls data:', s.localdata);
                 return s.localdata;
               } catch (e) {
                 clearData(s.name);
@@ -232,6 +235,7 @@
       }
 
       function setData(entries, space) {
+        console.log('SetData:', space, entries);
         let s = _getSpace(space);
         if (self.options.lsid) {
           let ls = self.lsid + '-' + s.name;
@@ -240,7 +244,6 @@
             window.localStorage.setItem(ls, JSON.stringify(entries));
           } catch(e) {}
         }
-        s.hasData = true;
         s.localdata = entries;
         return self;
       }
@@ -267,7 +270,7 @@
           updated: false,
           new: false
         }
-        return self;
+        return output;
       }
 
       function prependData(entries, space) {
@@ -294,7 +297,7 @@
         let s = _getSpace(space);
         if (!entries.length) return false;
         // Search and eliminate duplicates from local data
-        let localdata = getData();
+        let localdata = getData(space);
         for(let i in entries) {
           let row = entries[i];
           let id = row.sys.id;

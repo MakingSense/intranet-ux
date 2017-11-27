@@ -15,7 +15,8 @@
     query: {
       orderby: 'sys.updatedAt', // Field to order by
       order: 'DESC',            // ASC or DESC
-      include: 10               // Resolve links depth (max: 10)
+      include: 10,              // Resolve links depth (max: 10)
+      content_type: 'news'
     },
     onInit: function(data) {
       let options = {
@@ -64,41 +65,41 @@
     if (typeof(setFilter.filters) === 'undefined') setFilter.filters = {};
     $('html,body').scrollTop(0);
 
-    if (typeof(setFilter.filters[filter]) === 'undefined') {
-      if (val === 'default') {
-        $news.setQuery(filter, {});
-        $news.sync(filter, function (entries, data, first) {
-          if (first) {
-            $scroll.setData(data);
-            $scroll.reset();
-          } else {
-            console.log('New data!', entries);
-          }
-        });
-      } else {
-        let temp = val.split('-');
-        let yy = parseInt(temp[0]);
-        let mm = parseInt(temp[1]) + 1;
-        if (mm > 12) {
-          yy++;
-          mm = '01';
-        } else if (mm < 10) {
-          mm = '0' + mm;
-        }
-        let f = yy + '-' + mm + '-01T00:00:00.000Z';
-        f = '2017-01-01T00:00:00.000Z';
-        $news.query(val, { 'sys.createdAt[lt]': f }, function (data) {
+    if (typeof(setFilter.filters[filter]) !== 'undefined') {
+      let data = $news.getData(val);
+      $scroll.setData(data);
+      $scroll.reset();
+    } else if (val === 'default') {
+      $news.setQuery(filter, {});
+      $news.sync(filter, function (result, data, first) {
+        if (first) {
           $scroll.setData(data);
           $scroll.reset();
-        });
-      }
-      setFilter.filters[filter] = true;
-      return;
+        } else {
+          console.log('New data!', result, data, first);
+        }
+      });
     }
 
-    let data = $news.getData(val);
-    $scroll.setData(data);
-    $scroll.reset();
+    if (val !== 'default') {
+      let temp = val.split('-');
+      let yy = parseInt(temp[0]);
+      let mm = parseInt(temp[1]) + 1;
+      if (mm > 12) {
+        yy++;
+        mm = '01';
+      } else if (mm < 10) {
+        mm = '0' + mm;
+      }
+      let f = yy + '-' + mm + '-01T00:00:00.000Z';
+      f = '2017-11-15T00:00:00.000Z';
+      $news.query(val, { 'sys.createdAt[lt]': f }, function (data) {
+        console.log('Query result callback:', data);
+        $scroll.setData(data);
+        $scroll.reset();
+      });
+    }
+    setFilter.filters[filter] = true;
   }
 
   $.bnotifyEnable();
@@ -112,3 +113,15 @@ $(() => {
   'use strict';
 
 }); // onready
+
+
+// Function which allows to navigate an object properties by a string
+function omap(obj, map) {
+  let walker = obj;
+  var arr = map.split(".");
+  while(arr.length && walker) {
+    walker = walker[arr.shift()];
+    if (typeof(walker) === 'undefined') return null;
+  }
+  return walker;
+}

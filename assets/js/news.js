@@ -65,7 +65,8 @@
       html = tplReplace(html, path, val);
     });
 
-    let pic = (typeof row.fields.publisher.fields.profilePic.fields.file.url  !== 'undefined') ? row.fields.publisher.fields.profilePic.fields.file.url + '?w=40' : '/img/publisher-no-avatar.jpg';
+    let pic = omap(row, 'fields.publisher.fields.profilePic.fields.file.url');
+    pic = (pic) ? pic + '?w=40' : '/img/publisher-no-avatar.jpg';
     html = tplReplace(html, 'avatar_pic', pic);
     let newclass = isnew ? 'new unseen' : '';
     html = tplReplace(html, 'new', newclass);

@@ -92,6 +92,7 @@
           let from = self._current;
           let to = from + qty;
           let elems = self._data.slice(from, to);
+          console.log('render:', elems, self._data, from, to);
           self.options.onRenderElements.call(self, self.$element, elems, from, to, self._data);
         }
         self._current += qty;
