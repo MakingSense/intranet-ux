@@ -92,7 +92,6 @@
         mm = '0' + mm;
       }
       let f = yy + '-' + mm + '-01T00:00:00.000Z';
-      f = '2017-11-15T00:00:00.000Z';
       $news.query(val, { 'sys.createdAt[lt]': f }, function (data) {
         console.log('Query result callback:', data);
         $scroll.setData(data);
@@ -101,6 +100,23 @@
     }
     setFilter.filters[filter] = true;
   }
+
+  // Checking filters
+  $news.query('filters', { orderby: 'sys.createdAt', order: 'ASC', limit: 1 }, function (elem) {
+    if (!elem.length) return false;
+    let $filter = $('#news-filter');
+    let oldest = new Date(omap(elem[0], 'sys.createdAt'));
+    let now = new Date();
+    let mdiff = monthDiff(oldest, now);
+    if (monthdiff < 2) return false; // no filter needed
+    let display_format = (mdiff > 12) ? 'MMMM YYYY' : 'MMMM';
+    let wdate = moment();
+    for (let i=1;i<mdiff; i++) {
+      wdate.subtract(1, 'month');
+      $filter.append('<option value="' + wdate.format('YYYY-MM') + '">' + wdate.format(display_format) + '</option>');
+    }
+    $filter.fadeIn();
+  });
 
   $.bnotifyEnable();
   //setTimeout(function () { $.bnotify('My Title', { body: 'Aquarium Malenostrum' }); }, 3000);
@@ -124,4 +140,12 @@ function omap(obj, map) {
     if (typeof(walker) === 'undefined') return null;
   }
   return walker;
+}
+
+function monthDiff(d1, d2) {
+  var months;
+  months = (d2.getFullYear() - d1.getFullYear()) * 12;
+  months -= d1.getMonth() + 1;
+  months += d2.getMonth();
+  return months <= 0 ? 0 : months;
 }

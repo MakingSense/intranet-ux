@@ -98,9 +98,11 @@
         let s = _getSpace(space);
         let data = getData(s.name);
         s.query = $.extend(true, {}, self.options.query || {}, query || {});
+        console.log('Raw Query:', s.query);
         let q = $.extend({}, s.query);
-        q.order = 'DESC' ? '-' + s.query.orderby : s.query.orderby;
+        q.order = (q.order === 'DESC') ? '-' + s.query.orderby : s.query.orderby;
         delete q.orderby;
+        console.log(s.query.orderby);
         console.log('Query:', q);
         get(q).then(function (response) {
           let entries = response.items;
@@ -184,10 +186,14 @@
         });
       }
 
+      // Function which allows to navigate an object properties by a string
       function omap(obj, map) {
         let walker = obj;
         var arr = map.split(".");
-        while(arr.length && walker) { walker = walker[arr.shift()]; }
+        while(arr.length && walker) {
+          walker = walker[arr.shift()];
+          if (typeof(walker) === 'undefined') return null;
+        }
         return walker;
       }
 
@@ -210,17 +216,14 @@
       }
 
       function getData(space) {
-        console.log('GetData:', space);
         let s = _getSpace(space);
         if (s.localdata === false) {
           if (self.lsid) {
             let ls = self.lsid + '-' + s.name;
             let version = window.localStorage.getItem(ls + '-v');
-            console.log(ls, version);
             if (version === VERSION) {
               try {
                 s.localdata = JSON.parse(window.localStorage.getItem(ls));
-                console.log('ls data:', s.localdata);
                 return s.localdata;
               } catch (e) {
                 clearData(s.name);
