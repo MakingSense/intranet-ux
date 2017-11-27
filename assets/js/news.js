@@ -199,7 +199,6 @@
     let options = {
       body: message
     }
-    console.log(options);
     $.bnotify('MSi News', options);
   }
 
