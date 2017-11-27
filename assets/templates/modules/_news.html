@@ -11,12 +11,13 @@
     <div class="news__last news-loading"><span>Loading...</span></div>
 </div>
 <div class="news__end news--nodata" style="display: none;">
-    <div class="news__last news-loading"><span>End of data</span></div>
+    <div class="news__last news-loading"><span>No previous news</span></div>
 </div>
 <div id="news-template" style="display: none;">
-  <div class="news__news {{cat}} {{new}}" news-id="{{row_id}}" publisher-id="{{publisher_id}}">
+  <div class="news__news {{cat}} {{class}}" news-id="{{row_id}}" publisher-id="{{publisher_id}}">
     <picture><img src="{{avatar_pic}}" alt="{{publisher.firstNames}} {{publisher.lastName}}"></picture>
     <div class="content">{{html_content}}</div>
     <time utc="{{date_utc}}">{{date_relative}}</time>
   </div>
 </div>
+<a href="#" id="new-messages" class="newmessages"><span class="newmessages__qty"></span></a>

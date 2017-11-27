@@ -16,7 +16,7 @@
       orderby: 'sys.updatedAt', // Field to order by
       order: 'DESC',            // ASC or DESC
       include: 10,              // Resolve links depth (max: 10)
-      content_type: 'news'
+      content_type: 'news'      // Contentful model type
     },
     onInit: function(data) {
       let options = {
@@ -25,6 +25,7 @@
         requestOnInit: false,
         onRenderElements: function ($elem, rows) {
           IN.widgets.news.appendArticles($elem, rows);
+          IN.widgets.news.checkUnread();
         },
         onDataEnd: function() {
           if (filter) {
@@ -59,6 +60,12 @@
     setFilter($(this).val());
   }).change();
 
+  $('#new-messages').click(function (e) {
+    e.preventDefault();
+    $('#news-filter').val('default').change();
+    $(window).scrollTop(0);
+  });
+
   function setFilter(val) {
     if (!val) val = 'default';
     filter = val;
@@ -76,6 +83,15 @@
           $scroll.setData(data);
           $scroll.reset();
         } else {
+          IN.widgets.news.replaceArticles(result.updated);
+          for (let i in result.new) {
+            IN.widgets.news.unread.push(result.new[i].sys.id);
+          }
+          if (filter === 'default') {
+            IN.widgets.news.addArticles(result.new);
+          }
+          $(window).scroll();
+          IN.widgets.news.checkUnread();
           console.log('New data!', result, data, first);
         }
       });
@@ -93,7 +109,6 @@
       }
       let f = yy + '-' + mm + '-01T00:00:00.000Z';
       $news.query(val, { 'sys.createdAt[lt]': f }, function (data) {
-        console.log('Query result callback:', data);
         $scroll.setData(data);
         $scroll.reset();
       });
@@ -105,13 +120,14 @@
   $news.query('filters', { orderby: 'sys.createdAt', order: 'ASC', limit: 1 }, function (elem) {
     if (!elem.length) return false;
     let $filter = $('#news-filter');
+    let laststr = omap(elem[0], 'sys.createdAt');
     let oldest = new Date(omap(elem[0], 'sys.createdAt'));
     let now = new Date();
     let mdiff = monthDiff(oldest, now);
-    if (monthdiff < 2) return false; // no filter needed
-    let display_format = (mdiff > 12) ? 'MMMM YYYY' : 'MMMM';
+    if (mdiff < 1) return false; // no filter needed
+    let display_format = (mdiff > 11) ? 'MMMM YYYY' : 'MMMM';
     let wdate = moment();
-    for (let i=1;i<mdiff; i++) {
+    for (let i=1;i<=mdiff; i++) {
       wdate.subtract(1, 'month');
       $filter.append('<option value="' + wdate.format('YYYY-MM') + '">' + wdate.format(display_format) + '</option>');
     }
@@ -145,7 +161,7 @@ function omap(obj, map) {
 function monthDiff(d1, d2) {
   var months;
   months = (d2.getFullYear() - d1.getFullYear()) * 12;
-  months -= d1.getMonth() + 1;
+  months -= d1.getMonth();
   months += d2.getMonth();
   return months <= 0 ? 0 : months;
 }

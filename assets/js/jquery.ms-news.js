@@ -98,17 +98,13 @@
         let s = _getSpace(space);
         let data = getData(s.name);
         s.query = $.extend(true, {}, self.options.query || {}, query || {});
-        console.log('Raw Query:', s.query);
         let q = $.extend({}, s.query);
         q.order = (q.order === 'DESC') ? '-' + s.query.orderby : s.query.orderby;
         delete q.orderby;
-        console.log(s.query.orderby);
-        console.log('Query:', q);
         get(q).then(function (response) {
           let entries = response.items;
-          console.log('Query Result:', entries);
           if (entries.length < s.query.limit) s.lastPage = true;
-          setData(s.name, entries);
+          setData(entries, s.name);
           if (typeof(callback) === 'function') {
             callback.call(self, entries);
           }
@@ -141,7 +137,6 @@
           self.client.getEntries(q).then(function (response) {
             let entries = response.items;
             if (first || entries.length) {
-              console.log('Sync:', s.name, entries.length, first);
               let result = updateData(entries, s.name);
               if (typeof(callback) === 'function') {
                 callback.call(self, result, getData(s.name), first);
@@ -238,7 +233,6 @@
       }
 
       function setData(entries, space) {
-        console.log('SetData:', space, entries);
         let s = _getSpace(space);
         if (self.options.lsid) {
           let ls = self.lsid + '-' + s.name;

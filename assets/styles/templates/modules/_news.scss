@@ -23,12 +23,16 @@
 }
 
 .news {
+
   h1 {
     color: #000;
     margin-bottom: torem(50px);
   }
 
   &__news {
+    transition: opacity 1s ease, color 2s ease;
+    opacity: 1;
+    color: #534d48;
     position: relative;
     padding-left: 55px;
     padding-bottom: calc(26px + 35px);
@@ -36,8 +40,10 @@
     color: #534D48;
     font-size: torem(16px);
 
-    &.new {
+    &.unread {
       display: none;
+      opacity: 0;
+      color: #ebbf2f;
     }
 
     &:after {
@@ -104,5 +110,40 @@
       background: #fff;
       position: relative;
     }
+  }
+}
+
+.newmessages {
+  transition: all 2s ease;
+  position: fixed;
+  visibility: hidden;
+  right: 20px;
+  bottom: 20px;
+  opacity: 0;
+  min-width: 40px;
+  border-radius: 20px;
+  background: #ffc413;
+  color: #000;
+  text-align: center;
+  line-height: 40px;
+  padding: 0 10px;
+  font-size: 12px;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: calc(50% - 10px);
+    width: 0;
+    height: 0;
+
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ffc413;
   }
 }

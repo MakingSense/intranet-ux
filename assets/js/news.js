@@ -3,6 +3,7 @@
 
   IN.widgets.news = {};
   IN.widgets.news.template = $('#news-template').html();
+  IN.widgets.news.unread = [];
 
   IN.widgets.news.draw = ($elem, data) => {
     $elem.html('');
@@ -12,23 +13,41 @@
     return $elem;
   }
 
-  IN.widgets.news.addNewArticles = ($elem, data) => {
+  IN.widgets.news.addArticles = ($elem, data) => {
+    if (data === false || !data.length) return;
     for (let i in data) {
-      let html = renderArticle(data[i], isnew);
+      let html = renderArticle(data[i]);
+      $elem.prepend(html);
+    }
+    return $elem;
+  }
+
+  IN.widgets.news.replaceArticles = ($elem, data) => {
+    if (data === false || !data.length) return;
+    for (let i in data) {
+      let html = renderArticle(data[i]);
       let $old = $elem.find("[news-id='" + data[i].sys.id + "']");
       if ($old) {
         $old.replaceWith(html);
-      } else {
-        $elem.prepend(html);
-        $elem.find('.new').slideDown(function () {
-          $(this).removeClass('new');
-        });
       }
     }
     return $elem;
   }
 
+  IN.widgets.news.checkUnread = () => {
+    let $nmessages = $('#new-messages');
+    let qty = IN.widgets.news.unread.length;
+    let message = qty + (qty === 1 ? ' new message' : ' new messages');
+    $nmessages.find('.newmessages__qty').html(message);
+    if (IN.widgets.news.unread.length) {
+      $nmessages.addClass('active');
+    } else {
+      $nmessages.removeClass('active');
+    }
+  }
+
   IN.widgets.news.appendArticles = ($elem, data) => {
+    if (data === false || !data.length) return;
     for (let i in data) {
       let html = renderArticle(data[i], false);
       let $old = $elem.find("[news-id='" + data[i].sys.id + "']");
@@ -55,6 +74,51 @@
     }
   }
 
+  $(window).on('scroll.brandnews', function () {
+    $('.news__news.unread').each(function () {
+      let $this = $(this);
+      let top = $this.offset().top;
+      let vh = getViewportHeight();
+      let st = (document.documentElement.scrollTop ?
+          document.documentElement.scrollTop :
+          document.body.scrollTop);
+      if (top >= st && top <= st + vh) {
+        // Element entered view
+        showNews($this);
+      }
+    });
+    return;
+
+    // Functions
+
+    function showNews($elem) {
+      let id = $elem.attr('news-id');
+      if (id) {
+        console.log('showNews!', id);
+        let i = IN.widgets.news.unread.indexOf(id);
+        if (i !== -1) IN.widgets.news.unread.splice(i, 1);
+      }
+      $elem.slideDown(function () {
+        $elem.removeClass('unread');
+        IN.widgets.news.checkUnread();
+      });
+    }
+
+    function getViewportHeight() {
+      var height = window.innerHeight; // Safari, Opera
+      var mode = document.compatMode;
+
+      if ( (mode || !$.support.boxModel) ) { // IE, Gecko
+          height = (mode == 'CSS1Compat') ?
+          document.documentElement.clientHeight : // Standards
+          document.body.clientHeight; // Quirks
+      }
+
+      return height;
+    }
+
+  }).scroll();
+
   return;
 
   // Functions
@@ -68,15 +132,15 @@
     let pic = omap(row, 'fields.publisher.fields.profilePic.fields.file.url');
     pic = (pic) ? pic + '?w=40' : '/img/publisher-no-avatar.jpg';
     html = tplReplace(html, 'avatar_pic', pic);
-    let newclass = isnew ? 'new unseen' : '';
-    html = tplReplace(html, 'new', newclass);
+    let cssclass = isNew(row.sys.id) ? 'unread' : '';
+    html = tplReplace(html, 'class', cssclass);
     html = tplReplace(html, 'html_content', marked(row.fields.content));
     let cat = (row.fields.category) ? 'cat-' + row.fields.category : 'cat-none';
     html = tplReplace(html, 'cat', cat);
     html = tplReplace(html, 'row_id', row.sys.id);
     html = tplReplace(html, 'publisher_id', row.fields.publisher.sys.id);
-    html = tplReplace(html, 'date_utc', row.sys.updatedAt);
-    html = tplReplace(html, 'date_relative', relativeDate(row.sys.updatedAt));
+    html = tplReplace(html, 'date_utc', row.sys.createdAt);
+    html = tplReplace(html, 'date_relative', relativeDate(row.sys.createdAt));
     return html;
 
     function traverse(obj, path, callback) {
@@ -89,6 +153,10 @@
         callback(path, obj);
       }
     }
+  }
+
+  function isNew(id) {
+    return IN.widgets.news.unread.indexOf(id) !== -1;
   }
 
   function regexEscape(string) {

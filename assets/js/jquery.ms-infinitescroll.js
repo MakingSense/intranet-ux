@@ -1,6 +1,6 @@
 /**
- * @library MS News
- * @description News for MS Infinite Scroll
+ * @library MS InfiniteScroll
+ * @description Infinite Scrollling
  * @author Marcos Rigoli <rigoli82@gmail.com>
  * @license MIT
  */
@@ -73,6 +73,7 @@
           self.$element.html('');
         }
         loadMore(self.options.startingElements);
+        $(window).scroll();
         return self;
       }
 
@@ -92,7 +93,6 @@
           let from = self._current;
           let to = from + qty;
           let elems = self._data.slice(from, to);
-          console.log('render:', elems, self._data, from, to);
           self.options.onRenderElements.call(self, self.$element, elems, from, to, self._data);
         }
         self._current += qty;
