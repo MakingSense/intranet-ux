@@ -127,16 +127,19 @@
         var sync = (s, first) => {
           let q = $.extend(true, {}, s.query); // Copy object
           q.order = 'DESC' ? '-' + s.query.orderby : s.query.orderby;
-          let latest = getLatestEntry(s.name);
-          if (latest !== false) {
-            let value = omap(latest, self.options.modField);
-            let filter = self.options.modField + '[gt]';
-            q[filter] = value;
-          }
           delete q.orderby;
+          if (!first) {
+            let latest = getLatestEntry(s.name);
+            if (latest !== false) {
+              let value = omap(latest, self.options.modField);
+              let filter = self.options.modField + '[gt]';
+              q[filter] = value;
+            }
+          }
           self.client.getEntries(q).then(function (response) {
             let entries = response.items;
             if (first || entries.length) {
+              if (first) clearData(s.name);
               let result = updateData(entries, s.name);
               if (typeof(callback) === 'function') {
                 callback.call(self, result, getData(s.name), first);
@@ -252,20 +255,27 @@
 
         // Search and eliminate duplicates from local data
         let localdata = getData(space);
+        let eupdated = [];
+        let enew = [];
         for(let i in entries) {
           let row = entries[i];
           let id = row.sys.id;
+          let isnew = true;
           for (let j in localdata) {
             if (localdata[j].sys.id == id) {
-              localdata.splice(j, 1);
+              localdata[j] = row;
+              eupdated.push(row);
+              isnew = false;
+              break;
             }
           }
+          if (isnew) enew.push(row);
         }
-        let data = entries.concat(localdata);
+        let data = enew.concat(localdata);
         setData(data, s.name);
         let output = {
-          updated: false,
-          new: false
+          updated: eupdated,
+          new: enew
         }
         return output;
       }

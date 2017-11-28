@@ -13,17 +13,23 @@
     return $elem;
   }
 
-  IN.widgets.news.addArticles = ($elem, data) => {
-    if (data === false || !data.length) return;
+  IN.widgets.news.addArticles = ($elem, data, draw) => {
+    if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
-      let html = renderArticle(data[i]);
-      $elem.prepend(html);
+      IN.widgets.news.unread.push(data[i].sys.id);
+      console.log('push!', data[i].sys.id);
+      if (draw) {
+        let html = renderArticle(data[i]);
+        $elem.prepend(html);
+      }
     }
+    IN.widgets.news.notificate(data);
+    IN.widgets.news.checkUnread();
     return $elem;
   }
 
   IN.widgets.news.replaceArticles = ($elem, data) => {
-    if (data === false || !data.length) return;
+    if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       let html = renderArticle(data[i]);
       let $old = $elem.find("[news-id='" + data[i].sys.id + "']");
@@ -34,20 +40,9 @@
     return $elem;
   }
 
-  IN.widgets.news.checkUnread = () => {
-    let $nmessages = $('#new-messages');
-    let qty = IN.widgets.news.unread.length;
-    let message = qty + (qty === 1 ? ' new message' : ' new messages');
-    $nmessages.find('.newmessages__qty').html(message);
-    if (IN.widgets.news.unread.length) {
-      $nmessages.addClass('active');
-    } else {
-      $nmessages.removeClass('active');
-    }
-  }
 
   IN.widgets.news.appendArticles = ($elem, data) => {
-    if (data === false || !data.length) return;
+    if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       let html = renderArticle(data[i], false);
       let $old = $elem.find("[news-id='" + data[i].sys.id + "']");
@@ -62,31 +57,65 @@
 
   IN.widgets.news.removeArticles = ($elem, data) => {
     for (let i in data) {
-      console.log('remove: ', data[i].sys.id)
       $elem.find("[news-id='" + data[i].sys.id + "']").slideUp(function () { $(this).remove(); });
     }
     return $elem;
   }
 
-  IN.widgets.news.notificate = (data) => {
-    for (let i in data) {
-      sendNotification(data[i]);
+  IN.widgets.news.checkUnread = () => {
+    let $nmessages = $('#newmessages');
+    let qty = IN.widgets.news.unread.length;
+    if (qty) {
+      let message = qty + (qty === 1 ? ' new message' : ' new messages');
+      $nmessages.html(message);
+    }
+    if (qty && !$nmessages.hasClass('active')) {
+      $nmessages.addClass('active');
+    } else {
+      $nmessages.removeClass('active');
     }
   }
 
-  $(window).on('scroll.brandnews', function () {
+  IN.widgets.news.notificate = (data) => {
+    let message = '';
+    if (data.length == 1) {
+      let row = data[0];
+      let publisher = row.fields.publisher;
+      message = publisher.fields.firstNames + ' ' + publisher.fields.lastName + ': ' + row.fields.notificationTitle;
+    } else {
+      message = data.length + ' new messages';
+    }
+    sendNotification(message);
+  }
+
+  let $stickies = $('.sticky'); // To query te document on start only
+  $(window).on('scroll.brandnews, resize.brandnews', function () {
+    let vh = getViewportHeight();
+    let st = (document.documentElement.scrollTop ?
+        document.documentElement.scrollTop :
+        document.body.scrollTop);
+
     $('.news__news.unread').each(function () {
       let $this = $(this);
-      let top = $this.offset().top;
-      let vh = getViewportHeight();
-      let st = (document.documentElement.scrollTop ?
-          document.documentElement.scrollTop :
-          document.body.scrollTop);
+      let top = $this.closest('.news__list').offset().top;
       if (top >= st && top <= st + vh) {
-        // Element entered view
-        showNews($this);
+        showNews($this); // Element entered view
       }
     });
+
+    $stickies.each(function () {
+      let $this = $(this);
+      let $base = $(this.closest('.sticky-base'));
+      if (!$base.length) return;
+      if ($base.offset().top <= st) {
+        $this.addClass('sticky-docked');
+        $this.width($base.width());
+      } else {
+        $this.removeClass('sticky-docked');
+        $this.removeAttr('style');
+      }
+    });
+
     return;
 
     // Functions
@@ -94,14 +123,13 @@
     function showNews($elem) {
       let id = $elem.attr('news-id');
       if (id) {
-        console.log('showNews!', id);
         let i = IN.widgets.news.unread.indexOf(id);
         if (i !== -1) IN.widgets.news.unread.splice(i, 1);
       }
       $elem.slideDown(function () {
         $elem.removeClass('unread');
-        IN.widgets.news.checkUnread();
       });
+      IN.widgets.news.checkUnread();
     }
 
     function getViewportHeight() {
@@ -168,10 +196,11 @@
     return tpl.replace('{{' + field + '}}', val);
   }
 
-  function sendNotification(row) {
+  function sendNotification(message) {
     let options = {
-      body: row.fields.notificationTitle
+      body: message
     }
+    console.log(options);
     $.bnotify('MSi News', options);
   }
 

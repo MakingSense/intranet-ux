@@ -11,7 +11,7 @@
     contentfulToken: CONTENTFUL_ACCESS_TOKEN,
     contentfulSpace: CONTENTFUL_SPACE_ID,
     sync: true,
-    syncDelay: 10000,
+    syncDelay: 5000,
     query: {
       orderby: 'sys.updatedAt', // Field to order by
       order: 'DESC',            // ASC or DESC
@@ -25,7 +25,6 @@
         requestOnInit: false,
         onRenderElements: function ($elem, rows) {
           IN.widgets.news.appendArticles($elem, rows);
-          IN.widgets.news.checkUnread();
         },
         onDataEnd: function() {
           if (filter) {
@@ -60,7 +59,7 @@
     setFilter($(this).val());
   }).change();
 
-  $('#new-messages').click(function (e) {
+  $('#newmessages').click(function (e) {
     e.preventDefault();
     $('#news-filter').val('default').change();
     $(window).scrollTop(0);
@@ -72,48 +71,42 @@
     if (typeof(setFilter.filters) === 'undefined') setFilter.filters = {};
     $('html,body').scrollTop(0);
 
-    if (typeof(setFilter.filters[filter]) !== 'undefined') {
-      let data = $news.getData(val);
-      $scroll.setData(data);
-      $scroll.reset();
-    } else if (val === 'default') {
-      $news.setQuery(filter, {});
-      $news.sync(filter, function (result, data, first) {
-        if (first) {
+    if (typeof(setFilter.filters[filter]) === 'undefined') {
+      if (val === 'default') {
+        $news.setQuery(filter, {});
+        $news.sync(filter, function (result, data, first) {
+          if (first) {
+            $scroll.setData(data);
+            $scroll.reset();
+          } else {
+            IN.widgets.news.replaceArticles(result.updated);
+            let draw = (filter === 'default');
+            IN.widgets.news.addArticles($wrapper, result.new, draw);
+            $(window).scroll();
+          }
+        });
+      } else {
+        let temp = val.split('-');
+        let yy = parseInt(temp[0]);
+        let mm = parseInt(temp[1]) + 1;
+        if (mm > 12) {
+          yy++;
+          mm = '01';
+        } else if (mm < 10) {
+          mm = '0' + mm;
+        }
+        let f = yy + '-' + mm + '-01T00:00:00.000Z';
+        $news.query(val, { 'sys.createdAt[lt]': f }, function (data) {
           $scroll.setData(data);
           $scroll.reset();
-        } else {
-          IN.widgets.news.replaceArticles(result.updated);
-          for (let i in result.new) {
-            IN.widgets.news.unread.push(result.new[i].sys.id);
-          }
-          if (filter === 'default') {
-            IN.widgets.news.addArticles(result.new);
-          }
-          $(window).scroll();
-          IN.widgets.news.checkUnread();
-          console.log('New data!', result, data, first);
-        }
-      });
+        });
+      }
+      setFilter.filters[filter] = true;
     }
 
-    if (val !== 'default') {
-      let temp = val.split('-');
-      let yy = parseInt(temp[0]);
-      let mm = parseInt(temp[1]) + 1;
-      if (mm > 12) {
-        yy++;
-        mm = '01';
-      } else if (mm < 10) {
-        mm = '0' + mm;
-      }
-      let f = yy + '-' + mm + '-01T00:00:00.000Z';
-      $news.query(val, { 'sys.createdAt[lt]': f }, function (data) {
-        $scroll.setData(data);
-        $scroll.reset();
-      });
-    }
-    setFilter.filters[filter] = true;
+    let data = $news.getData(val);
+    $scroll.setData(data);
+    $scroll.reset();
   }
 
   // Checking filters

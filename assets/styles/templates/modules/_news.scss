@@ -26,7 +26,40 @@
 
   h1 {
     color: #000;
+    margin-bottom: 0;
+  }
+
+  &__notifications {
     margin-bottom: torem(50px);
+    position: relative;
+
+    .newmessages {
+      transition: opacity 1s ease, visibility 1s ease, top .25s ease;
+      display: block;
+      visibility: hidden;
+      opacity: 0;
+      top: torem(5px);
+      position: absolute;
+      background: #00f;
+      color: #fff;
+      line-height: 26px;
+      font-size: 14px;
+      text-align: center;
+      border-radius: 13px;
+      width: 100%;
+      z-index: 99;
+
+      &.active {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      &.sticky-docked {
+        top: torem(25px);
+        position: fixed;
+        width: inherit;
+      }
+    }
   }
 
   &__news {
@@ -113,7 +146,7 @@
   }
 }
 
-.newmessages {
+.scrolltop {
   transition: all 2s ease;
   position: fixed;
   visibility: hidden;
