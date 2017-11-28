@@ -2,14 +2,14 @@
 .wqlinks {
   &__list {
     a {
-      font-weight: $msuxf-font-weight-semibold;
-      font-size: torem(12px);
-      color: #FFFFFF;
-      letter-spacing: 0;
-      margin-bottom: 14px;
-      text-transform: uppercase;
-      text-align: left;
       display: inline-block;
+      margin-bottom: 14px;
+      text-align: left;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #fff;
+      font-size: torem(12px);
+      font-weight: $msuxf-font-weight-semibold;
     }
   }
 }

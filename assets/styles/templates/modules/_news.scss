@@ -4,50 +4,50 @@
 
   .select-filter {
     display: inline-block;
-    background: #5da552;
     border-radius: 12.5px;
+    background: #5da552;
 
     select {
-      background: transparent;
-      line-height: 25px;
-      color: #fff;
-      font-weight: $msuxf-font-weight-semibold;
-      font-size: torem(12px);
       min-width: 100px;
-      appearance: none;
       padding: 0 10px;
-      outline: none;
+      color: #fff;
       border: 0;
+      outline: none;
+      background: transparent;
+      font-size: torem(12px);
+      font-weight: $msuxf-font-weight-semibold;
+      line-height: 25px;
+
+      appearance: none;
     }
   }
 }
 
 .news {
-
   h1 {
-    color: #000;
     margin-bottom: 0;
+    color: #000;
   }
 
   &__notifications {
-    margin-bottom: torem(50px);
     position: relative;
+    margin-bottom: torem(50px);
 
     .newmessages {
-      transition: opacity 1s ease, visibility 1s ease, top .25s ease;
+      position: absolute;
+      z-index: 99;
+      top: torem(5px);
       display: block;
       visibility: hidden;
-      opacity: 0;
-      top: torem(5px);
-      position: absolute;
-      background: #00f;
-      color: #fff;
-      line-height: 26px;
-      font-size: 14px;
-      text-align: center;
-      border-radius: 13px;
       width: 100%;
-      z-index: 99;
+      transition: opacity 1s ease, visibility 1s ease, top .25s ease;
+      text-align: center;
+      opacity: 0;
+      color: #fff;
+      border-radius: 13px;
+      background: #00f;
+      font-size: 14px;
+      line-height: 26px;
 
       &.active {
         visibility: visible;
@@ -55,22 +55,22 @@
       }
 
       &.sticky-docked {
-        top: torem(25px);
         position: fixed;
+        top: torem(25px);
         width: inherit;
       }
     }
   }
 
   &__news {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: calc(26px + 35px);
+    padding-left: 55px;
     transition: opacity 1s ease, color 2s ease;
     opacity: 1;
     color: #534d48;
-    position: relative;
-    padding-left: 55px;
-    padding-bottom: calc(26px + 35px);
-    overflow: hidden;
-    color: #534D48;
+    color: #534d48;
     font-size: torem(16px);
 
     &.unread {
@@ -80,11 +80,11 @@
     }
 
     &:after {
-      content: '';
       position: absolute;
-      left: 55px;
       bottom: 35px;
+      left: 55px;
       width: 120px;
+      content: '';
       border-bottom: 1px solid #9b9b9b;
     }
 
@@ -92,28 +92,28 @@
       margin-bottom: 16px;
 
       p {
-        line-height: 1.25;
         margin-bottom: 16px;
+        line-height: 1.25;
       }
     }
 
     time {
-      font-weight: $msuxf-font-weight-semibold;
-      font-size: torem(12px);
-      color: #9B9B9B;
       letter-spacing: 0;
-      line-height: 15px;
       text-transform: uppercase;
+      color: #9b9b9b;
+      font-size: torem(12px);
+      font-weight: $msuxf-font-weight-semibold;
+      line-height: 15px;
     }
 
     picture {
       position: absolute;
-      left: 0;
       top: 0;
+      left: 0;
 
       img {
-        border-radius: 50%;
         max-width: 40px;
+        border-radius: 50%;
       }
     }
 
@@ -123,60 +123,59 @@
   }
 
   &__last {
-    color: #ccc;
     position: relative;
-    text-align: center;
     margin-top: torem(40px);
+    text-align: center;
+    color: #ccc;
 
     &:before {
-      content: '';
       position: absolute;
+      right: 0;
       bottom: calc(50% - 2px);
       left: 0;
-      right: 0;
+      content: '';
       border-bottom: 1px solid #ddd;
     }
 
     span {
+      position: relative;
       display: inline-block;
       padding: 10px 20px;
       background: #fff;
-      position: relative;
     }
   }
 }
 
 .scrolltop {
-  transition: all 2s ease;
   position: fixed;
-  visibility: hidden;
   right: 20px;
   bottom: 20px;
-  opacity: 0;
+  visibility: hidden;
   min-width: 40px;
+  padding: 0 10px;
+  transition: all 2s ease;
+  text-align: center;
+  opacity: 0;
+  color: #000;
   border-radius: 20px;
   background: #ffc413;
-  color: #000;
-  text-align: center;
-  line-height: 40px;
-  padding: 0 10px;
   font-size: 12px;
+  line-height: 40px;
 
   &.active {
-    opacity: 1;
     visibility: visible;
+    opacity: 1;
   }
 
   &:after {
-    content: '';
     position: absolute;
     top: -8px;
     left: calc(50% - 10px);
     width: 0;
     height: 0;
-
-    border-left: 10px solid transparent;
+    content: '';
     border-right: 10px solid transparent;
     border-bottom: 10px solid #ffc413;
+    border-left: 10px solid transparent;
   }
 }
