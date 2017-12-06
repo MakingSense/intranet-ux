@@ -76,6 +76,7 @@
             loadMore();
           }
         });
+
         if (self.options.requestOnInit) {
           reset();
         }
