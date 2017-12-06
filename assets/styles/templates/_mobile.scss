@@ -48,6 +48,7 @@
         flex: 0 0 calc(100% / 3);
 
         a {
+          outline: 0;
           font-size: torem(30px);
           line-height: torem(60px);
           display: block;
@@ -71,7 +72,7 @@
   html.mobile-state {
     .main-page {
       bottom: torem(60px);
-      padding-right: 18px;
+      padding-right: 16px;
       overflow-y: hidden;
     }
     .main-page,
