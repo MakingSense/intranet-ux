@@ -3,9 +3,13 @@
 
   IN.widgets.news = {};
   IN.widgets.news.template = $('#news-template').html();
+  IN.widgets.news.listSelector = '#news-list';
+  IN.widgets.news.$list = $(IN.widgets.news.listSelector);
   IN.widgets.news.unread = [];
 
-  IN.widgets.news.draw = ($elem, data) => {
+  let $elem = IN.widgets.news.$list;
+
+  IN.widgets.news.draw = (data) => {
     $elem.html('');
     for (let i in data) {
       $elem.append(renderArticle(data[i]));
@@ -13,7 +17,7 @@
     return $elem;
   }
 
-  IN.widgets.news.addArticles = ($elem, data, draw) => {
+  IN.widgets.news.addArticles = (data, draw) => {
     if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       IN.widgets.news.unread.push(data[i].sys.id);
@@ -27,7 +31,7 @@
     return $elem;
   }
 
-  IN.widgets.news.replaceArticles = ($elem, data) => {
+  IN.widgets.news.replaceArticles = (data) => {
     if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       let html = renderArticle(data[i]);
@@ -39,8 +43,7 @@
     return $elem;
   }
 
-
-  IN.widgets.news.appendArticles = ($elem, data) => {
+  IN.widgets.news.appendArticles = (data) => {
     if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       let html = renderArticle(data[i], false);
@@ -54,10 +57,15 @@
     return $elem;
   }
 
-  IN.widgets.news.removeArticles = ($elem, data) => {
+  IN.widgets.news.removeArticles = (data) => {
     for (let i in data) {
       $elem.find("[news-id='" + data[i].sys.id + "']").slideUp(function () { $(this).remove(); });
     }
+    return $elem;
+  }
+
+  IN.widgets.news.resetArticles = () => {
+    $elem.html('');
     return $elem;
   }
 

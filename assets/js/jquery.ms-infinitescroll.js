@@ -15,7 +15,7 @@
     msInfiniteScroll: function(options) {
       const self = {};
       const defaults = {
-        selector: null,
+        scroller: null,         // Element to scroll, if null then considers the window
         data: [],               // Array containing the data
         startingElements: 32,   // How many elements draw on init/reset
         dataStep: 8,            // How many elements are drawn every scroll end proc
@@ -30,10 +30,17 @@
 
 
       // Private vars
-      if (self.options.selector) {
-        self.$element = $(self.options.selector);
-        self.element = self.$element.get(0);
+      if (!self.options.scroller) self.options.scroller = 'window';
+      if (self.options.scroller === 'window') {
+        self.$scroller = $(window);
+      } else {
+        self.$scroller = $(self.options.scroller);
+        if (!self.$scroller.length) {
+          console.error(NAMESPACE + ': Cannot match any element with the query "' + self.options.scroller + '".');
+          return false;
+        }
       }
+
       self._defaults = defaults;
       self._name = NAMESPACE;
       self._data =  self.options.data;
@@ -45,21 +52,33 @@
       // private functions
       function _init() {
         // Detect when scrolled to bottom.
-        $(window).on('scroll.' + NAMESPACE, function() {
-          let body = document.body;
-          let html = document.documentElement;
-          let documentHeight = Math.max(body.scrollHeight, body.offsetHeight,
-            html.clientHeight, html.scrollHeight, html.offsetHeight);
-
+        self.$scroller.on('scroll.' + NAMESPACE, function() {
+          let totalHeight = 0;
+          let height = 0;
+          let scrollTop = 0;
+          console.log(self.options.scroller);
+          if (self.options.scroller !== 'window') {
+            totalHeight = self.$scroller.get(0).scrollHeight;
+            height = self.$scroller.height();
+            scrollTop = self.$scroller.scrollTop();
+          } else {
+            let body = document.body;
+            let html = document.documentElement;
+            totalHeight = Math.max(body.scrollHeight, body.offsetHeight,
+              html.clientHeight, html.scrollHeight, html.offsetHeight);
+            height = window.innerHeight;
+            scrollTop = window.scrollY;
+          }
           if (typeof(self.oldScroll) === 'undefined') self.oldScroll = 0;
-          let scrollDown = (window.scrollY - self.oldScroll > 0);
-          self.oldScroll = window.scrollY;
-
-          // Detect when half screen is remaining and scrolling down
-          if (scrollDown && ($(window).scrollTop() + window.innerHeight * 2 >= documentHeight)) {
+          let scrollDown = (scrollTop - self.oldScroll > 0);
+          self.oldScroll = scrollTop;
+          console.log('Scroll: ', self.options.scroller, scrollDown, scrollTop, height, totalHeight);
+          // Detect when half element is remaining and scrolling down
+          if (scrollDown && (scrollTop + height * 2 >= totalHeight)) {
             loadMore();
           }
         });
+
         if (self.options.requestOnInit) {
           reset();
         }
@@ -68,12 +87,10 @@
       function reset() {
         self._current = 0;
         if (typeof(self.options.onReset) === 'function') {
-           self.options.onReset.call(self, self.$element);
-        } else {
-          self.$element.html('');
+           self.options.onReset.call(self);
         }
         loadMore(self.options.startingElements);
-        $(window).scroll();
+        self.$scroller.scroll();
         return self;
       }
 
@@ -93,7 +110,7 @@
           let from = self._current;
           let to = from + qty;
           let elems = self._data.slice(from, to);
-          self.options.onRenderElements.call(self, self.$element, elems, from, to, self._data);
+          self.options.onRenderElements.call(self, elems, from, to, self._data);
         }
         self._current += qty;
         remaining -= qty;
@@ -122,7 +139,7 @@
       }
 
       function destroy() {
-        self.$element.off('.' + NAMESPACE);
+        self.$scroller.off('.' + NAMESPACE);
       }
 
       return {

@@ -1,8 +1,7 @@
 // Main scope
 (() => {
   'use strict';
-  const wrapperSelector = '#news-list';
-  const $wrapper = $(wrapperSelector);
+  const $wrapper = IN.widgets.news.$list;
   let $scroll = {};
   let $news = {};
   let filter = false;
@@ -20,9 +19,12 @@
     },
     onInit: function(data) {
       let options = {
-        selector: wrapperSelector,
+        scroller: '#main-page',
         data: data,
         requestOnInit: false,
+        onReset: function () {
+          IN.widgets.news.resetArticles();
+        },
         onRenderElements: function ($elem, rows) {
           IN.widgets.news.appendArticles($elem, rows);
         },

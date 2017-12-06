@@ -33,15 +33,24 @@ aside {
     color: #fff;
   }
 
+  .panel__inner {
+    background-image: linear-gradient(0deg, #a88cc5 0%, #744a93 76%);
+  }
+
   .panel__inner.linkscroll-linked {
     width: calc(#{$left-panel-width} - #{torem(40px)});
   }
 
   .toolbar-modules {
-    padding: torem(75px) 14.89% 0 21.28%;
+    padding: torem(75px) calc(13% + #{torem(40px)}) torem(75px) 15%;
 
     @include respond-to('large') {
       padding-left: 14.89%;
+    }
+
+    @include respond-to('small') {
+      text-align: center;
+      padding: torem(50px) 12%;
     }
   }
 }

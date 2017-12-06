@@ -1,27 +1,30 @@
 <!-- build:include partials/_head.html --><!-- /build -->
 <body>
-  <!-- build:include partials/_header.html --><!-- /build -->
+  <div id="main-page" class="main-page">
+    <!-- build:include partials/_header.html --><!-- /build -->
 
-  <div class="main-layout">
-    <aside class="panel left__panel">
-        <div class="panel__inner" data-linkscroll-scroll-ratio="1">
-          <div class="toolbar-modules">
-            <!-- build:include modules/_tools.html --><!-- /build -->
-            <!-- build:include modules/_qlinks.html --><!-- /build -->
-            <!-- build:include modules/_social.html --><!-- /build -->
+    <div class="main-layout">
+      <aside class="panel left__panel">
+          <div class="panel__inner" data-linkscroll-scroll-ratio="1">
+            <div class="toolbar-modules">
+              <!-- build:include modules/_tools.html --><!-- /build -->
+              <!-- build:include modules/_qlinks.html --><!-- /build -->
+              <!-- build:include modules/_social.html --><!-- /build -->
+            </div>
           </div>
-        </div>
-    </aside>
-    <div class="panel news news__panel">
-      <main class="news__inner">
-        <!-- build:include modules/_news.html --><!-- /build -->
-      </main>
-    </div>
-    <aside class="panel right__panel">
-      <div class="panel__inner -linkscroll" data-linkscroll-scroll-ratio="0.6">
-        <!-- build:include modules/_articles.html --><!-- /build -->
+      </aside>
+      <div class="panel news news__panel">
+        <main class="news__inner">
+          <!-- build:include modules/_news.html --><!-- /build -->
+        </main>
       </div>
-    </aside>
+      <aside class="panel right__panel">
+        <div class="panel__inner -linkscroll" data-linkscroll-scroll-ratio="0.6">
+          <!-- build:include modules/_articles.html --><!-- /build -->
+        </div>
+      </aside>
+    </div>
+    <!-- build:include partials/_mobile-footer.html --><!-- /build -->
   </div>
   <!-- build:include partials/_scripts.html --><!-- /build -->
 </body>
