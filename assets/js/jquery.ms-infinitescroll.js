@@ -56,7 +56,6 @@
           let totalHeight = 0;
           let height = 0;
           let scrollTop = 0;
-          console.log(self.options.scroller);
           if (self.options.scroller !== 'window') {
             totalHeight = self.$scroller.get(0).scrollHeight;
             height = self.$scroller.height();
@@ -72,7 +71,6 @@
           if (typeof(self.oldScroll) === 'undefined') self.oldScroll = 0;
           let scrollDown = (scrollTop - self.oldScroll > 0);
           self.oldScroll = scrollTop;
-          console.log('Scroll: ', self.options.scroller, scrollDown, scrollTop, height, totalHeight);
           // Detect when half element is remaining and scrolling down
           if (scrollDown && (scrollTop + height * 2 >= totalHeight)) {
             loadMore();

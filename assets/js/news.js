@@ -72,14 +72,18 @@
   IN.widgets.news.checkUnread = () => {
     let $nmessages = $('#new-messages');
     let qty = IN.widgets.news.unread.length;
+    if (qty > 99) qty = '99+';
     if (qty) {
       let message = qty + (qty === 1 ? ' new message' : ' new messages');
       $nmessages.html(message);
+      $count.html(qty);
     }
     if (qty && !$nmessages.hasClass('active')) {
       $nmessages.addClass('active');
+      $count.addClass('active');
     } else {
       $nmessages.removeClass('active');
+      $count.removeClass('active');
     }
   }
 

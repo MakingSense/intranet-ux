@@ -13,6 +13,12 @@ $(() => {
 
     if (!state) return;
 
+    if (state === document.mobileState && state === 'news') {
+      $('#news-filter').val('default').change();
+      $('#main-page').scrollTop(0);
+    }
+    document.mobileState = state;
+
     $('html').removeClass((index, className) => {
       return (className.match(/mobile-state--\S+/g) || []).join(' ');
     }).addClass('mobile-state--' + state);

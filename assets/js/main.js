@@ -64,7 +64,7 @@
   $('#new-messages').click(function (e) {
     e.preventDefault();
     $('#news-filter').val('default').change();
-    $(window).scrollTop(0);
+    $('#main-page').scrollTop(0);
   });
 
   function setFilter(val) {
