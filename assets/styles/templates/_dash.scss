@@ -47,10 +47,9 @@ aside {
     @include respond-to('large') {
       padding-left: 14.89%;
     }
-
     @include respond-to('small') {
-      text-align: center;
       padding: torem(50px) 12%;
+      text-align: center;
     }
   }
 }
