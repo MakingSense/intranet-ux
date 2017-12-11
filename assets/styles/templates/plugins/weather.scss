@@ -16,10 +16,22 @@
 }
 
 .weather {
+  position: relative;
   cursor: pointer;
   float: right;
-  overflow: hidden;
   margin-top: 10px;
+
+  &--disconnected {
+    &:after {
+      font-family: icon-font;
+      content: "\E003";
+      position: absolute;
+      top: 0px;
+      right: -14px;
+      font-size: 12px;
+      color: #ff7900;
+    }
+  }
 
   i {
     font-family: 'weather-icons';
