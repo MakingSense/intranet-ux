@@ -25,6 +25,7 @@ $(() => {
 
     $('.mobile-toolbar__button.active').removeClass('active');
     $wrapper.addClass('active');
+    $(window).scroll();
   });
   $('.mobile-toolbar__button.active a').click();
 });

@@ -105,7 +105,9 @@
     let st = (document.documentElement.scrollTop ?
         document.documentElement.scrollTop :
         document.body.scrollTop);
+    let $html = $(html);
 
+    if ($html.hasClass('mobile-state') && !$html.hasClass('mobile-state--news')) return;
     $('.news__news.unread').each(function () {
       let $this = $(this);
       let top = $this.closest('.news__list').offset().top;
