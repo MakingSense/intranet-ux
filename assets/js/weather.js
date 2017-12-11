@@ -1,9 +1,10 @@
 var weatherRefreshTimer = false;
 var weatherRefreshTimerInterval = 1000 * 60 * 1; // 1 minute
+let gapi = 'AIzaSyCEKD2m2Cf931zleB63ktw0SxK8_O8xT7Q'; // Google API key for geolocation
 
 $(() => {
   'use strict';
-  let location = 466863; // Default woeid: mar del plata
+  let geolocation = 466863; // Default woeid: mar del plata
 
   if ("geolocation" in navigator) {
     $('.js-geolocation').show();
@@ -14,19 +15,31 @@ $(() => {
   $('#weather').click(function () {
     let $this = $(this);
     navigator.geolocation.getCurrentPosition(function(p) {
-      console.log(p);
-      location = p.coords.latitude + ',' + p.coords.longitude;
-      loadWeather(location).then(() => {
+      geolocation = p.coords.latitude + ',' + p.coords.longitude;
+      loadWeather(geolocation).then(() => {
         $('.js-geolocation').fadeOut();
         $this.removeClass('weather--disconnected');
       });
     }, (e) => {
-      console.log(e);
-      // Oh, bugga...
-      loadWeather(location).then(() => {
-        $this.addClass('weather--disconnected');
-        $this.attr('title', '(Click to locate)\n' + $this.attr('title'))
-      }); // default
+      // Oh, bugga... let's try with Google Maps API
+      $.ajax({
+        type: 'POST',
+        url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=' + gapi,
+        dataType: 'json',
+        success: function(data){
+          geolocation = data.location.lat + ',' + data.location.lng;
+          loadWeather(geolocation).then(() => {
+            $('.js-geolocation').fadeOut();
+            $this.removeClass('weather--disconnected');
+          });
+        },
+        failure: function(errMsg) {
+          loadWeather(geolocation).then(() => {
+            $this.addClass('weather--disconnected');
+            $this.attr('title', '(Click to locate)\n' + $this.attr('title'))
+          }); // default
+        }
+      });
     });
   }).click();
 });
@@ -48,7 +61,7 @@ function loadWeather(query) {
           clearInterval(weatherRefreshTimer);
         }
         weatherRefreshTimer = setInterval(() => {
-          loadWeather(location);
+          loadWeather(query);
         }, weatherRefreshTimerInterval);
         resolve(weather);
       },
