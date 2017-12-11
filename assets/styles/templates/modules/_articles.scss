@@ -59,16 +59,19 @@
 .articles {
   display: flex;
 
+  @include respond-to('large') {
+    display: block;
+  }
+
+  @include respond-to('small') {
+    display: flex;
+  }
+
   .article-small {
     flex: 0 0 50%;
     padding: torem(40px) torem(15px) torem(200px) torem(15px);
     text-align: center;
   }
-
-  @include respond-to('large') {
-    display: block;
-  }
-
 }
 
 .aabout {

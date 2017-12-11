@@ -105,7 +105,7 @@
     let st = (document.documentElement.scrollTop ?
         document.documentElement.scrollTop :
         document.body.scrollTop);
-    let $html = $(html);
+    let $html = $('html');
 
     if ($html.hasClass('mobile-state') && !$html.hasClass('mobile-state--news')) return;
     $('.news__news.unread').each(function () {
