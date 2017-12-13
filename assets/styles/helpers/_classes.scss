@@ -11,3 +11,15 @@
     content: '';
   }
 }
+
+%start-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 1s ease,
+              visibility 1s ease;
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+  }
+}
