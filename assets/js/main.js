@@ -157,3 +157,23 @@ function monthDiff(d1, d2) {
   months += d2.getMonth();
   return months <= 0 ? 0 : months;
 }
+
+function traverse(obj, path, callback) {
+  if(typeof(obj.fields) !== 'undefined') {
+      $.each(obj.fields, function(k,v) {
+        let newpath = path ? path + '.' + k : k;
+        traverse(v, newpath, callback);
+      });
+  } else {
+    callback(path, obj);
+  }
+}
+
+function regexEscape(string) {
+  const regex = /([^a-z0-9])/ig;
+  return string.replace(regex, "\\$1");
+}
+
+function tplReplace(tpl, field, val) {
+  return tpl.replace('{{' + field + '}}', val);
+}
