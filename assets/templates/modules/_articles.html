@@ -32,29 +32,15 @@
   </div>
 </article>
 
-<article class="article article-wide abirthdays">
+<article class="article article-wide abirthdays" id="birthdays-widget">
   <h2>Upcoming birthdays</h2>
-  <ul class="abirthdays__list">
-    <li>
-      <picture><img src="img/fake-birthday-01.png"></picture>
-      <div class="abirthdays__detail">
-        Celeste Senoseain
-        <time datetime="11-03">November 3th</time>
-      </div>
-    </li>
-    <li>
-      <picture><img src="img/fake-birthday-02.png"></picture>
-      <div class="abirthdays__detail">
-        Ignacio Crespo
-        <time datetime="11-04">November 3th</time>
-      </div>
-    </li>
-    <li>
-      <picture><img src="img/fake-birthday-03.png"></picture>
-      <div class="abirthdays__detail">
-        Lucas Sánchez
-        <time datetime="11-06">November 3th</time>
-      </div>
-    </li>
-  </ul>
+  <ul class="abirthdays__list"></ul>
+  <div id="birthday-template" style="display: none;">
+    <picture><img src="{{birthday_pic}}"></picture>
+    <div class="abirthdays__detail">
+        {{firstNames}} {{lastName}}
+      <time datetime="{{birthday_number}}">{{birthday_text}}</time>
+    </div>
+  </div>
+
 </article>
