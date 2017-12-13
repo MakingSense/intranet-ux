@@ -124,13 +124,10 @@
       wdate.subtract(1, 'month');
       $filter.append('<option value="' + wdate.format('YYYY-MM') + '">' + wdate.format(display_format) + '</option>');
     }
-    $filter.fadeIn();
+    $filter.closest('.news-filters').addClass('active');
   });
 
   $.bnotifyEnable();
-  //setTimeout(function () { $.bnotify('My Title', { body: 'Aquarium Malenostrum' }); }, 3000);
-
-  //$('.linkscroll').linkScroll();
 })(); // Main scope
 
 // After loading DOM

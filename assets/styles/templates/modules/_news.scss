@@ -1,6 +1,14 @@
 .news-filters {
   float: right;
   padding-top: 5px;
+  visibility: none;
+  opacity: 0;
+  transition: opacity 1s ease, visibility 1s ease;
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+  }
 
   .select-filter {
     display: inline-block;
@@ -69,7 +77,6 @@
     padding-left: 55px;
     transition: opacity 1s ease, color 2s ease;
     opacity: 1;
-    color: #534d48;
     color: #534d48;
     font-size: torem(16px);
 
