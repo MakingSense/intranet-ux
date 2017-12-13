@@ -9,6 +9,15 @@ const CONTENTFUL_LANG = 'en-US';
 const CONTENTFUL_REFRESH_INTERVAL = 5 * 1000; // 5 seconds
 const CONTENTFUL_DEV = true;
 
+var weekday = new Array(7);
+weekday[0] = "Sunday";
+weekday[1] = "Monday";
+weekday[2] = "Tuesday";
+weekday[3] = "Wednesday";
+weekday[4] = "Thursday";
+weekday[5] = "Friday";
+weekday[6] = "Saturday";
+
 // Browser notification defaults
 $.bnotify.blurOnly = false; // Use notifications only when the page is not active.
 $.bnotify.defaults = {

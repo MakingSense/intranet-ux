@@ -130,6 +130,15 @@
   });
 
   $.bnotifyEnable();
+
+  // Greeting message
+  var d = new Date();
+  var wd = weekday[d.getDay()];
+  $('.greeting')
+    .find('.weekday')
+      .html(wd)
+    .end()
+    .addClass('active');
 })(); // Main scope
 
 // After loading DOM

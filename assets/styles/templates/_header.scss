@@ -53,10 +53,22 @@ header {
   }
 
   .greeting {
+    @include respond-to('xsmall') {
+      display: none;
+    }
+
     display: table;
     width: calc(100% - #{torem(400px)});
     height: torem(60px);
     margin: 0 torem(200px);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease, visibility 1s ease;
+
+    &.active {
+      visibility: visible;
+      opacity: 1;
+    }
 
     @include respond-to('xsmall') {
       display: none;
