@@ -153,10 +153,11 @@
     padding: 12px 0;
     font-size: torem(16px);
     line-height: 18px;
-    font-weight: $msuxf-font-weight-semibold;
 
+    p {
+      font-weight: $msuxf-font-weight-semibold;
+    }
     time {
-      font-weight: $msuxf-font-weight-regular;
       display: block;
       font-size: torem(14px);
     }
