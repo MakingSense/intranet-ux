@@ -3,3 +3,11 @@
 /// -> Helper classes. Can be created by extending placeholders
 /// @group Classes
 ////
+
+%clear {
+  &:after {
+    display: block;
+    clear: both;
+    content: '';
+  }
+}

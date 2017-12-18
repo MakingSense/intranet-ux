@@ -41,11 +41,3 @@ h2 {
   overflow-y: auto;
   z-index: -1;
 }
-
-%clear {
-  &:after {
-    display: block;
-    clear: both;
-    content: '';
-  }
-}
