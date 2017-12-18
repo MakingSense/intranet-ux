@@ -23,8 +23,8 @@
 
   &--disconnected {
     &:after {
+      @extend .icon-map-pin-error:before;
       font-family: icon-font;
-      content: "\E003";
       position: absolute;
       top: 0px;
       right: -14px;
