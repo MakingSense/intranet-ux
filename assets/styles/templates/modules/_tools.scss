@@ -3,20 +3,19 @@
     @extend %clear;
 
     li {
-      position: relative;
-      float: left;
-      width: (100% / 3);
-      padding-bottom: (100% / 3);
-
       @include respond-to('large') {
         width: (100% / 2);
         padding-bottom: (100% / 2);
       }
-
       @include respond-to('medium') {
         width: (100% / 4);
         padding-bottom: (100% / 4);
       }
+
+      position: relative;
+      float: left;
+      width: (100% / 3);
+      padding-bottom: (100% / 3);
     }
 
     a {
@@ -33,7 +32,6 @@
       color: #fff;
       background: #8d66ab;
       font-size: 18px;
-
       justify-content: center;
 
       &:hover {
