@@ -46,7 +46,7 @@
 
       &__button {
         position: relative;
-        flex: 0 0 calc(100% / 3);
+        flex: 0 0 (100% / 3);
 
         a {
           display: block;

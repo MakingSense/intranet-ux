@@ -5,16 +5,16 @@
     li {
       position: relative;
       float: left;
-      width: calc(100% / 3);
-      padding-bottom: calc(100% / 3);
+      width: (100% / 3);
+      padding-bottom: (100% / 3);
 
       @include respond-to('large') {
-        width: calc(100% / 2);
-        padding-bottom: calc(100% / 2);
+        width: (100% / 2);
+        padding-bottom: (100% / 2);
       }
       @include respond-to('small') {
-        width: calc(100% / 4);
-        padding-bottom: calc(100% / 4);
+        width: (100% / 4);
+        padding-bottom: (100% / 4);
       }
     }
 
