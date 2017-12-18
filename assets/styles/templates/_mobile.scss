@@ -93,7 +93,7 @@
     }
   }
   // Mobile states
-  html.mobile-state {
+  html.mobile {
     .main-page {
       bottom: torem(60px);
       overflow-y: hidden;
@@ -105,13 +105,13 @@
       transition: left .5s ease, right .5s ease;
     }
 
-    &.mobile-state--news {
+    &.mobile--news {
       .main-page {
         overflow-y: auto;
         padding-right: 0;
       }
     }
-    &.mobile-state--links {
+    &.mobile--links {
       & {
         overflow: hidden;
       }
@@ -122,7 +122,7 @@
         right: 0;
       }
     }
-    &.mobile-state--info {
+    &.mobile--info {
       & {
         overflow: hidden;
       }

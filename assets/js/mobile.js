@@ -1,7 +1,7 @@
 $(() => {
   $(window).on('resize.mobile', function () {
     let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    $('html').toggleClass('mobile-state', w <= 800);
+    $('html').toggleClass('mobile', w <= 800);
   }).resize();
 
   $('.mobile-toolbar__button a').click(function (e) {
@@ -9,7 +9,7 @@ $(() => {
 
     let $this = $(this);
     let $wrapper = $this.closest('.mobile-toolbar__button');
-    let state = $wrapper.data('mobile-state');
+    let state = $wrapper.data('mobile');
 
     if (!state) return;
 
@@ -20,8 +20,8 @@ $(() => {
     document.mobileState = state;
 
     $('html').removeClass((index, className) => {
-      return (className.match(/mobile-state--\S+/g) || []).join(' ');
-    }).addClass('mobile-state--' + state);
+      return (className.match(/mobile--\S+/g) || []).join(' ');
+    }).addClass('mobile--' + state);
 
     $('.mobile-toolbar__button.active').removeClass('active');
     $wrapper.addClass('active');
