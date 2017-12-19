@@ -63,7 +63,7 @@
   }
 
   IN.widgets.news.checkUnread = () => {
-    let $nmessages = $('#newmessages');
+    let $nmessages = $('#new-messages');
     let qty = IN.widgets.news.unread.length;
     if (qty) {
       let message = qty + (qty === 1 ? ' new message' : ' new messages');

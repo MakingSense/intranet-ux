@@ -25,7 +25,6 @@
       font-size: torem(12px);
       font-weight: $msuxf-font-weight-semibold;
       line-height: 25px;
-
       appearance: none;
     }
   }
@@ -41,7 +40,7 @@
     position: relative;
     margin-bottom: torem(50px);
 
-    .newmessages {
+    .new-messages {
       position: absolute;
       z-index: 99;
       top: torem(5px);
@@ -129,7 +128,7 @@
     }
   }
 
-  &__last {
+  &--last {
     position: relative;
     margin-top: torem(40px);
     text-align: center;

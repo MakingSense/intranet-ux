@@ -59,7 +59,7 @@
     setFilter($(this).val());
   }).change();
 
-  $('#newmessages').click(function (e) {
+  $('#new-messages').click(function (e) {
     e.preventDefault();
     $('#news-filter').val('default').change();
     $(window).scrollTop(0);
