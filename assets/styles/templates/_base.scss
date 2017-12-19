@@ -6,28 +6,33 @@
 }
 */
 
-html, body {
+html,
+body {
   background: #f2f2f2;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   font-family: 'Merriweather', serif;
 }
 
 h1 {
-  font-size: torem(36px);
   margin-top: 0;
+  font-size: torem(36px);
 }
 
 h2 {
-  font-size: torem(24px);
   margin-bottom: torem(20px);
+  font-size: torem(24px);
 }
 
 %clear {
   &:after {
-    content: "";
     display: block;
     clear: both;
+    content: '';
   }
 }

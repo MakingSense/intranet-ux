@@ -1,16 +1,18 @@
-
-// Making Sense - Browser Notify plugin (ms-bnotify).
-// Version: 0.1 Pre-alpha
-// By: Marcos Rigoli (mrigoli@makingsense.com)
-// What it does: It simplifies handling web notifications. It also adds classes to <html> tag to indicate the notification status:
-// Classes:
-// - notifications--default: Default status, the user didn't make a decision yet
-// - notifications--granted: The user enabled notifications for the site
-// - notifications--denied: The user denied notifications for the site
-// - notifications--unavailable: The browser does not support notifications
-//
-// if onClick is set and returns false, cancels the page focus when clicking the notification.
-
+/**
+* @library MS BNotify
+* @description News for MS Infinite Scroll
+* @author Marcos Rigoli <rigoli82@gmail.com>
+* @license MIT
+* By: Marcos Rigoli (mrigoli@makingsense.com)
+* What it does: It simplifies handling web notifications. It also adds classes to <html> tag to indicate the notification status:
+* Classes:
+* - notifications--default: Default status, the user didn't make a decision yet
+* - notifications--granted: The user enabled notifications for the site
+* - notifications--denied: The user denied notifications for the site
+* - notifications--unavailable: The browser does not support notifications
+*
+* if onClick is set and returns false, cancels the page focus when clicking the notification.
+*/
 
 (($) => {
   'use strict';
