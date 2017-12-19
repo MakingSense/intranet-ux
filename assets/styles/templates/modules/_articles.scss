@@ -63,7 +63,7 @@
     display: block;
   }
 
-  @include respond-to('small') {
+  @include respond-to('medium') {
     display: flex;
   }
 

@@ -1,7 +1,7 @@
 $(() => {
   $(window).on('resize.mobile', function () {
     let w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    $('html').toggleClass('mobile', w <= 800);
+    $('html').toggleClass('mobile', w <= 1024);
   }).resize();
 
   $('.mobile-toolbar__button a').click(function (e) {

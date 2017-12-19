@@ -3,7 +3,7 @@
   display: none;
 }
 
-@include respond-to('small') {
+@include respond-to('medium') {
   .news__panel {
     position: static;
     flex: none;
