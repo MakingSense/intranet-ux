@@ -28,15 +28,14 @@ aside {
 .left__panel {
   flex: 0 0 #{$left-panel-width};
   width: #{$left-panel-width};
-  padding-right: torem(40px);
-  background-image: linear-gradient(30deg, #a88cc5 0%, #744a93 76%);
+  background: ($links-panel-light-bg);
 
   h2 {
     color: #fff;
   }
 
   .panel__inner {
-    background-image: linear-gradient(0deg, #{$links-panel-light-bg} 0%, #{$links-panel-dark-bg} 76%);
+    background-image: linear-gradient(0deg, ($links-panel-light-bg) 0%, #{$links-panel-dark-bg} 76%);
   }
 
   .panel__inner.linkscroll-linked {
