@@ -1,6 +1,6 @@
 <?php
 define('TIMESTAMP_FILE', 'last-updated.dt');
-$GLOBALS['cached_mimes'] = array('jpg', 'png', 'js', 'html', 'eot', 'svg', 'ttf', 'woff', 'woff2', 'ico');
+$GLOBALS['cached_mimes'] = array('jpg', 'png', 'js', 'html', 'eot', 'svg', 'ttf', 'woff', 'woff2', 'ico', 'css');
 
 function addFile($fpath) {
   $mt = @filemtime($fpath);
