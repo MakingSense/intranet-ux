@@ -11,8 +11,9 @@ function getGClient() {
     $client->setClientId(GOOGLE_CLIENT_ID);
     $client->setClientSecret(GOOGLE_SECRET);
     $client->setRedirectUri(GOOGLE_REDIRECT_URI);
-    $client->setAccessType("offline");
-    $client->addScope("email");
+    $client->setAccessType('offline');
+    $client->addScope('email');
+    $client->addScope('profile');
     try {
       if ($token = getGToken()) @$client->setAccessToken($token);
     } catch (Exception $e) {
@@ -81,4 +82,27 @@ function _setGToken($token) {
 
 function getGToken() {
   return @$_SESSION['access_token'] ?: @$_COOKIE['access_token'];
+}
+
+function fetchData() {
+  $info = getUserInfo();
+  $data = array();
+  $data['first_name'] = $info->givenName;
+  $data['last_name'] = $info->familyName;
+  $data['email'] = $info->email;
+  $data['avatar'] = $info->picture;
+  return $data;
+}
+
+function processTemplate($data, $tpl) {
+  $html = $tpl;
+  foreach ($data as $field => $value) {
+    $html = str_replace('{{' . $field . '}}', $value, $html);
+  }
+  return $html;
+}
+
+function loadTemplate($data, $file) {
+  $tpl = file_get_contents($file);
+  return processTemplate($data, $tpl);
 }

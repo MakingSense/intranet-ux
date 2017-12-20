@@ -24,42 +24,74 @@
 }
 
 
-  .icon-social-facebook:before {
+  .icon-gps-target-error:before {
     content: "\E001";
   }
 
-  .icon-social-linkedin:before {
+  .icon-gps-target:before {
     content: "\E002";
   }
 
-  .icon-social-twitter:before {
+  .icon-map-pin-error:before {
     content: "\E003";
   }
 
-  .icon-social-youtube:before {
+  .icon-map-pin:before {
     content: "\E004";
   }
 
-  .icon-tools-cloud:before {
+  .icon-mobile-toolbar-info:before {
     content: "\E005";
   }
 
-  .icon-tools-generic:before {
+  .icon-mobile-toolbar-links:before {
     content: "\E006";
   }
 
-  .icon-tools-github:before {
+  .icon-mobile-toolbar-news:before {
     content: "\E007";
   }
 
-  .icon-tools-harvest:before {
+  .icon-mobile-toolbar-tools:before {
     content: "\E008";
   }
 
-  .icon-tools-jira:before {
+  .icon-social-facebook:before {
     content: "\E009";
   }
 
-  .icon-tools-slack:before {
+  .icon-social-linkedin:before {
     content: "\E00A";
+  }
+
+  .icon-social-twitter:before {
+    content: "\E00B";
+  }
+
+  .icon-social-youtube:before {
+    content: "\E00C";
+  }
+
+  .icon-tools-cloud:before {
+    content: "\E00D";
+  }
+
+  .icon-tools-generic:before {
+    content: "\E00E";
+  }
+
+  .icon-tools-github:before {
+    content: "\E00F";
+  }
+
+  .icon-tools-harvest:before {
+    content: "\E010";
+  }
+
+  .icon-tools-jira:before {
+    content: "\E011";
+  }
+
+  .icon-tools-slack:before {
+    content: "\E012";
   }

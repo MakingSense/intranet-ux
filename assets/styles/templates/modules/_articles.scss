@@ -50,7 +50,7 @@
     color: #534D48;
     letter-spacing: 0;
     line-height: 18px;
-    min-height: calc(18px * 3);
+    min-height: (18px * 3);
     margin-bottom: torem(20px);
     text-align: center;
   }
@@ -59,16 +59,19 @@
 .articles {
   display: flex;
 
+  @include respond-to('large') {
+    display: block;
+  }
+
+  @include respond-to('medium') {
+    display: flex;
+  }
+
   .article-small {
     flex: 0 0 50%;
     padding: torem(40px) torem(15px) torem(200px) torem(15px);
     text-align: center;
   }
-
-  @include respond-to('large') {
-    display: block;
-  }
-
 }
 
 .aabout {
@@ -76,7 +79,7 @@
   background-repeat: no-repeat;
   background-position: bottom right;
   background-size: contain;
-  background-image: url(../img/article-about.png), radial-gradient(farthest-side at 100% 100%, #fff 50%, #f2f2f2 100%);
+  background-image: url(../img/article-about.png), radial-gradient(farthest-side at 100% 100%, #fff 50%, $site-bg-color 100%);
 
   &__list {
     li {
@@ -123,7 +126,7 @@
     left: 0;
     right: 0;
     height: torem(200px);
-    background-image: linear-gradient(-180deg, rgba(240,240,240,0.00) 3%, #F2F2F2 100%);
+    background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0) 3%, $site-bg-color 100%);
   }
 
   &__list {
@@ -150,10 +153,12 @@
     padding: 12px 0;
     font-size: torem(16px);
     line-height: 18px;
-    font-weight: $msuxf-font-weight-semibold;
+
+    p {
+      font-weight: $msuxf-font-weight-semibold;
+    }
 
     time {
-      font-weight: $msuxf-font-weight-regular;
       display: block;
       font-size: torem(14px);
     }

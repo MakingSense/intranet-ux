@@ -1,9 +1,9 @@
-
-// Making Sense - Widget for linking the lateral panels with the scroll
-// Version: 0.1 Pre-alpha
-// By: Marcos Rigoli (mrigoli@makingsense.com)
-//
-// Documentation yet to be done..
+/**
+ * @library MS LinkScroll
+ * @description Link an element with the main scroll for parallax effects.
+ * @author Marcos Rigoli <rigoli82@gmail.com>
+ * @license MIT
+ */
 
 (function ($) {
   'use strict';

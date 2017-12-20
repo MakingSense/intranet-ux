@@ -16,10 +16,23 @@
 }
 
 .weather {
+  position: relative;
   cursor: pointer;
   float: right;
-  overflow: hidden;
   margin-top: 10px;
+
+  &--disconnected {
+    &:after {
+      @extend .icon-map-pin-error:before;
+
+      font-family: icon-font;
+      position: absolute;
+      top: 0px;
+      right: -14px;
+      font-size: 12px;
+      color: #ff7900;
+    }
+  }
 
   i {
     font-family: 'weather-icons';

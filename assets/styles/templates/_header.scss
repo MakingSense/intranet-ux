@@ -5,42 +5,41 @@
 ////
 
 header {
-  padding: 10px 5.21%;
-  height: torem(80px);
-  background: #fff;
-  box-shadow: 0 5px 10px 0 rgba(0,0,0,0.10);
   position: relative;
   z-index: 1;
-  font-weight: $msuxf-font-weight-bold;
-  font-size: torem(16px);
   overflow: hidden;
+  height: torem(80px);
+  padding: 10px 5.2%;
+  background: #fff;
+  box-shadow: 0 5px 10px 0 rgba(0,0,0,.10);
+  font-size: torem(16px);
+  font-weight: $msuxf-font-weight-bold;
 
   @include respond-to('medium') {
     padding: torem(10px) torem(40px);
   }
-
   @include respond-to('large') {
     padding: 10px 3.125%;
   }
 
   .main-logo {
-    height: torem(60px);
     float: left;
-
-    img {
-      vertical-align: middle;
-      display: inline-block;
-      width: torem(60px);
-    }
-
-    .logo-description {
-      margin-left: 18px;
-    }
+    height: torem(60px);
 
     @include respond-to('medium') {
       .logo-description {
         display: none;
       }
+    }
+
+    img {
+      display: inline-block;
+      width: torem(60px);
+      vertical-align: middle;
+    }
+
+    .logo-description {
+      margin-left: 18px;
     }
   }
 
@@ -54,20 +53,28 @@ header {
   }
 
   .greeting {
+    @extend %start-hidden;
+    @include respond-to('xsmall') {
+      display: none;
+    }
+
     display: table;
+    width: calc(100% - #{torem(400px)});
     height: torem(60px);
     margin: 0 torem(200px);
-    width: calc(100% - #{torem(400px)});
+
+    @include respond-to('xsmall') {
+      display: none;
+    }
 
     p {
       display: table-cell;
-      vertical-align: middle;
       text-align: center;
-
-      font-family: $msuxf-font-family;
+      vertical-align:  middle;
       color: $msuxf-font-color;
-      font-weight: $msuxf-font-weight-bold;
+      font-family: $msuxf-font-family;
       font-size: torem(16px);
+      font-weight: $msuxf-font-weight-bold;
 
       @include respond-to('medium') {
         .motto {

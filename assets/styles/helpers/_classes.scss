@@ -3,3 +3,23 @@
 /// -> Helper classes. Can be created by extending placeholders
 /// @group Classes
 ////
+
+%clear {
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+}
+
+%start-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity $msuxf-transition-duration $msuxf-transition-timing,
+              visibility $msuxf-transition-duration $msuxf-transition-timing;
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+  }
+}
