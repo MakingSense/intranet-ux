@@ -26,16 +26,17 @@ aside {
 }
 
 .left__panel {
-  flex: 0 0 $left-panel-width;
-  width: $left-panel-width;
-  background: $links-panel-light-bg;
+  flex: 0 0 #{$left-panel-width};
+  width: #{$left-panel-width};
+  padding-right: torem(40px);
+  background-image: linear-gradient(30deg, #a88cc5 0%, #744a93 76%);
 
   h2 {
     color: #fff;
   }
 
   .panel__inner {
-    background-image: linear-gradient(0, $links-panel-light-bg 0%, $links-panel-dark-bg 76%);
+    background-image: linear-gradient(0deg, #{$links-panel-light-bg} 0%, #{$links-panel-dark-bg} 76%);
   }
 
   .panel__inner.linkscroll-linked {
@@ -56,7 +57,7 @@ aside {
 }
 
 .right__panel {
-  flex: 0 0 $right-panel-width;
+  flex: 0 0 #{$right-panel-width};
   width: 32.8%;
   padding-right: 0;
   padding-left: torem(40px);
@@ -68,7 +69,7 @@ aside {
 
 .news__panel {
   position: relative;
-  flex: 0 0 (100% - $left-panel-width - $right-panel-width);
+  flex: 0 0 #{100% - $left-panel-width - $right-panel-width};
   padding-top: 30px;
 }
 
