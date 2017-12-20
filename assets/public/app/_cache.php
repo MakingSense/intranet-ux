@@ -1,11 +1,11 @@
 <?php
-define('TIMESTAMP_FILE', 'last-updated.dt');
 $GLOBALS['cached_mimes'] = array('jpg', 'png', 'js', 'html', 'eot', 'svg', 'ttf', 'woff', 'woff2', 'ico', 'css');
+$GLOBALS['appcache-lastmtime'] = 0;
 
 function addFile($fpath) {
   $mt = @filemtime($fpath);
-  if ($mt && (!file_exists(TIMESTAMP_FILE) || (int)file_get_contents(TIMESTAMP_FILE) < $mt)) {
-    file_put_contents(TIMESTAMP_FILE, $mt);
+  if ($mt && (getLastMTime() < $mt)) {
+    updateLastMTime($mt);
   }
   echo $fpath . PHP_EOL;
 }
@@ -20,17 +20,17 @@ function addDir($path, $recursive = false) {
     if (array_search(@$info['extension'], $GLOBALS['cached_mimes']) !== false) {
       echo $fpath . PHP_EOL;
       $mt = @filemtime($fpath);
-      if ($mt && (!file_exists(TIMESTAMP_FILE) || (int)file_get_contents(TIMESTAMP_FILE) < $mt)) {
-        file_put_contents(TIMESTAMP_FILE, $mt);
+      if ($mt && (getLastMTime() < $mt)) {
+        updateLastMTime($mt);
       }
     }
   }
 }
 
 function getLastMTime() {
-  return file_get_contents(TIMESTAMP_FILE);
+  return $GLOBALS['appcache-lastmtime'];
 }
 
-function touchMTime() {
-  file_put_contents(TIMESTAMP_FILE, time());
+function updateLastMTime($mtime) {
+  $GLOBALS['appcache-lastmtime'] = (int) $mtime;
 }
