@@ -2,7 +2,14 @@
 include 'app/_config.php';
 include 'app/_cache.php';
 
-if (!defined('CACHE_MANIFEST') || !CACHE_MANIFEST) exit;
+if (!defined('CACHE_MANIFEST') || !CACHE_MANIFEST) {
+  $output  = 'CACHE MANIFEST' . PHP_EOL;
+  $output .= '# Manifest cache disabled' . PHP_EOL;
+  $output .= 'NETWORK:' . PHP_EOL;
+  $output .= '*' . PHP_EOL;
+  sendToBrowser($output);
+  exit;
+}
 
 ob_start();
 addDir('css');
@@ -12,7 +19,8 @@ addDir('js');
 $files = ob_get_clean();
 
 $mtime = getLastMTime();
-$mtimestr = date('Y-m-d\TH:i:s\Z');
+$mtimestr = date('Y-m-d\TH:i:s\Z', $mtime);
+$hash = md5($mtime);
 
 $output = <<<EoS
 CACHE MANIFEST
@@ -23,13 +31,9 @@ CACHE:
 
 NETWORK:
 *
+
+# Hash: {$hash}
 EoS;
 
-header('Content-Description: Cache Manifest');
-header('Content-Type: text/cache-manifest');
-header("Cache-Control: max-age=2592000"); // 30days (60sec * 60min * 24hours * 30days)
-header('Pragma: public');
-header('Content-Length: ' . strlen($output));
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $mtime) . ' GMT');
-echo $output;
+sendToBrowser($output);
 exit;

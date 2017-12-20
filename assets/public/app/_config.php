@@ -7,4 +7,4 @@ define('GOOGLE_CLIENT_ID',    '16264640556-cevvvmpk7u1gucodamlvpghqap25lui4.apps
 define('GOOGLE_SECRET',       'xLEL4M-akJLLOG7-O88bv1g5');
 define('GOOGLE_REDIRECT_URI', SITE_URL . '/login.php');
 
-define('CACHE_MANIFEST',      false);
+define('CACHE_MANIFEST',      true);

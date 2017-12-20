@@ -18,8 +18,8 @@ function addDir($path, $recursive = false) {
     if ($fpath === '.' || $fpath === '..') continue;
     $info = pathinfo($fpath);
     if (array_search(@$info['extension'], $GLOBALS['cached_mimes']) !== false) {
-      echo $fpath . PHP_EOL;
       $mt = @filemtime($fpath);
+      echo $fpath . PHP_EOL;
       if ($mt && (getLastMTime() < $mt)) {
         updateLastMTime($mt);
       }
@@ -33,4 +33,15 @@ function getLastMTime() {
 
 function updateLastMTime($mtime) {
   $GLOBALS['appcache-lastmtime'] = (int) $mtime;
+}
+
+function sendToBrowser($content) {
+  header('Content-Description: Cache Manifest');
+  header('Content-Type: text/cache-manifest');
+  header('Cache-Control: no-store, no-cache');
+  header('Expires: 0');
+  header('Pragma: public');
+  header('Content-Length: ' . strlen($content));
+  echo $content;
+  exit;
 }
