@@ -171,7 +171,7 @@
     });
 
     let pic = omap(row, 'fields.publisher.fields.profilePic.fields.file.url');
-    pic = (pic) ? pic + '?w=40' : '/img/no-avatar.jpg';
+    pic = (pic) ? pic + '?w=40' : '/img/publisher-no-avatar.jpg';
     html = tplReplace(html, 'avatar_pic', pic);
     let cssclass = isNew(row.sys.id) ? 'unread' : '';
     html = tplReplace(html, 'class', cssclass);
@@ -183,10 +183,30 @@
     html = tplReplace(html, 'date_utc', row.sys.createdAt);
     html = tplReplace(html, 'date_relative', relativeDate(row.sys.createdAt));
     return html;
+
+    function traverse(obj, path, callback) {
+      if(typeof(obj.fields) !== 'undefined') {
+          $.each(obj.fields, function(k,v) {
+            let newpath = path ? path + '.' + k : k;
+            traverse(v, newpath, callback);
+          });
+      } else {
+        callback(path, obj);
+      }
+    }
   }
 
   function isNew(id) {
     return IN.widgets.news.unread.indexOf(id) !== -1;
+  }
+
+  function regexEscape(string) {
+    const regex = /([^a-z0-9])/ig;
+    return string.replace(regex, "\\$1");
+  }
+
+  function tplReplace(tpl, field, val) {
+    return tpl.replace('{{' + field + '}}', val);
   }
 
   function sendNotification(message) {
