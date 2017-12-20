@@ -58,6 +58,10 @@ header {
     height: torem(60px);
     margin: 0 torem(200px);
 
+    @include respond-to('xsmall') {
+      display: none;
+    }
+
     p {
       display: table-cell;
       text-align: center;

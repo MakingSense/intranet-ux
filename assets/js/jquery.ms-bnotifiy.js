@@ -51,7 +51,7 @@
   // Private functions
   function _updateStatus() {
     // Remove notification status indicators
-    $('html').removeClass ((index, className) => {
+    $('html').removeClass((index, className) => {
       return (className.match (/notifications--\S+/g) || []).join(' ');
     });
     // Add status indictor

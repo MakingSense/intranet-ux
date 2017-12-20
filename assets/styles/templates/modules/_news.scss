@@ -33,6 +33,7 @@
 .news {
   h1 {
     margin-bottom: 0;
+    text-align: left;
     color: #000;
   }
 
@@ -72,7 +73,7 @@
   &__news {
     position: relative;
     overflow: hidden;
-    padding-bottom: calc(26px + 35px);
+    padding-bottom: (26px + 35px);
     padding-left: 55px;
     transition: opacity 1s ease, color 2s ease;
     opacity: 1;

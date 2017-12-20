@@ -3,9 +3,13 @@
 
   IN.widgets.news = {};
   IN.widgets.news.template = $('#news-template').html();
+  IN.widgets.news.listSelector = '#news-list';
+  IN.widgets.news.$list = $(IN.widgets.news.listSelector);
   IN.widgets.news.unread = [];
 
-  IN.widgets.news.draw = ($elem, data) => {
+  let $elem = IN.widgets.news.$list;
+
+  IN.widgets.news.draw = (data) => {
     $elem.html('');
     for (let i in data) {
       $elem.append(renderArticle(data[i]));
@@ -13,11 +17,10 @@
     return $elem;
   }
 
-  IN.widgets.news.addArticles = ($elem, data, draw) => {
+  IN.widgets.news.addArticles = (data, draw) => {
     if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       IN.widgets.news.unread.push(data[i].sys.id);
-      console.log('push!', data[i].sys.id);
       if (draw) {
         let html = renderArticle(data[i]);
         $elem.prepend(html);
@@ -28,7 +31,7 @@
     return $elem;
   }
 
-  IN.widgets.news.replaceArticles = ($elem, data) => {
+  IN.widgets.news.replaceArticles = (data) => {
     if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       let html = renderArticle(data[i]);
@@ -40,8 +43,7 @@
     return $elem;
   }
 
-
-  IN.widgets.news.appendArticles = ($elem, data) => {
+  IN.widgets.news.appendArticles = (data) => {
     if (!Array.isArray(data) || !data.length) return;
     for (let i in data) {
       let html = renderArticle(data[i], false);
@@ -55,24 +57,33 @@
     return $elem;
   }
 
-  IN.widgets.news.removeArticles = ($elem, data) => {
+  IN.widgets.news.removeArticles = (data) => {
     for (let i in data) {
       $elem.find("[news-id='" + data[i].sys.id + "']").slideUp(function () { $(this).remove(); });
     }
     return $elem;
   }
 
+  IN.widgets.news.resetArticles = () => {
+    $elem.html('');
+    return $elem;
+  }
+
   IN.widgets.news.checkUnread = () => {
     let $nmessages = $('#new-messages');
     let qty = IN.widgets.news.unread.length;
+    if (qty > 99) qty = '99+';
     if (qty) {
       let message = qty + (qty === 1 ? ' new message' : ' new messages');
       $nmessages.html(message);
+      $count.html(qty);
     }
     if (qty && !$nmessages.hasClass('active')) {
       $nmessages.addClass('active');
+      $count.addClass('active');
     } else {
       $nmessages.removeClass('active');
+      $count.removeClass('active');
     }
   }
 
@@ -94,7 +105,9 @@
     let st = (document.documentElement.scrollTop ?
         document.documentElement.scrollTop :
         document.body.scrollTop);
+    let $html = $('html');
 
+    if ($html.hasClass('mobile') && !$html.hasClass('mobile--news')) return;
     $('.news__news.unread').each(function () {
       let $this = $(this);
       let top = $this.closest('.news__list').offset().top;
@@ -200,7 +213,6 @@
     let options = {
       body: message
     }
-    console.log(options);
     $.bnotify('MSi News', options);
   }
 
