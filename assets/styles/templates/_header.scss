@@ -53,6 +53,11 @@ header {
   }
 
   .greeting {
+    @extend %start-hidden;
+    @include respond-to('xsmall') {
+      display: none;
+    }
+
     display: table;
     width: calc(100% - #{torem(400px)});
     height: torem(60px);
