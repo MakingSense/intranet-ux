@@ -1,0 +1,63 @@
+html,
+body {
+  display: flex;
+  background: rgb(251, 251, 252);
+  align-items: center;
+  justify-content: center;
+}
+.account-wall {
+  padding: 10px 40px 36px;
+  text-align: center;
+}
+.login-title {
+  display: block;
+  color: #000;
+  font-size: 24px;
+  font-weight: 400;
+}
+.profile-img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: auto;
+  border-radius: 50%;
+}
+picture {
+  margin-bottom: 30px;
+}
+figcaption {
+  margin: 10px 0;
+  font-weight: bold;
+}
+.error {
+  padding: 10px 0;
+  color: red;
+}
+.signedin-desc {
+  padding-bottom: 20px;
+}
+.btn-login {
+  margin-top: 30px;
+}
+h1 {
+  margin: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #fff;
+}
+.panel {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),
+              0 3px 1px -2px rgba(0,0,0,0.12),
+              0 1px 5px 0 rgba(0,0,0,0.2);
+}
+
+@media (max-width: 1024px) {
+  .panel {
+    box-shadow: none;
+    background: transparent;
+  }
+  html,
+  body {
+    background: #fff;
+  }
+}
