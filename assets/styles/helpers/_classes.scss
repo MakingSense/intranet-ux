@@ -12,11 +12,16 @@
   }
 }
 
-%start-hidden {
-  visibility: hidden;
-  opacity: 0;
+%fade {
   transition: opacity $msuxf-transition-duration $msuxf-transition-timing,
               visibility $msuxf-transition-duration $msuxf-transition-timing;
+}
+
+%start-hidden {
+  @extend %fade;
+
+  visibility: hidden;
+  opacity: 0;
 
   &.active {
     visibility: visible;

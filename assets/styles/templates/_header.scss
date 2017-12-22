@@ -43,13 +43,9 @@ header {
     }
   }
 
-  .weather-widget {
+  .header-widgets {
+    position: relative;
     float: right;
-    padding: torem(10px);
-
-    img {
-      width: torem(90px);
-    }
   }
 
   .greeting {
@@ -83,4 +79,27 @@ header {
       }
     }
   }
+
+  .offline-indicator {
+    @extend %fade;
+    @extend .icon-offline;
+
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    right: 20px;
+    top: 10px;
+
+    &:before {
+      opacity: .3;
+      font-family:"icon-font";
+      color: #B33A3A;
+      font-size: 40px;
+    }
+  }
+}
+
+.offline .offline-indicator {
+  opacity: 1;
+  visibility: visible;
 }
