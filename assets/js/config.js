@@ -8,6 +8,7 @@ const CONTENTFUL_SPACE_ID = '664c1zng04o0';
 const CONTENTFUL_LANG = 'en-US';
 const CONTENTFUL_REFRESH_INTERVAL = 5 * 1000; // 5 seconds
 const CONTENTFUL_DEV = true;
+const SW_ENABLED = true;
 
 var weekday = new Array(7);
 weekday[0] = "Sunday";

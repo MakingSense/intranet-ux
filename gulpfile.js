@@ -275,8 +275,12 @@ gulp.task('doc', function() {
 
 // Optimize JS
 gulp.task('js:dist', function() {
-  return gulp.src([config.folderAssets.js + '/**/*.js'])
-    .pipe(sourcemaps.init())
+  return gulp.src([
+    config.folderAssets.js + '/!(config|main|sw\-init)*.js',
+    config.folderAssets.js + '/config.js',
+    config.folderAssets.js + '/sw-init.js',
+    config.folderAssets.js + '/main.js' // config.js and main.js at the end
+  ]).pipe(sourcemaps.init())
     .pipe(concat('app.js', {
       newLine: ';'
     }))
@@ -297,8 +301,9 @@ gulp.task('copy:vendors', function() {
 //Copy JS
 gulp.task('copy:js', ['copy:vendors'], function() {
   return gulp.src([
-    config.folderAssets.js + '/!(config|main)*.js',
+    config.folderAssets.js + '/!(config|main|sw\-init)*.js',
     config.folderAssets.js + '/config.js',
+    config.folderAssets.js + '/sw-init.js',
     config.folderAssets.js + '/main.js' // config.js and main.js at the end
   ]).pipe(concat('main.js', {
     newLine: "\r\n;"

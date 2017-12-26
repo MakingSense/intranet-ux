@@ -5,6 +5,13 @@
 ////
 
 header {
+  @include respond-to('medium') {
+    padding: torem(10px) torem(40px);
+  }
+  @include respond-to('large') {
+    padding: torem(10px) 3.125%;
+  }
+
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -15,22 +22,15 @@ header {
   font-size: torem(16px);
   font-weight: $msuxf-font-weight-bold;
 
-  @include respond-to('medium') {
-    padding: torem(10px) torem(40px);
-  }
-  @include respond-to('large') {
-    padding: 10px 3.125%;
-  }
-
   .main-logo {
-    float: left;
-    height: torem(60px);
-
     @include respond-to('medium') {
       .logo-description {
         display: none;
       }
     }
+
+    float: left;
+    height: torem(60px);
 
     img {
       display: inline-block;
@@ -43,31 +43,29 @@ header {
     }
   }
 
-  .weather-widget {
+  .header-widgets {
+    position: relative;
     float: right;
-    padding: torem(10px);
-
-    img {
-      width: torem(90px);
-    }
   }
 
   .greeting {
-    @extend %start-hidden;
     @include respond-to('xsmall') {
       display: none;
     }
+    @extend %start-hidden;
 
     display: table;
     width: calc(100% - #{torem(400px)});
     height: torem(60px);
     margin: 0 torem(200px);
 
-    @include respond-to('xsmall') {
-      display: none;
-    }
-
     p {
+      @include respond-to('medium') {
+        .motto {
+          display: none;
+        }
+      }
+
       display: table-cell;
       text-align: center;
       vertical-align:  middle;
@@ -75,12 +73,29 @@ header {
       font-family: $msuxf-font-family;
       font-size: torem(16px);
       font-weight: $msuxf-font-weight-bold;
-
-      @include respond-to('medium') {
-        .motto {
-          display: none;
-        }
-      }
     }
   }
+
+  .offline-indicator {
+    @extend %fade-transition;
+    @extend .icon-offline;
+
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    visibility: hidden;
+    opacity: 0;
+
+    &:before {
+      opacity: .3;
+      color: #b33a3a;
+      font-family: 'icon-font';
+      font-size: 40px;
+    }
+  }
+}
+
+.offline .offline-indicator {
+  visibility: visible;
+  opacity: 1;
 }

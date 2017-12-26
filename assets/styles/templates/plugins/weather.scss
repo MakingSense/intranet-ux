@@ -15,7 +15,14 @@
   font-style: normal;
 }
 
+.offline .weather {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .weather {
+  @extend %fade-transition;
+
   position: relative;
   cursor: pointer;
   float: right;

@@ -27,6 +27,12 @@
   "vendor-prefix-align": true,
   "sort-order": [
     [
+      "$variable",
+      "$extend",
+      "$include",
+      "$import"
+    ],
+    [
       "position",
       "z-index",
       "top",

@@ -56,42 +56,46 @@
     content: "\E008";
   }
 
-  .icon-social-facebook:before {
+  .icon-offline:before {
     content: "\E009";
   }
 
-  .icon-social-linkedin:before {
+  .icon-social-facebook:before {
     content: "\E00A";
   }
 
-  .icon-social-twitter:before {
+  .icon-social-linkedin:before {
     content: "\E00B";
   }
 
-  .icon-social-youtube:before {
+  .icon-social-twitter:before {
     content: "\E00C";
   }
 
-  .icon-tools-cloud:before {
+  .icon-social-youtube:before {
     content: "\E00D";
   }
 
-  .icon-tools-generic:before {
+  .icon-tools-cloud:before {
     content: "\E00E";
   }
 
-  .icon-tools-github:before {
+  .icon-tools-generic:before {
     content: "\E00F";
   }
 
-  .icon-tools-harvest:before {
+  .icon-tools-github:before {
     content: "\E010";
   }
 
-  .icon-tools-jira:before {
+  .icon-tools-harvest:before {
     content: "\E011";
   }
 
-  .icon-tools-slack:before {
+  .icon-tools-jira:before {
     content: "\E012";
+  }
+
+  .icon-tools-slack:before {
+    content: "\E013";
   }

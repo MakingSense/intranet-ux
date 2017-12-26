@@ -9,6 +9,16 @@ if (!$module) {
   exit;
 }
 
+// Service worker must not be cached by the browser
+if ($module == 'sw') {
+  header('Content-Description: Service Worker');
+  header('Content-Type: application/javascript');
+  header('Cache-Control: no-store, no-cache');
+  header('Expires: 0');
+  require "js/{$module}.js";
+  exit;
+}
+
 if (in_array($module, $unprotected_modules) !== false) {
   require "{$module}.php";
   exit;
