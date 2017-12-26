@@ -43,13 +43,18 @@ self.addEventListener('fetch', function(event) {
     } else {
       return fetch(event.request).then(function (response) {
         let responseClone = response.clone();
-        caches.open(CACHE_NAME).then(function (cache) {
-          cache.put(event.request, responseClone);
-        });
+        // This Regex checks if this is a valid http(s) request.
+        let re = /^(https?\:\/\/|\/\/)/i;
+        // We can't cache POST requests or extension requests (i.e: chrome-extension://somefile.js).
+        if (event.request.method !== 'POST' && event.request.url.match(re)) {
+          caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(event.request, responseClone);
+          });
+        }
         return response;
       }).catch(function () {
         if (is_contentful_img) {
-          // If the resource is a Contentful image, we return a placeholder
+          // If the resource is a Contentful image, and we don't have it in the cache, we return a placeholder.
           return caches.match('/img/image-placeholder.png');
         } else {
           return null;

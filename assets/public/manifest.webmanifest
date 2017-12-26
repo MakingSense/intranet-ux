@@ -1,0 +1,25 @@
+{
+  "name": "MS Intranet",
+  "short_name": "MSI",
+  "start_url": "/dash",
+  "display": "standalone",
+  "background_color": "#5da552",
+  "description": "Making Sense Intranet Application",
+  "icons": [{
+    "src": "apple-touch-icon-57x57-precomposed.png",
+    "sizes": "57x57",
+    "type": "image/png"
+  }, {
+    "src": "apple-touch-icon-72x72-precomposed.png",
+    "sizes": "72x72",
+    "type": "image/png"
+  }, {
+    "src": "apple-touch-icon-114x114-precomposed.png",
+    "sizes": "114x114",
+    "type": "image/png"
+  }, {
+    "src": "apple-touch-icon-144x144-precomposed.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }]
+}

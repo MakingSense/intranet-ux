@@ -20,6 +20,10 @@ html, body {
 a {
   text-decoration: none;
   transition: all $msuxf-transition-duration $msuxf-transition-timing;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 img:not(.not-fluid) {

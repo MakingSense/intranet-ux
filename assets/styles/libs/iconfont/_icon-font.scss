@@ -24,78 +24,90 @@
 }
 
 
-  .icon-gps-target-error:before {
+  .icon-exit:before {
     content: "\E001";
   }
 
-  .icon-gps-target:before {
+  .icon-gps-target-error:before {
     content: "\E002";
   }
 
-  .icon-map-pin-error:before {
+  .icon-gps-target:before {
     content: "\E003";
   }
 
-  .icon-map-pin:before {
+  .icon-map-pin-error:before {
     content: "\E004";
   }
 
-  .icon-mobile-toolbar-info:before {
+  .icon-map-pin:before {
     content: "\E005";
   }
 
-  .icon-mobile-toolbar-links:before {
+  .icon-mobile-toolbar-info:before {
     content: "\E006";
   }
 
-  .icon-mobile-toolbar-news:before {
+  .icon-mobile-toolbar-links:before {
     content: "\E007";
   }
 
-  .icon-mobile-toolbar-tools:before {
+  .icon-mobile-toolbar-news:before {
     content: "\E008";
   }
 
-  .icon-offline:before {
+  .icon-mobile-toolbar-tools:before {
     content: "\E009";
   }
 
-  .icon-social-facebook:before {
+  .icon-offline:before {
     content: "\E00A";
   }
 
-  .icon-social-linkedin:before {
+  .icon-social-facebook:before {
     content: "\E00B";
   }
 
-  .icon-social-twitter:before {
+  .icon-social-linkedin:before {
     content: "\E00C";
   }
 
-  .icon-social-youtube:before {
+  .icon-social-twitter:before {
     content: "\E00D";
   }
 
-  .icon-tools-cloud:before {
+  .icon-social-youtube:before {
     content: "\E00E";
   }
 
-  .icon-tools-generic:before {
+  .icon-tools-cloud:before {
     content: "\E00F";
   }
 
-  .icon-tools-github:before {
+  .icon-tools-doppler-o:before {
     content: "\E010";
   }
 
-  .icon-tools-harvest:before {
+  .icon-tools-doppler:before {
     content: "\E011";
   }
 
-  .icon-tools-jira:before {
+  .icon-tools-generic:before {
     content: "\E012";
   }
 
-  .icon-tools-slack:before {
+  .icon-tools-github:before {
     content: "\E013";
+  }
+
+  .icon-tools-harvest:before {
+    content: "\E014";
+  }
+
+  .icon-tools-jira:before {
+    content: "\E015";
+  }
+
+  .icon-tools-slack:before {
+    content: "\E016";
   }

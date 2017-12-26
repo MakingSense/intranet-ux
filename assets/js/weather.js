@@ -1,10 +1,10 @@
+const weatherRefreshTimerInterval = 1000 * 60 * 1; // 1 minute
+const gapi = 'AIzaSyCEKD2m2Cf931zleB63ktw0SxK8_O8xT7Q'; // Google API key for geolocation
 var weatherRefreshTimer = false;
-var weatherRefreshTimerInterval = 1000 * 60 * 1; // 1 minute
-let gapi = 'AIzaSyCEKD2m2Cf931zleB63ktw0SxK8_O8xT7Q'; // Google API key for geolocation
+var geolocation = 466863; // Default woeid: mar del plata
 
-$(() => {
+(() => {
   'use strict';
-  let geolocation = 466863; // Default woeid: mar del plata
 
   if ("geolocation" in navigator) {
     $('.js-geolocation').show();
@@ -12,38 +12,41 @@ $(() => {
     $('.js-geolocation').hide();
   }
 
-  $('#weather').click(function () {
-    let $this = $(this);
-    navigator.geolocation.getCurrentPosition(function(p) {
-      geolocation = p.coords.latitude + ',' + p.coords.longitude;
-      loadWeather(geolocation).then(() => {
-        $('.js-geolocation').fadeOut();
-        $this.removeClass('weather--disconnected');
-      });
-    }, (e) => {
-      // Oh, bugga... let's try with Google Maps API
-      $.ajax({
-        type: 'POST',
-        url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=' + gapi,
-        dataType: 'json',
-        success: function(data){
-          geolocation = data.location.lat + ',' + data.location.lng;
-          loadWeather(geolocation).then(() => {
-            $('.js-geolocation').fadeOut();
-            $this.removeClass('weather--disconnected');
-          });
-        },
-        failure: function(errMsg) {
-          loadWeather(geolocation).then(() => {
-            $this.addClass('weather--disconnected');
-            $this.attr('title', '(Click to locate)\n' + $this.attr('title'))
-          }); // default
-        }
-      });
-    });
-  }).click();
-});
+  $('#weather').click(() => {
+    checkWeather();
+  });
+})();
 
+function checkWeather() {
+  let $widget = $('#weather');
+  navigator.geolocation.getCurrentPosition(function(p) {
+    geolocation = p.coords.latitude + ',' + p.coords.longitude;
+    loadWeather(geolocation).then(() => {
+      $('.js-geolocation').fadeOut();
+      $widget.removeClass('weather--disconnected');
+    });
+  }, (e) => {
+    // Oh, bugga... let's try with Google Maps API
+    $.ajax({
+      type: 'POST',
+      url: 'https://www.googleapis.com/geolocation/v1/geolocate?key=' + gapi,
+      dataType: 'json',
+      success: function(data){
+        geolocation = data.location.lat + ',' + data.location.lng;
+        loadWeather(geolocation).then(() => {
+          $('.js-geolocation').fadeOut();
+          $widget.removeClass('weather--disconnected');
+        });
+      },
+      failure: function(errMsg) {
+        loadWeather(geolocation).then(() => {
+          $widget.addClass('weather--disconnected');
+          $widget.attr('title', '(Click to locate)\n' + $widget.attr('title'))
+        }); // default
+      }
+    });
+  });
+}
 
 function loadWeather(query) {
   if (!query) return false;
@@ -61,7 +64,12 @@ function loadWeather(query) {
           clearInterval(weatherRefreshTimer);
         }
         weatherRefreshTimer = setInterval(() => {
-          loadWeather(query);
+          if (navigator) {
+            // Check if browser is online
+            if (navigator.onLine) loadWeather(query);
+          } else {
+            loadWeather(query);
+          }
         }, weatherRefreshTimerInterval);
         resolve(weather);
       },

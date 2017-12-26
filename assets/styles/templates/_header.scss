@@ -29,8 +29,11 @@ header {
       }
     }
 
+    display: block;
     float: left;
     height: torem(60px);
+    color: $msuxf-font-color;
+    font-weight: $msuxf-font-weight-bold;
 
     img {
       display: inline-block;
@@ -46,13 +49,25 @@ header {
   .header-widgets {
     position: relative;
     float: right;
+    padding-top: 10px;
+
+    &__logout {
+      @extend %fade-transition;
+
+      float: right;
+      height: 40px;
+      margin-left: 10px;
+      padding: 1px 4px 0 4px;
+      color: $msuxf-font-color;
+      font-size: 30px;
+    }
   }
 
   .greeting {
+    @extend %start-hidden;
     @include respond-to('xsmall') {
       display: none;
     }
-    @extend %start-hidden;
 
     display: table;
     width: calc(100% - #{torem(400px)});
@@ -77,11 +92,10 @@ header {
   }
 
   .offline-indicator {
-    @extend %fade-transition;
     @extend .icon-offline;
 
     position: absolute;
-    top: 10px;
+    top: 18px;
     right: 20px;
     visibility: hidden;
     opacity: 0;
@@ -95,7 +109,4 @@ header {
   }
 }
 
-.offline .offline-indicator {
-  visibility: visible;
-  opacity: 1;
-}
+

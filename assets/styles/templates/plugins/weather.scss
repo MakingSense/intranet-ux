@@ -15,27 +15,20 @@
   font-style: normal;
 }
 
-.offline .weather {
-  opacity: 0;
-  visibility: hidden;
-}
-
 .weather {
-  @extend %fade-transition;
-
   position: relative;
-  cursor: pointer;
   float: right;
-  margin-top: 10px;
 
   &--disconnected {
+    cursor: pointer;
+
     &:after {
       @extend .icon-map-pin-error:before;
 
       font-family: icon-font;
       position: absolute;
-      top: 0px;
-      right: -14px;
+      top: 2px;
+      left: -6px;
       font-size: 12px;
       color: #ff7900;
     }
@@ -101,8 +94,8 @@
     float: left;
     min-width: 40px;
     height: 40px;
-    border: 2px solid #534D48;
-    color: #534D48;
+    border: 2px solid $msuxf-font-color;
+    color: $msuxf-font-color;
     text-align: center;
     font-size: 18px;
     margin-left: 10px;
