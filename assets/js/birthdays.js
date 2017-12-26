@@ -1,14 +1,17 @@
 $(() => {
   const LSID = 'ms-staff';
   const VERSION = '0.0.1';
+  const BIRTHDAY_COUNT = 3;
   let data = false;
   let tpl = $('#birthday-template').html();
-
   let options = {
     accessToken: CONTENTFUL_ACCESS_TOKEN,
     space: CONTENTFUL_SPACE_ID
   }
-  let client = contentful.createClient(options);
+  let client = false;
+  if (typeof(contentful) !== 'undefined') {
+    client = contentful.createClient(options);
+  }
 
   let q = {
     order: 'fields.birthday',
@@ -17,7 +20,7 @@ $(() => {
   }
 
   let staff = getData();
-  updateBirthdays(getNextBirthdays(staff), 3); // With Local Storage data
+  updateBirthdays(staff); // With Local Storage data
   refreshBirthdays(); // Get new data
   activateTimer(); // Refresh every 00 hour
 
@@ -55,10 +58,10 @@ $(() => {
   function refreshBirthdays() {
     getStaff().then((staff) => {
       setData(staff);
-      updateBirthdays(getNextBirthdays(staff), 3); // Get fresh data
+      updateBirthdays(staff); // Get fresh data
     }, (e) => {
       // Oh, bugga...
-      updateBirthdays(getData(), 3);
+      updateBirthdays(getData());
     });
   }
 
@@ -75,8 +78,9 @@ $(() => {
   // Recursive calls for getting all staff members when all of them can't be fetched in one single call (max rows per fetch: 100).
   function getStaff(items) {
     return new Promise(function(resolve, reject) {
+      if (!client) reject('Not connected');
       if (items === undefined) items = [];
-      client.getEntries(q).then(function (result) {
+      client && client.getEntries(q).then(function (result) {
         items = items.concat(result.items);
         if (items.length < result.total) {
           return resolve(getStaff(items));
@@ -89,7 +93,8 @@ $(() => {
     });
   }
 
-  function updateBirthdays(staff) {
+  function updateBirthdays(data) {
+    let staff = getNextBirthdays(data);
     let $bdays = $('#birthdays-widget .abirthdays__list');
     if (staff.length) {
       let html = '';
@@ -116,7 +121,7 @@ $(() => {
     }
   }
 
-  function getNextBirthdays(rows, n) {
+  function getNextBirthdays(rows) {
     let staff = rows.slice();
     let now = new Date();
     for (i in staff) {
@@ -128,6 +133,6 @@ $(() => {
       if (d > now) break;
       staff.push(staff.shift());
     }
-    return staff.slice(0, 3);
+    return staff.slice(0, BIRTHDAY_COUNT);
   }
 });

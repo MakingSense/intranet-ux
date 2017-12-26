@@ -143,6 +143,7 @@
 
       img {
         border-radius: 50%;
+        max-width: 60px;
       }
     }
   }
@@ -153,6 +154,10 @@
     padding: 12px 0;
     font-size: torem(16px);
     line-height: 18px;
+
+    p {
+      font-weight: $msuxf-font-weight-semibold;
+    }
 
     p {
       font-weight: $msuxf-font-weight-semibold;
