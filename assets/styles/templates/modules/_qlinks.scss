@@ -1,5 +1,6 @@
 
 .wqlinks {
+
   &__list {
     a {
       display: inline-block;
@@ -11,5 +12,9 @@
       font-size: torem(12px);
       font-weight: $msuxf-font-weight-semibold;
     }
+  }
+
+  &__feedback {
+    margin-top: 32px;
   }
 }
