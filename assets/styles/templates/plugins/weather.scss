@@ -21,7 +21,7 @@
 }
 
 .weather {
-  @extend %fade;
+  @extend %fade-transition;
 
   position: relative;
   cursor: pointer;
