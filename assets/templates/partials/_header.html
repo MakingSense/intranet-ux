@@ -1,16 +1,17 @@
 <!-- Header -->
 <header id="header" class="main-header">
-  <div class="header-widgets">
-    <div id="offline-indicator" class="offline-indicator" title="Offline"></div>
+  <div id="offline-indicator" class="offline-indicator show-offline" title="Offline"></div>
+  <div class="header-widgets show-online">
+    <a class="header-widgets__logout" href="{{site-url}}/logout" title="Logout"><i class="ms-icon icon-exit"></i></a>
     <div id="weather" class="weather" title="Loading...">
       <div class="weather__tile weather__temp">...</div>
       <div class="weather__tile weather__temp">...</div>
     </div>
   </div>
-  <div class="main-logo">
+  <a class="main-logo" href="{{site-url}}/dash">
     <img src="img/ms-logo.svg" alt="MS">
     <span class="logo-description">|&nbsp;&nbsp;&nbsp;Intranet</span>
-  </div>
+  </a>
   <div class="greeting">
     <p>Good <span class="weekday"></span> {{first_name}}! <span class="motto">Find what you need, right when you need it!</span></p>
   </div>

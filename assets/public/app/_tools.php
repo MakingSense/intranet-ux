@@ -91,6 +91,7 @@ function fetchData() {
   $data['last_name'] = $info->familyName;
   $data['email'] = $info->email;
   $data['avatar'] = $info->picture;
+  $data['site-url'] = SITE_URL;
   return $data;
 }
 

@@ -34,3 +34,29 @@ h2 {
   overflow-y: auto;
   z-index: -1;
 }
+
+.show-online {
+  @extend %fade-transition;
+
+  visibility: visible;
+  opacity: 1;
+}
+
+.show-offline {
+  @extend %fade-transition;
+
+  visibility: hidden;
+  opacity: 0;
+}
+
+.offline {
+  .show-online {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .show-offline {
+    visibility: visible;
+    opacity: 1;
+  }
+}

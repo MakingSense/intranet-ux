@@ -47,7 +47,7 @@
 
   &__details {
     font-size: torem(14px);
-    color: #534D48;
+    color: $msuxf-font-color;
     letter-spacing: 0;
     line-height: 18px;
     min-height: (18px * 3);
@@ -149,7 +149,7 @@
   }
 
   &__detail {
-    color: #534d48;
+    color: $msuxf-font-color;
     margin-left: 80px;
     padding: 12px 0;
     font-size: torem(16px);
