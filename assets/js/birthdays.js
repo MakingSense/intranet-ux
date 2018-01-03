@@ -115,6 +115,7 @@ $(() => {
         htmlrow = tplReplace(htmlrow, 'birthday_text', d.getMonthName() + ' ' + d.getDayName());
         html += '<li>' + htmlrow + '</li>';
       }
+      html = html.replace('img-src=', 'src=');
       $bdays.html(html);
     } else {
       $bdays.html('<div class="no-birthdays">There are no birthdays loaded</div>');
