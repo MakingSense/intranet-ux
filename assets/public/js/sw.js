@@ -35,8 +35,9 @@ self.addEventListener('fetch', function(event) {
   let url = event.request.url;
   let is_contentful = url.indexOf('contentful.com') !== -1;
   let is_contentful_img = url.indexOf('images.contentful.com') !== -1;
+  let is_login_logout = /\/(login|logout)$/.test(url);
   // If its a request from contentful, only cache images.
-  if (is_contentful && !is_contentful_img) return;
+  if ((is_contentful && !is_contentful_img) || is_login_logout) return;
   event.respondWith(caches.match(event.request).then(function(response) {
     if (response !== undefined) {
       return response;
