@@ -98,13 +98,6 @@
           let pos = 0;
 
           if (offset > 0) {
-            /*
-            if (top - offset + $this.outerHeight() < window.innerHeight) {
-              pos = window.innerHeight - $this.outerHeight();
-            } else {
-              pos = top - offset;
-            }
-            */
             pos = top - offset;
           } else {
             if (current === 0) {
