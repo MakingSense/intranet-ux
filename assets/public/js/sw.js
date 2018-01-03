@@ -64,3 +64,13 @@ self.addEventListener('fetch', function(event) {
     }
   }));
 });
+
+self.addEventListener('message', function(event) {
+  let data = event.data;
+  if (data.action == 'logout') {
+    // On logout, we delete the dashboard from the cache (change user?).
+    caches.open(CACHE_NAME).then(function (cache) {
+      cache.delete('/dash');
+    });
+  }
+});
