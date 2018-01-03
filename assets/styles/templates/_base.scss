@@ -26,15 +26,6 @@ h2 {
   font-size: torem(24px);
 }
 
-.main-page {
-  position: fixed;
-  top: 0; left: 0; bottom: 0;
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  z-index: -1;
-}
-
 .show-online {
   @extend %fade-transition;
 

@@ -19,7 +19,6 @@
     },
     onInit: function(data) {
       let options = {
-        scroller: '#main-page',
         data: data,
         requestOnInit: false,
         onReset: function () {
@@ -64,7 +63,7 @@
   $('#new-messages').click(function (e) {
     e.preventDefault();
     $('#news-filter').val('default').change();
-    $('#main-page').scrollTop(0);
+    $(window).scrollTop(0);
   });
 
   function setFilter(val) {
@@ -83,7 +82,7 @@
           } else {
             IN.widgets.news.replaceArticles(result.updated);
             let draw = (filter === 'default');
-            IN.widgets.news.addArticles($wrapper, result.new, draw);
+            IN.widgets.news.addArticles(result.new, draw);
             $(window).scroll();
           }
         });

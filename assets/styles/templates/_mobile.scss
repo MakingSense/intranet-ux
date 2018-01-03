@@ -100,23 +100,9 @@
   }
   // Mobile states
   html.mobile {
-    .main-page {
-      bottom: torem(60px);
-      overflow-y: hidden;
-      padding-right: 16px;
-    }
-
-    .main-page,
     .left__panel,
     .right__panel {
       transition: left .5s ease, right .5s ease;
-    }
-
-    &.mobile--news {
-      .main-page {
-        overflow-y: auto;
-        padding-right: 0;
-      }
     }
 
     &.mobile--links {

@@ -15,7 +15,7 @@ $(() => {
 
     if (state === document.mobileState && state === 'news') {
       $('#news-filter').val('default').change();
-      $('#main-page').scrollTop(0);
+      $(window).scrollTop(0);
     }
     document.mobileState = state;
 
