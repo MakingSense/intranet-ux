@@ -71,7 +71,9 @@
 
   IN.widgets.news.checkUnread = () => {
     let $nmessages = $('#new-messages');
+    let $count = $('.unread-news-count');
     let qty = IN.widgets.news.unread.length;
+
     if (qty > 99) qty = '99+';
     if (qty) {
       let message = qty + (qty === 1 ? ' new message' : ' new messages');
