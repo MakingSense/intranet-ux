@@ -1,17 +1,28 @@
+.articles {
+  @include respond-to('large') {
+    display: block;
+  }
+  @include respond-to('medium') {
+    display: flex;
+  }
+
+  display: flex;
+}
+
 .article {
   color: #000;
 
   h2 {
-    padding-bottom: 15px;
     position: relative;
+    padding-bottom: 15px;
     color: inherit;
 
     &:after {
-      content: '';
       position: absolute;
-      left: 0;
       bottom: 0;
+      left: 0;
       width: torem(30px);
+      content: '';
       border-bottom: 1px solid #cacaca;
     }
   }
@@ -20,152 +31,137 @@
     display: block;
     max-width: 160px;
     margin: auto;
-    line-height: torem(38px);
-    border-radius: torem(38px) / 2;
-    background: #5da552;
-    color: #fff;
-    font-weight: $msuxf-font-weight-semibold;
-    font-size: torem(12px);
     letter-spacing: 0;
     text-transform: uppercase;
+    color: #fff;
+    border-radius: torem(38px) / 2;
+    background: #5da552;
+    font-size: torem(12px);
+    font-weight: $msuxf-font-weight-semibold;
+    line-height: torem(38px);
   }
 
-  &-small {
+  &--small {
+    flex: 0 0 50%;
+    padding: torem(40px) torem(15px) torem(200px) torem(15px);
+    text-align: center;
     background-position: center center;
     background-size: cover;
 
     h2 {
-      text-align: center;
       margin-bottom: torem(18px);
+      text-align: center;
 
       &:after {
         left: 50%;
         margin-left: torem(-15px);
       }
     }
-  }
 
-  &__details {
-    font-size: torem(14px);
-    color: $msuxf-font-color;
-    letter-spacing: 0;
-    line-height: 18px;
-    min-height: (18px * 3);
-    margin-bottom: torem(20px);
-    text-align: center;
-  }
-}
-
-.articles {
-  display: flex;
-
-  @include respond-to('large') {
-    display: block;
-  }
-
-  @include respond-to('medium') {
-    display: flex;
-  }
-
-  .article-small {
-    flex: 0 0 50%;
-    padding: torem(40px) torem(15px) torem(200px) torem(15px);
-    text-align: center;
-  }
-}
-
-.aabout {
-  padding: torem(80px) torem(45px) torem(62px) torem(45px);
-  background-repeat: no-repeat;
-  background-position: bottom right;
-  background-size: contain;
-  background-image: url(../img/article-about.png), radial-gradient(farthest-side at 100% 100%, #fff 50%, $site-bg-color 100%);
-
-  &__list {
-    li {
-      line-height: 38px;
-      font-size: torem(12px);
-
-      &:before {
-        margin-right: 10px;
-        content: '•';
-        color: #17a44d;
-        font-weight: bold;
-      }
-    }
-    a {
-      font-weight: $msuxf-font-weight-semibold;
-      color: inherit;
+    &__details {
+      min-height: (18px * 3);
+      margin-bottom: torem(20px);
+      text-align: center;
       letter-spacing: 0;
-      text-transform: uppercase;
+      color: $msuxf-font-color;
+      font-size: torem(14px);
+      line-height: 18px;
     }
   }
-}
 
-.apositions {
-  background-image: url(../img/article-positions.png);
-}
+  &--about {
+    padding: torem(80px) torem(45px) torem(62px) torem(45px);
+    background-image: url(../img/article-about.png), radial-gradient(farthest-side at 100% 100%, #fff 50%, $site-bg-color 100%);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: contain;
 
-.aonboarding {
-  background-image: url(../img/article-onboarding.png);
-}
+    &__list {
+      li {
+        font-size: torem(12px);
+        line-height: 38px;
 
-.abirthdays {
-  position: relative;
-  padding: torem(50px) torem(45px) torem(56px) torem(45px);
-  background-position: right top;
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-image: url(../img/article-birthdays.png), radial-gradient(farthest-corner at 0 0, rgba(232, 226, 226, .5) 0, rgba(255, 255, 255, 0) 100%);
-  background-color: #dbe0e9;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: torem(200px);
-    background-image: linear-gradient(-180deg, rgba(242, 242, 242, 0) 3%, rgba(242, 242, 242, 1) 100%);
-  }
-
-  &__list {
-    position: relative;
-    z-index: 1;
-
-    li {
-      overflow: hidden;
-      margin-top: torem(20px);
-    }
-
-    picture {
-      float: left;
-
-      img {
-        border-radius: 50%;
-        max-width: 60px;
+        &:before {
+          margin-right: 10px;
+          content: '•';
+          color: #17a44d;
+          font-weight: bold;
+        }
+      }
+      a {
+        letter-spacing: 0;
+        text-transform: uppercase;
+        color: inherit;
+        font-weight: $msuxf-font-weight-semibold;
       }
     }
   }
 
-  &__detail {
-    color: $msuxf-font-color;
-    margin-left: 80px;
-    padding: 12px 0;
-    font-size: torem(16px);
-    line-height: 18px;
+  &--positions {
+    background-image: url(../img/article-positions.png);
+  }
 
-    p {
-      font-weight: $msuxf-font-weight-semibold;
+  &--onboarding {
+    background-image: url(../img/article-onboarding.png);
+  }
+
+  &--birthdays {
+    position: relative;
+    padding: torem(50px) torem(45px) torem(56px) torem(45px);
+    background-color: #dbe0e9;
+    background-image: url(../img/article-birthdays.png), radial-gradient(farthest-corner at 0 0, rgba(232, 226, 226, .5) 0, rgba(255, 255, 255, 0) 100%);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: contain;
+
+    &:after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: torem(200px);
+      content: '';
+      background-image: linear-gradient(-180deg, rgba(242, 242, 242, 0) 3%, rgba(242, 242, 242, 1) 100%);
     }
 
-    p {
-      font-weight: $msuxf-font-weight-semibold;
+    &__list {
+      position: relative;
+      z-index: 1;
+
+      li {
+        overflow: hidden;
+        margin-top: torem(20px);
+      }
+
+      picture {
+        float: left;
+
+        img {
+          max-width: 60px;
+          border-radius: 50%;
+        }
+      }
     }
 
-    time {
-      display: block;
-      font-size: torem(14px);
+    &__detail {
+      margin-left: 80px;
+      padding: 12px 0;
+      color: $msuxf-font-color;
+      font-size: torem(16px);
+      line-height: 18px;
+
+      p {
+        font-weight: $msuxf-font-weight-semibold;
+      }
+
+      p {
+        font-weight: $msuxf-font-weight-semibold;
+      }
+
+      time {
+        display: block;
+        font-size: torem(14px);
+      }
     }
   }
 }

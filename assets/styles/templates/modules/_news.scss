@@ -36,6 +36,35 @@
     color: #000;
   }
 
+  &__end {
+    &--nodata {
+      display: none;
+    }
+
+    .ruler {
+      position: relative;
+      margin-top: torem(40px);
+      text-align: center;
+      color: #ccc;
+
+      &:before {
+        position: absolute;
+        right: 0;
+        bottom: calc(50% - 2px);
+        left: 0;
+        content: '';
+        border-bottom: 1px solid #ddd;
+      }
+
+      span {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        background: #fff;
+      }
+    }
+  }
+
   &__notifications {
     position: relative;
     margin-bottom: torem(50px);
@@ -69,7 +98,7 @@
     }
   }
 
-  &__news {
+  &__message {
     position: relative;
     overflow: hidden;
     padding-bottom: (26px + 35px);
@@ -125,29 +154,6 @@
 
     &:last-child {
       margin-bottom: 0;
-    }
-  }
-
-  &--last {
-    position: relative;
-    margin-top: torem(40px);
-    text-align: center;
-    color: #ccc;
-
-    &:before {
-      position: absolute;
-      right: 0;
-      bottom: calc(50% - 2px);
-      left: 0;
-      content: '';
-      border-bottom: 1px solid #ddd;
-    }
-
-    span {
-      position: relative;
-      display: inline-block;
-      padding: 10px 20px;
-      background: #fff;
     }
   }
 }

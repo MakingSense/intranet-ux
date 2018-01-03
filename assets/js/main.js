@@ -32,12 +32,12 @@
             $news.nextPage(filter, function (entries, data) {
               if (entries.length) {
                 $scroll.appendData(data);
-                $('.news--loading').show();
-                $('.news--nodata').hide();
+                $('.news__end--loading').show();
+                $('.news__end--nodata').hide();
               } else {
                 // Reached the end
-                $('.news--loading').hide();
-                $('.news--nodata').show();
+                $('.news__end--loading').hide();
+                $('.news__end--nodata').show();
               }
             });
           }

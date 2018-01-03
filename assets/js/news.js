@@ -110,7 +110,7 @@
     let $html = $('html');
 
     if ($html.hasClass('mobile') && !$html.hasClass('mobile--news')) return;
-    $('.news__news.unread').each(function () {
+    $('.news__message.unread').each(function () {
       let $this = $(this);
       let top = $this.closest('.news__list').offset().top;
       if (top >= st && top <= st + vh) {

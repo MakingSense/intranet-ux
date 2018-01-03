@@ -95,7 +95,7 @@ $(() => {
 
   function updateBirthdays(data) {
     let staff = getNextBirthdays(data);
-    let $bdays = $('#birthdays-widget .abirthdays__list');
+    let $bdays = $('#birthdays-widget .article--birthdays__list');
     if (staff.length) {
       let html = '';
       for (let i in staff) {
