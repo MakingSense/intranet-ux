@@ -125,7 +125,7 @@
       wdate.subtract(1, 'month');
       $filter.append('<option value="' + wdate.format('YYYY-MM') + '">' + wdate.format(display_format) + '</option>');
     }
-    $filter.closest('.news-filters').addClass('active');
+    $filter.closest('.news__filters').addClass('active');
   });
 
   $.bnotifyEnable();

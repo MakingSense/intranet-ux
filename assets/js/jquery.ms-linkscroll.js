@@ -78,7 +78,7 @@
       let l0 = $wrapper.offset().top;
       let pos = 0;
 
-      $this.addClass('linkscroll-linked');
+      $this.addClass('linkscroll--linked');
       $wrapper.addClass('linkscroll-wrapper');
       $this.css('top', l0 + 'px');
 

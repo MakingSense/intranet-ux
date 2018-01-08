@@ -37,12 +37,12 @@ $links-panel-dark-bg: #744a93;
     .panel__inner {
       background-image: linear-gradient(0, $links-panel-light-bg 0%, $links-panel-dark-bg 76%);
 
-      &.linkscroll-linked {
+      &.linkscroll--linked {
         width: calc(#{$left-panel-width} - #{torem(40px)});
       }
     }
 
-    .toolbar-modules {
+    .panel__modules {
       @include respond-to('large') {
         padding-left: 14.89%;
       }
@@ -61,7 +61,7 @@ $links-panel-dark-bg: #744a93;
     padding-right: 0;
     padding-left: torem(40px);
 
-    .panel__inner.linkscroll-linked {
+    .panel__inner.linkscroll--linked {
       width: calc(#{$right-panel-width} - #{torem(40px)});
     }
   }
