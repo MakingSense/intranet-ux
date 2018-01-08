@@ -6,11 +6,11 @@
   }
 
   &__filters {
+    visibility: hidden;
     float: right;
     padding-top: 5px;
-    visibility: hidden;
-    opacity: 0;
     transition: opacity 1s ease, visibility 1s ease;
+    opacity: 0;
 
     &.active {
       visibility: visible;
@@ -18,13 +18,25 @@
     }
 
     .select-filter {
+      position: relative;
       display: inline-block;
       border-radius: 12.5px;
       background: #5da552;
 
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        margin-top: -4px;
+        border-top: 4px solid #fff;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+      }
+
       select {
         min-width: 100px;
-        padding: 0 10px;
+        padding: 0 20px 0 10px;
         color: #fff;
         border: 0;
         background: transparent;
