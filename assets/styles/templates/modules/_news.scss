@@ -6,21 +6,14 @@
   }
 
   &__filters {
-    visibility: hidden;
+    @extend %start-hidden;
     float: right;
     padding-top: 5px;
-    transition: opacity 1s ease, visibility 1s ease;
-    opacity: 0;
-
-    &.active {
-      visibility: visible;
-      opacity: 1;
-    }
 
     .select-filter {
       position: relative;
       display: inline-block;
-      border-radius: 12.5px;
+      border-radius: 12px;
       background: #5da552;
 
       &:after {
