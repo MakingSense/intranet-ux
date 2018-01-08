@@ -43,7 +43,7 @@
 
   &--small {
     flex: 0 0 50%;
-    padding: torem(40px) torem(15px) torem(200px) torem(15px);
+    padding: torem(40px) torem(15px) torem(170px) torem(15px);
     text-align: center;
     background-position: center center;
     background-size: cover;
@@ -98,11 +98,11 @@
   }
 
   &--positions {
-    background-image: url(../img/article-positions.png);
+    background-image: url(../img/article-positions.jpg);
   }
 
   &--onboarding {
-    background-image: url(../img/article-onboarding.png);
+    background-image: url(../img/article-onboarding.jpg);
   }
 
   &--birthdays {
