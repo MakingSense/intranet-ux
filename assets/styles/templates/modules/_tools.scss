@@ -11,6 +11,10 @@
         width: (100% / 4);
         padding-bottom: (100% / 4);
       }
+      @include respond-to('xsmall') {
+        width: (100% / 3);
+        padding-bottom: (100% / 3);
+      }
 
       position: relative;
       float: left;

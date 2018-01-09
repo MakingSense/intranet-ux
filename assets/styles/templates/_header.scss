@@ -4,19 +4,16 @@
 /// @author MS
 ////
 
+$user-dropdown-shadow: 0 0 7px 0 rgba(0,0,0,0.50);
+
 header {
   @include respond-to('medium') {
-    padding: torem(10px) torem(40px);
-  }
-  @include respond-to('large') {
-    padding: torem(10px) 3.125%;
+    padding: torem(10px) torem(15px);
   }
 
   position: relative;
-  z-index: 1;
-  overflow: hidden;
   height: torem(80px);
-  padding: 10px 5.2%;
+  padding: torem(10px) torem(30px);
   background: #fff;
   box-shadow: 0 5px 10px 0 rgba(0,0,0,.10);
   font-size: torem(16px);
@@ -51,15 +48,110 @@ header {
     float: right;
     padding-top: 10px;
 
-    &__logout {
+    &__panel {
       @extend %fade-transition;
 
       float: right;
       height: 40px;
-      margin-left: 10px;
-      padding: 1px 4px 0 4px;
+      margin-left: 30px;
       color: $msuxf-font-color;
       font-size: 30px;
+    }
+
+    .user-panel {
+      position: relative;
+
+      &__pic {
+        display: block;
+
+        img {
+          width: torem(40px);
+          border-radius: (torem(40px) / 2);
+        }
+      }
+
+      &__dropdown {
+        background: #fff;
+        box-shadow: $user-dropdown-shadow;
+        position: absolute;
+        right: 0;
+        top: calc(100% + 20px);
+        display: flex;
+        padding: torem(40px) torem(26px) torem(32px);
+        z-index: 100;
+
+        &:before {
+          content: '';
+          background: #fff;
+          position: absolute;
+          top: -8px;
+          right: 12px;
+          width: 16px;
+          height: 16px;
+          transform: rotate(45deg);
+          box-shadow: $user-dropdown-shadow;
+          z-index: 1;
+        }
+
+        &:after {
+          content: '';
+          background: #fff;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          transform: rotate(0);
+          z-index: 2;
+        }
+      }
+
+      &__large-pic,
+      &__details {
+        z-index: 3;
+      }
+
+      &__large-pic {
+        padding-right: torem(26px);
+
+        img {
+          @include respond-to('xsmall') {
+            max-width: torem(80px);
+          }
+
+          max-width: torem(120px);
+          border-radius: 50%;
+          display: block;
+        }
+      }
+
+      &__details {
+        color: $msuxf-font-color;
+        //background: #fff;
+      }
+
+      &__name {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      &__email {
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+
+      &__actions {
+        a {
+          display: inline-block;
+          padding: 0 torem(50px);
+          color: $msuxf-font-color-white;
+          border-radius: (38px / 2);
+          background: $msuxf-font-color;
+          font-size: 12px;
+          line-height: torem(38px);
+        }
+      }
     }
   }
 
@@ -108,5 +200,3 @@ header {
     }
   }
 }
-
-
