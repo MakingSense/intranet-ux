@@ -4,7 +4,7 @@
 /// @author MS
 ////
 
-$user-dropdown-shadow: 0 0 7px 0 rgba(0,0,0,0.50);
+$user-dropdown-shadow: 0 0 7px 0 rgba(0, 0, 0, .3);
 
 header {
   @include respond-to('medium') {
