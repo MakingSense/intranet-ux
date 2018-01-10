@@ -94,7 +94,7 @@
     if (data.length == 1) {
       let row = data[0];
       let publisher = row.fields.publisher;
-      message = publisher.fields.firstNames + ' ' + publisher.fields.lastName + ': ' + row.fields.notificationTitle;
+      message = publisher.fields.firstNames + ' ' + publisher.fields.lastName + ': ' + row.fields.title;
     } else {
       message = data.length + ' new messages';
     }
@@ -177,6 +177,7 @@
     html = tplReplace(html, 'avatar_pic', pic);
     let cssclass = isNew(row.sys.id) ? 'unread' : '';
     html = tplReplace(html, 'class', cssclass);
+    html = tplReplace(html, 'title', row.fields.title);
     html = tplReplace(html, 'html_content', marked(row.fields.content));
     let cat = (row.fields.category) ? 'cat-' + row.fields.category : 'cat-none';
     html = tplReplace(html, 'cat', cat);
