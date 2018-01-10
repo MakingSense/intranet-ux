@@ -69,6 +69,13 @@
         padding: 10px 20px;
         background: #fff;
       }
+
+      .loader {
+        &__container {
+          padding: 10px;
+          background: #fff;
+        }
+      }
     }
   }
 

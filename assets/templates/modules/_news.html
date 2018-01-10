@@ -11,10 +11,18 @@
   <id="new-messages" class="new-messages"></id>
   <div class="news__list" id="news-list"></div>
   <div class="news__end news__end--loading">
-      <div class="ruler"><span>Loading...</span></div>
+    <div class="ruler">
+      <div class="loader">
+        <div class="loader__container">
+          <div class="loader__dot"></div>
+          <div class="loader__dot"></div>
+          <div class="loader__dot"></div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="news__end news__end--nodata">
-      <div class="ruler"><span>No previous news</span></div>
+    <div class="ruler"><span>No previous news</span></div>
   </div>
   <div id="news-template" style="display: none;">
     <article class="news__message {{cat}} {{class}}" news-id="{{row_id}}" publisher-id="{{publisher_id}}">
