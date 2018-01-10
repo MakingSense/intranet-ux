@@ -37,6 +37,7 @@
         font-size: torem(12px);
         font-weight: $msuxf-font-weight-semibold;
         line-height: 25px;
+
         appearance: none;
       }
     }
@@ -54,11 +55,11 @@
       color: #ccc;
 
       &:before {
+        content: '';
         position: absolute;
         right: 0;
         bottom: calc(50% - 2px);
         left: 0;
-        content: '';
         border-bottom: 1px solid #ddd;
       }
 
@@ -121,11 +122,11 @@
     }
 
     &:after {
+      content: '';
       position: absolute;
       bottom: 35px;
       left: 55px;
       width: 120px;
-      content: '';
       border-bottom: 1px solid #9b9b9b;
     }
 
@@ -186,12 +187,12 @@
   }
 
   &:after {
+    content: '';
     position: absolute;
     top: -8px;
     left: calc(50% - 10px);
     width: 0;
     height: 0;
-    content: '';
     border-right: 10px solid transparent;
     border-bottom: 10px solid #ffc413;
     border-left: 10px solid transparent;

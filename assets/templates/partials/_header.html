@@ -2,7 +2,21 @@
 <header id="header" class="main-header">
   <div id="offline-indicator" class="offline-indicator show-offline" title="Offline"></div>
   <div class="header-widgets show-online">
-    <a class="header-widgets__logout" href="{{site-url}}/logout" title="Logout"><i class="ms-icon icon-exit"></i></a>
+
+    <div class="header-widgets__panel user-panel dropdown">
+      <a class="user-panel__pic dropdown__handler" href="#" title="Logout"><img src="{{avatar}}" title="{{first_name}} {{last_name}}" alt="Profile pic" /></a>
+      <div class="user-panel__dropdown dropdown__panel">
+        <div class="user-panel__large-pic"><img src="{{avatar}}" title="{{first_name}} {{last_name}}" alt="Profile pic" /></div>
+        <div class="user-panel__details">
+          <p class="user-panel__name">{{first_name}} {{last_name}}</p>
+          <p class="user-panel__email">{{email}}</p>
+          <div class="user-panel__actions">
+            <a href="{{site-url}}/logout">LOG OUT</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="weather" class="weather" title="Loading...">
       <div class="weather__tile weather__temp">...</div>
       <div class="weather__tile weather__temp">...</div>

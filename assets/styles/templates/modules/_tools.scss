@@ -11,6 +11,10 @@
         width: (100% / 4);
         padding-bottom: (100% / 4);
       }
+      @include respond-to('xsmall') {
+        width: (100% / 3);
+        padding-bottom: (100% / 3);
+      }
 
       position: relative;
       float: left;
@@ -32,6 +36,7 @@
       color: #fff;
       background: #8d66ab;
       font-size: 22px;
+
       justify-content: center;
 
       &:hover {
