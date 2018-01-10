@@ -39,7 +39,9 @@ var gulp = require('gulp'),
   // uglify plugin
   uglify = require('gulp-uglify'),
   // SFTP deploy task
-  sftp = require('gulp-sftp');
+  sftp = require('gulp-sftp')
+  // Babel, to be able to uglify ECMA6 (the only way for now...)
+  babel = require('gulp-babel');
 
 // Project settings
 var config = {
@@ -283,6 +285,9 @@ gulp.task('js:dist', function() {
   ]).pipe(sourcemaps.init())
     .pipe(concat('app.js', {
       newLine: ';'
+    }))
+    .pipe(babel({
+      presets: ['babel-preset-es2015-script']
     }))
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))

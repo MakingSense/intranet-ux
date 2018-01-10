@@ -45,10 +45,13 @@
   },
   "devDependencies": {
     "autoprefixer": "^7.1.4",
+    "babel-core": "^6.26.0",
+    "babel-preset-es2015-script": "^1.1.0",
     "browser-sync": "~2.18.13",
     "css-mqpacker": "~6.0.1",
     "del": "^3.0.0",
     "gulp": "~3.9.1",
+    "gulp-babel": "^7.0.0",
     "gulp-clean-css": "^3.8.0",
     "gulp-concat": "~2.6.0",
     "gulp-csso": "^3.0.0",
