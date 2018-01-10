@@ -9,6 +9,15 @@
 
   let $elem = IN.widgets.news.$list;
 
+  $elem.on('click', 'a', function (e) {
+    let $this = $(this);
+    e.preventDefault();
+    let url = $this.attr('href');
+    if (!url || url ==='#') return;
+    let win = window.open(url, '_blank');
+    win.focus();
+  });
+
   IN.widgets.news.draw = (data) => {
     $elem.html('');
     for (let i in data) {
