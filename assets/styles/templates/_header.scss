@@ -71,38 +71,38 @@ header {
       }
 
       &__dropdown {
-        background: #fff;
-        box-shadow: $user-dropdown-shadow;
         position: absolute;
-        right: 0;
+        z-index: 100;
         top: calc(100% + 20px);
+        right: 0;
         display: flex;
         padding: torem(40px) torem(26px) torem(32px);
-        z-index: 100;
+        background: #fff;
+        box-shadow: $user-dropdown-shadow;
 
         &:before {
           content: '';
-          background: #fff;
           position: absolute;
+          z-index: 1;
           top: -8px;
           right: 12px;
           width: 16px;
           height: 16px;
           transform: rotate(45deg);
+          background: #fff;
           box-shadow: $user-dropdown-shadow;
-          z-index: 1;
         }
 
         &:after {
           content: '';
-          background: #fff;
           position: absolute;
-          left: 0;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          transform: rotate(0);
           z-index: 2;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          transform: rotate(0);
+          background: #fff;
         }
       }
 
@@ -119,26 +119,25 @@ header {
             max-width: torem(80px);
           }
 
+          display: block;
           max-width: torem(120px);
           border-radius: 50%;
-          display: block;
         }
       }
 
       &__details {
         color: $msuxf-font-color;
-        //background: #fff;
       }
 
       &__name {
+        margin-bottom: 8px;
         font-size: 18px;
         font-weight: bold;
-        margin-bottom: 8px;
       }
 
       &__email {
-        font-size: 16px;
         margin-bottom: 30px;
+        font-size: 16px;
       }
 
       &__actions {

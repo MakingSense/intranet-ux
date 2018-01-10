@@ -19,8 +19,8 @@ $links-panel-dark-bg: #744a93;
   &--links {
     flex: 0 0 $left-panel-width;
     width: $left-panel-width;
-    background: $links-panel-light-bg;
     text-align: left;
+    background: $links-panel-light-bg;
 
     h2 {
       color: #fff;
@@ -39,8 +39,8 @@ $links-panel-dark-bg: #744a93;
         padding-right: 0;
       }
 
-      background-image: linear-gradient(0, $links-panel-light-bg 0%, $links-panel-dark-bg 76%);
       padding-right: torem(40px);
+      background-image: linear-gradient(0, $links-panel-light-bg 0%, $links-panel-dark-bg 76%);
 
       &.linkscroll--linked {
         width: calc(#{$left-panel-width} - #{torem(40px)});

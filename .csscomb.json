@@ -33,6 +33,7 @@
       "$import"
     ],
     [
+      "content",
       "position",
       "z-index",
       "top",
@@ -87,7 +88,6 @@
       "list-style-type",
       "list-style-image",
 
-      "content",
       "quotes",
       "counter-reset",
       "counter-increment",

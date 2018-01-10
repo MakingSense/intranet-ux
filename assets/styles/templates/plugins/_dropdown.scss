@@ -1,0 +1,35 @@
+
+$dropdown-zindex: 1000;
+
+.dropdown {
+  display: none;
+
+  &__panel {
+    @extend %fade-transition;
+
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  &--enabled {
+    display: block;
+  }
+
+  &.active {
+    &:before {
+      content: '';
+      position: fixed;
+      z-index: $dropdown-zindex;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    .dropdown__panel {
+      z-index: ($dropdown-zindex+1);
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}

@@ -24,11 +24,11 @@
     color: inherit;
 
     &:after {
+      content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       width: torem(30px);
-      content: '';
       border-bottom: 1px solid #cacaca;
     }
   }
@@ -88,8 +88,8 @@
         line-height: 38px;
 
         &:before {
-          margin-right: 10px;
           content: '•';
+          margin-right: 10px;
           color: #17a44d;
           font-weight: bold;
         }
@@ -121,12 +121,12 @@
     background-size: contain;
 
     &:after {
+      content: '';
       position: absolute;
       right: 0;
       bottom: 0;
       left: 0;
       height: torem(200px);
-      content: '';
       background-image: linear-gradient(-180deg, rgba(242, 242, 242, 0) 3%, rgba(242, 242, 242, 1) 100%);
     }
 
