@@ -15,7 +15,7 @@
       position: relative;
       display: inline-block;
       border-radius: 12px;
-      background: #5da552;
+      background: $ms-green;
 
       &:after {
         content: '';
@@ -143,6 +143,14 @@
       p {
         margin-bottom: 16px;
         line-height: 1.25;
+      }
+
+      a {
+        color: $ms-green-dark;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
