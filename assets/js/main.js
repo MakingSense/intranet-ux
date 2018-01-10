@@ -183,5 +183,6 @@ function regexEscape(string) {
 }
 
 function tplReplace(tpl, field, val) {
+  val = val || '';
   return tpl.replace('{{' + field + '}}', val);
 }
