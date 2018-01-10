@@ -6,6 +6,11 @@
       margin-bottom: 15px;
       color: #fff;
       font-size: 36px;
+      opacity: .8;
+
+      &:hover {
+        opacity: 1;
+      }
 
       &:last-child {
         margin-right: 0;
