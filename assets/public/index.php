@@ -1,6 +1,8 @@
 <?php
 require_once 'app/_tools.php';
 
+forceHttps();
+
 $module = substr($_SERVER['REQUEST_URI'], 1);
 $unprotected_modules = array('login', 'logout');
 

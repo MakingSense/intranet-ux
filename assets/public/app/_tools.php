@@ -3,6 +3,21 @@ include __DIR__ . '/../vendor/Google/autoload.php';
 include __DIR__ . '/_config.php';
 @session_start();
 
+function forceHttps() {
+  var_dump($_SERVER); exit;
+  if (@$_SERVER['HTTPS'] === 'localhost') return;
+  if (@$_SERVER['HTTPS'] == 'on')  {
+    unset($_SESSION['https_redirected']);
+    return;
+  } elseif ($_SESSION['https_redirected']) {
+    die('HTTPS Protocol error. Please, notify the site admin.');
+  }
+  $_SESSION['https_redirected'] = true;
+  $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+  header("Location: {$redirect}");
+  exit;
+}
+
 // get google client instance
 function getGClient() {
   static $client = null;
