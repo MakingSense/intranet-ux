@@ -194,8 +194,6 @@
     html = tplReplace(html, 'publisher_id', row.fields.publisher.sys.id);
     html = tplReplace(html, 'date_utc', row.sys.createdAt);
     html = tplReplace(html, 'date_relative', relativeDate(row.sys.createdAt));
-
-    html = html.replace(/img\-src\=/g, 'src='); // 'img-src' is to avoid procing unwanted image loading on template.
     return html;
   }
 

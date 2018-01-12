@@ -27,6 +27,10 @@ h2 {
   font-size: torem(24px);
 }
 
+template {
+  display: none; // Just in case...
+}
+
 .show-online {
   @extend %fade-transition;
 

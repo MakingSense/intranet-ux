@@ -24,15 +24,15 @@
   <div class="news__end news__end--nodata">
     <div class="ruler"><span>No previous news</span></div>
   </div>
-  <div id="news-template" style="display: none;">
+  <template id="news-template">
     <article class="news__message {{cat}} {{class}}" news-id="{{row_id}}" publisher-id="{{publisher_id}}">
-      <picture><img img-src="{{avatar_pic}}" title="{{publisher.firstNames}} {{publisher.lastName}}" alt="Profile pic"></picture>
+      <picture><img src="{{avatar_pic}}" title="{{publisher.firstNames}} {{publisher.lastName}}" alt="Profile pic"></picture>
       <div class="content">
         <h1>{{title}}</h1>
         {{html_content}}
       </div>
       <time utc="{{date_utc}}">{{date_relative}}</time>
     </article>
-  </div>
+  </template>
   <a href="#" id="scrolltop" class="scrolltop"></a>
 </div>
