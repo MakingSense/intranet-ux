@@ -4,8 +4,7 @@ include __DIR__ . '/_config.php';
 @session_start();
 
 function forceHttps() {
-  var_dump($_SERVER); exit;
-  if (@$_SERVER['HTTPS'] === 'localhost') return;
+  if (@$_SERVER['HTTP_HOST'] === 'localhost') return;
   if (@$_SERVER['HTTPS'] == 'on')  {
     unset($_SESSION['https_redirected']);
     return;
